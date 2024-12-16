@@ -4,7 +4,7 @@ var enzymeData = {}; // 存储酶的名称数据
 function loadJSON(callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', '/asset/json/enzymes.json', true);
+    xobj.open('GET', '../asset/json/enzymes.json', true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState === 4 && xobj.status === 200) {
             callback(xobj.responseText);
@@ -97,7 +97,7 @@ function searchGene() {
     }).split(',')[1]; // 获取PDB ID
 
     // 构建跳转链接，包含酶名称和PDB ID
-    var redirectUrl = "/component/temp.html?point=" + encodeURIComponent(selectedRelatedEnzyme + "," + selectedPdbId);
+    var redirectUrl = "../component/temp.html?point=" + encodeURIComponent(selectedRelatedEnzyme + "," + selectedPdbId);
 
     // 执行页面跳转
     window.location.href = redirectUrl;
