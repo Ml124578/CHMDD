@@ -1,0 +1,57 @@
+[{
+    "id": "AGG86526",
+    "key_residues": [
+        {
+            "position": "S77",
+            "description": "Experimentally verified. Mutation S77A leads to complete loss of activity due to disruption of nucleophilic attack on the peptide bond.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "K80",
+            "description": "Experimentally verified. Mutation K80A results in complete loss of activity, indicating its crucial role in substrate stabilization.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "Y171",
+            "description": "Experimentally verified. Mutation Y171A leads to complete loss of activity, suggesting its importance in positioning H307 for proton transfer.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "N173",
+            "description": "Experimentally verified. Mutation N173A results in complete loss of activity, indicating its involvement in forming the oxyanion hole for intermediate stabilization.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "D245",
+            "description": "Experimentally verified. Mutation D245A significantly reduces activity, implicating its role in substrate recognition and stabilization.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "H307",
+            "description": "Experimentally verified. Mutation H307A causes complete loss of activity, confirming its function as a general base catalyst in the acylation and deacylation steps.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "S77",
+            "description": "Experimentally verified. Mutation S77A leads to complete loss of activity, indicating its role as a nucleophilic site crucial for catalysis.",
+            "reference": "[Teng2023]"
+          },
+          {
+            "position": "K80",
+            "description": "Experimentally verified. Mutation K80A results in significant reduction of activity, suggesting its importance in stabilizing the substrate during catalysis.",
+            "reference": "[Teng2023]"
+          },
+          {
+            "position": "H195",
+            "description": "Experimentally verified. Mutation H195A causes loss of activity, confirming its involvement in proton transfer during the catalytic process.",
+            "reference": "[Teng2023]"
+          },
+          {
+            "position": "D246",
+            "description": "Experimentally verified. Mutation D246A leads to a drastic decrease in activity, indicating its role in coordinating with metal ions in the active site.",
+            "reference": "[Teng2023]"
+          }
+          
+          
+    ]
+}]

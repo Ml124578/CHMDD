@@ -1,0 +1,104 @@
+pre {
+  margin: 0;
+  font-size:14px;
+  letter-spacing: 0.3rem;
+  cursor: pointer;
+}
+
+table#sequenceTable tbody tr td pre {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+table#sequenceTable {
+  font-size: 13px; 
+  width: auto;
+  border-collapse: separate;
+  border-spacing: 0; 
+  overflow: auto;
+}
+table#sequenceTable th, table#sequenceTable td {
+  border-top: 1px solid #ddd;  /* 设置顶部边框 */
+  border-bottom: 1px solid #ddd;  /* 设置底部边框 */
+}
+table#sequenceTable tbody tr td {
+  white-space: nowrap;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 2px solid #8e8e8e; /* 加粗边框 */
+}
+.table {
+  width: auto;
+  margin: 0;
+  overflow: auto;
+}
+
+/* 确保表格宽度是固定的 */
+table#sequenceTable {
+  table-layout: fixed; /* 使用fixed来确保宽度固定 */
+}
+
+/* 固定列宽 */
+table#sequenceTable th:nth-child(1),
+table#sequenceTable td:nth-child(1) {
+  width: 50px;
+}
+
+table#sequenceTable th:nth-child(2),
+table#sequenceTable td:nth-child(2) {
+  width: 150px;
+}
+
+table#sequenceTable th:nth-child(3),
+table#sequenceTable td:nth-child(3) {
+  width: 200px;
+}
+
+/* Sticky列与调整后的left */
+.table tbody td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: #fff;
+}
+
+.table tbody td:nth-child(2) {
+  position: sticky;
+  left: 30px; /* 第一个列宽是50px */
+  z-index: 2;
+  background-color: #fff;
+}
+
+.table tbody td:nth-child(3) {
+  position: sticky;
+  z-index: 2;
+  background-color: #fff;
+}
+
+/* 高亮 */
+.highlighted {
+  background-color: yellow;
+  color: red;
+}
+
+/* 按钮组样式 */
+.button_group{
+  font-size: 13px;
+  display: flex; 
+  align-items: center;
+} 
+
+@media (max-width: 780px){
+  .button_group_right{
+    text-align:left;
+  }
+}
+
+@media (min-width: 780px){
+  .button_group_right{
+    text-align: right;
+  }
+}

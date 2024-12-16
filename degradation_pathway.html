@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SGPA</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/popper.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/sequncen.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="/icon-sgpa.png">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/ngl.js"></script>
+    <script src="/js/mmtf.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        footer {
+            text-align: center;
+        }
+
+
+        @media (max-width: 720px) {
+            .container_degradation {
+                width: 100%;
+            }
+        }
+
+        .custom-nav .nav-link {
+            color: gray;
+            /* 默认灰色 */
+        }
+
+        .custom-nav .nav-link.active {
+            color: rgb(77, 77, 77);
+            /* 激活状态的灰色 */
+            background-color: transparent;
+            /* 移除默认的蓝色背景 */
+        }
+
+
+        .img_1,
+        .img_3 {
+            display: none;
+            justify-content: center;
+            /* 水平居中 */
+            align-items: center;
+            /* 垂直居中 */
+        }
+        
+        
+        .img_2 {
+            display: none;
+            justify-content: center;
+            /* 水平居中 */
+            align-items: center;
+            /* 垂直居中 */
+            margin-left: 10%; /* 通过 margin 控制相对位置 */
+        }
+
+        .img_1.active,
+        .img_2.active,
+        .img_3.active {
+            display: flex;
+        }
+
+        #image,
+        #image-1,
+        #image-2 {
+            width: 50%;
+            /* 根据需求调整 */
+            height: auto;
+            max-width: 800px;
+            /* 最大宽度 */
+        }
+
+        .table td:first-child {
+            font-weight: bold;
+        }
+
+        .table {
+            width: 100%;
+            font-size: 0.8vw;
+            /* 使用vw单位根据视口宽度调整字体大小 */
+        }
+
+        @media (max-width:720px) {
+            .toxin_type {
+                font-size: 12px;
+            }
+
+            .img_1 {
+
+                justify-content: center;
+            }
+        }
+
+        .area-overlay {
+            position: absolute;
+            pointer-events: none;
+            /* 确保覆盖层不影响鼠标事件 */
+        }
+
+        /* 动画元素的样式 */
+        #animationContainer div {
+            background-color: transparent;
+            pointer-events: none;
+            /* 防止动画元素阻挡鼠标事件 */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);" id="topNavbar">
+        <div class="container">
+            <div class="m-1">
+                <a href="/index.html">
+                    <img src="/asset/icon/chmdd.png" alt="..." style="height: 6.5vh;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto ">
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/index.html">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/Strain.html">Strain</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="#">Sequence</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/Predict.html">Predict</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/help.html">Help</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contacts.html">Contacts</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>
+				</ul>
+			</div>
+        </div>
+    </nav>
+    <div class="container">
+        <nav class="navbar navbar-light custom-nav" style="background-color: #f8f9fa; width: 100%;font-size: 2vh;">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="showImage(1)">Microcystin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showImage(2)">Nodularin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showImage(3)">Cylinderospermopsin</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="px-1">
+            <div class=" container_degradation col-12 img_1 image-map-container"
+                style="display: flex;">
+                <img src="/asset/degradation_pathway/MC.png" alt="图片描述" usemap="#image-map-1" id="image-1"
+                    style="max-width: 100%; height: auto;">
+                <map name="image-map-1">
+                    <area shape="rect" coords="450,950,650,1040" href="/component/sequnence_MlrA.html" alt="mlrA" id="area1-1">
+                    <area shape="rect" coords="1740,1580,1970,1670" href="/component/sequnence_MlrB.html" alt="mlrB"
+                        id="area1-2">
+                    <area shape="rect" coords="180,1910,400,2005" href="/component/sequnence_MlrC.html" alt="mlrC"
+                        id="area1-3">
+                    <area shape="rect" coords="1050,2190,1280,2280" href="/component/sequnence_MlrC.html" alt="mlrC"
+                        id="area1-4">
+                    <!--   <area shape="rect" coords="775,2780,1100,3080" alt="circle" id="area5" onclick="startAnimation()" onmouseover="showTooltip(event, this, 'fifth');" onmouseout="hideTooltip();"> -->
+                    <area shape="rect" coords="775,2780,1100,3080" alt="circle" id="area1-5"
+                        onclick="startAnimationArea5()" style="cursor: pointer;">
+                    <area shape="rect" coords="70,3540,920,3650" id="area1-6" onclick="startAnimationArea6()"
+                        style="cursor: pointer;">
+                    <area shape="rect" coords="-1500,50,20,650" id="area1-7" style="cursor: pointer;">
+
+
+
+                </map>
+                <!-- 调试用的覆盖层 -->
+                <div class="area-overlay" id="overlay1-1" style="position: absolute;">
+                </div>
+                <div class="area-overlay" id="overlay1-2" style="position: absolute; ">
+                </div>
+                <div class="area-overlay" id="overlay1-3" style="position: absolute; ">
+                </div>
+                <div class="area-overlay" id="overlay1-4" style="position: absolute; ">
+                </div>
+                <div class="area-overlay" id="overlay1-5" style="position: absolute; ">
+                </div>
+                <div class="area-overlay" id="overlay1-6" style="position: absolute;">
+                </div>
+                <div class="area-overlay" id="overlay1-7"
+                    style="position: absolute; font-size: 1vw; font-family: 'Courier New', Courier, monospace;">
+                    <table style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td></td>
+                            <td style="color: #ff00ff;"><b>X</b></td>
+                            <td style="color: #1b8181;"><b>Z</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-LR</b></td>
+                            <td>L-Leu</td>
+                            <td>L-Arg</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-YR</b></td>
+                            <td>L-Tyr</td>
+                            <td>L-Arg</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-RR</b></td>
+                            <td>L-Arg</td>
+                            <td>L-Arg</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-LF</b></td>
+                            <td>L-Phe</td>
+                            <td>L-Leu</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-LW</b></td>
+                            <td>L-Tyr</td>
+                            <td>L-Leu</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-LY</b></td>
+                            <td>L-Trp</td>
+                            <td>L-Leu</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-LA</b></td>
+                            <td>L-Leu</td>
+                            <td>L-Ala</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-RF</b></td>
+                            <td>L-Arg</td>
+                            <td>L-Phe</td>
+                        </tr>
+                        <tr>
+                            <td><b>MC-RW</b></td>
+                            <td>L-Arg</td>
+                            <td>L-Trp</td>
+                        </tr>
+                    </table>
+                    <b style="color: #b9780e;">R<sub>1</sub></b>,<b style="color: #800080;">R<sub>2</sub></b>: H or CH<sub>3</sub>
+                  <span style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 0.9vw;"><br><br>Click <strong><em>MlrA,MlrB,MlrC,MlrD</em></strong> to view the sequences
+                    <br>Click <strong><em>Circle,PAA-degrading enzymes</em></strong> for more details</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- img_2 -->
+    <div class="container_degradation col-12 img_2 image-map-container" style="display: none;">
+        <img src="/asset/degradation_pathway/NOD.png" alt="图片描述" usemap="#image-map-2" id="image-2" style="max-width: 100%; height: auto;">
+        <map name="image-map-2">
+            <!-- 为 img_2 定义对应的 area -->
+            <!-- 示例： -->
+            <area shape="rect" coords="-1650,50,200,650" href="#" alt="Area for img_2" id="area2-1">
+            <!-- 添加更多 area -->
+        </map>
+        <!-- 调试用的覆盖层 -->
+        <div class="area-overlay" id="overlay2-1"
+                    style="position: absolute; font-size: 1vw; font-family: 'Courier New', Courier, monospace;">
+                    <table style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td></td>
+                            <td style="color: #008040;"><b>R<sub>1</sub></b></td>
+                            <td style="color: #ff0000;"><b>R<sub>2</sub></b></td>
+                            <td style="color: #000000;"><b>Other changes</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>NOD</b></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>CH<sub>3</sub></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>[DMAdda<sup>3</sup>]NOD</b></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>H</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>[D-Asp<sup>1</sup>]NOD</b></td>
+                            <td>H</td>
+                            <td>CH<sub>3</sub></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><b>[(6Z)-Adda<sup>3</sup>]NOD</b></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>Adda modifications</td>
+                        </tr>
+                        <tr>
+                            <td><b>[L-Val<sup>2</sup>]NOD</b></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>L-Arg → L-Val</td>
+                        </tr>
+                        <tr>
+                            <td><b>[L-Har<sup>2</sup>]NOD</b></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>CH<sub>3</sub></td>
+                            <td>L-Arg → L-hArg</td>
+                        </tr>
+                    </table>
+                </div>
+        <!-- 根据需要添加更多覆盖层 -->
+    </div>
+
+    <!-- img_3 -->
+    <div class="container_degradation col-12 img_3 image-map-container" style="display: none;">
+        <img src="/asset/degradation_pathway/CYN.png" alt="图片描述" usemap="#image-map-3" id="image-3" style="max-width: 40%; height: auto;">
+        <map name="image-map-3">
+            <!-- 为 img_3 定义对应的 area -->
+            <!-- 示例： -->
+            <area shape="rect" coords="-1650,50,-600,650" href="#" alt="Area for img_3" id="area3-1">
+            <!-- 添加更多 area -->
+        </map>
+        <!-- 调试用的覆盖层 -->
+        <div class="area-overlay" id="overlay3-1"
+        style="position: absolute; font-size: 1vw; font-family: 'Courier New', Courier, monospace;">
+        <table style="border-collapse: collapse; width: 100%;">
+            <tr>
+                <td></td>
+                <td style="color: #000000;"><b>R1</b></td>
+                <td style="color: #000000;"><b>R2</b></td>
+            </tr>
+            <tr>
+                <td><b>CYN</b></td>
+                <td>OH</td>
+                <td>H</td>
+            </tr>
+            <tr>
+                <td><b>7-Epi-CYN</b></td>
+                <td>H</td>
+                <td>OH</td>
+            </tr>
+            <tr>
+                <td><b>7-Deoxy-CYN</b></td>
+                <td>H</td>
+                <td>H</td>
+            </tr>
+        </table>
+    </div>
+<!-- 根据需要添加更多覆盖层 -->
+</div>
+        <!-- 根据需要添加更多覆盖层 -->
+    </div>
+</div>
+</div>
+    </div>
+
+    </div>
+    <footer class="p-5">
+        <div class="container ">
+            <p class="FooterText">Please Cite Us: J Z Chen, P Y Zhang, L Ma and H Y Zhang, SPGA: an integrative and
+                comprehensive pan-cancer analysis results database of single genes in human tumors (2023), To be
+                Published.<br>
+                Copyright©2023 ZhangLab at University of Science and Technology Beijing. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        // 全局变量，用于存储每个图片的 resize 函数
+        let resizeImageMap1, resizeImageMap2, resizeImageMap3;
+    
+        // 切换显示不同的图片和导航栏按钮的激活状态
+        function showImage(imgNumber) {
+            const images = document.querySelectorAll('.container_degradation');
+            images.forEach((imgContainer, index) => {
+                imgContainer.style.display = (index === imgNumber - 1) ? 'flex' : 'none';
+            });
+    
+            // 切换导航栏按钮的 active 类
+            const navLinks = document.querySelectorAll('.custom-nav .nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            navLinks[imgNumber - 1].classList.add('active');
+    
+            // 调整当前显示图片的地图区域和覆盖层的位置
+            if (imgNumber === 1 && resizeImageMap1) {
+                resizeImageMap1();
+            } else if (imgNumber === 2 && resizeImageMap2) {
+                resizeImageMap2();
+            } else if (imgNumber === 3 && resizeImageMap3) {
+                resizeImageMap3();
+            }
+        }
+    
+        // 通用的初始化函数，用于初始化每个图片的地图和覆盖层
+        function initImageMap(imageId, mapName, overlayPrefix, originalWidth, originalHeight) {
+            const image = document.getElementById(imageId);
+            if (!image) return null;
+    
+            // 存储原始坐标
+            document.querySelectorAll(`map[name="${mapName}"] area`).forEach(area => {
+                if (!area.dataset.originalCoords) {
+                    area.dataset.originalCoords = area.coords;
+                }
+            });
+    
+            function resizeMapAreas() {
+                if (image.offsetWidth === 0 || image.offsetHeight === 0) {
+                    // 图片不可见，跳过计算
+                    return;
+                }
+    
+                const scaleX = image.offsetWidth / originalWidth;
+                const scaleY = image.offsetHeight / originalHeight;
+    
+                document.querySelectorAll(`map[name="${mapName}"] area`).forEach(area => {
+                    const coords = area.dataset.originalCoords.split(',').map(Number);
+                    const resizedCoords = coords.map((coord, index) =>
+                        index % 2 === 0 ? coord * scaleX : coord * scaleY
+                    );
+                    area.coords = resizedCoords.join(',');
+    
+                    // 调整覆盖层的位置和大小
+                    const overlayId = overlayPrefix + area.id.split('-')[1];
+                    const overlay = document.getElementById(overlayId);
+                    if (overlay) {
+                        const x = resizedCoords[0] + image.offsetLeft;
+                        const y = resizedCoords[1] + image.offsetTop;
+                        const width = resizedCoords[2] - resizedCoords[0];
+                        const height = resizedCoords[3] - resizedCoords[1];
+    
+                        overlay.style.left = x + 'px';
+                        overlay.style.top = y + 'px';
+                        overlay.style.width = width + 'px';
+                        overlay.style.height = height + 'px';
+                        overlay.style.position = 'absolute';
+                    }
+                });
+            }
+    
+            // 返回函数以便在显示图片后调用
+            return resizeMapAreas;
+        }
+    
+        // 初始化三个图片的地图和覆盖层，并保存返回的函数
+        window.addEventListener('load', function () {
+            resizeImageMap1 = initImageMap('image-1', 'image-map-1', 'overlay1-', 3026, 4435);
+            resizeImageMap2 = initImageMap('image-2', 'image-map-2', 'overlay2-', 3026, 4435); // 根据实际尺寸调整
+            resizeImageMap3 = initImageMap('image-3', 'image-map-3', 'overlay3-', 3026, 4435); // 根据实际尺寸调整
+    
+            // 页面加载完成后，默认显示第一张图片并调整地图区域
+            showImage(1);
+    
+            // 调整页面顶部的内边距
+            adjustPaddingTop();
+        });
+    
+        // 当窗口大小变化时，调整当前显示图片的地图区域和覆盖层的位置
+        window.addEventListener('resize', function () {
+            const activeImageNumber = document.querySelector('.custom-nav .nav-link.active').getAttribute('onclick').match(/\d+/)[0];
+            if (activeImageNumber === '1' && resizeImageMap1) {
+                resizeImageMap1();
+            } else if (activeImageNumber === '2' && resizeImageMap2) {
+                resizeImageMap2();
+            } else if (activeImageNumber === '3' && resizeImageMap3) {
+                resizeImageMap3();
+            }
+            adjustPaddingTop();
+        });
+    
+        // 调整页面加载时的 padding-top，以适应固定的导航栏
+        function adjustPaddingTop() {
+            var navbarHeight = document.getElementById('topNavbar').offsetHeight;
+            document.body.style.paddingTop = navbarHeight + 'px';
+        }
+    
+        // 示例：针对 img_1 的 area1-5 的动画效果
+        function startAnimationArea5() {
+            // 防止多次点击导致多次动画
+            if (document.getElementById('animationContainer')) return;
+    
+            const area5 = document.getElementById('area1-5'); // 确保 id 正确
+            const coords = area5.coords.split(',').map(Number);
+    
+            const x1 = coords[0];
+            const y1 = coords[1];
+            const x2 = coords[2];
+            const y2 = coords[3];
+    
+            // 获取图片的偏移位置
+            const image = document.getElementById('image-1'); // 确保图片 id 正确
+            const imageOffsetX = image.offsetLeft;
+            const imageOffsetY = image.offsetTop;
+    
+            // 获取区域的中心位置
+            const centerX = (x1 + x2) / 2 + imageOffsetX;
+            const centerYTop = y1 + imageOffsetY;
+            const centerYBottom = y2 + imageOffsetY;
+    
+            // 定义动画线条的长度，调整这些值以适应您的设计
+            const lineLength = 230; // 线条延伸的长度
+            const boxWidth = 600;
+            const boxHeight = 500;
+    
+            // 创建动画容器
+            const animationContainer = document.createElement('div');
+            animationContainer.id = 'animationContainer';
+            animationContainer.style.position = 'absolute';
+            animationContainer.style.left = '0';
+            animationContainer.style.top = '0';
+            animationContainer.style.width = '100%';
+            animationContainer.style.height = '100%';
+            animationContainer.style.pointerEvents = 'none'; // 让动画容器不阻挡鼠标事件
+            animationContainer.style.zIndex = '1000';
+    
+            const container = document.querySelector('.img_1'); // 确保选择正确的容器
+            container.appendChild(animationContainer);
+    
+            // 创建上方的线条
+            const lineTop = document.createElement('div');
+            lineTop.style.position = 'absolute';
+            lineTop.style.left = centerX + 'px';
+            lineTop.style.top = centerYTop + 'px';
+            lineTop.style.width = '0';
+            lineTop.style.height = '0';
+            lineTop.style.borderTop = '2px dashed black';
+            lineTop.style.transformOrigin = 'left top';
+            lineTop.style.transform = 'rotate(-45deg)';
+            animationContainer.appendChild(lineTop);
+    
+            // 创建下方的线条
+            const lineBottom = document.createElement('div');
+            lineBottom.style.position = 'absolute';
+            lineBottom.style.left = centerX + 'px';
+            lineBottom.style.top = centerYBottom + 'px';
+            lineBottom.style.width = '0';
+            lineBottom.style.height = '0';
+            lineBottom.style.borderTop = '2px dashed black';
+            lineBottom.style.transformOrigin = 'left bottom';
+            lineBottom.style.transform = 'rotate(45deg)';
+            animationContainer.appendChild(lineBottom);
+    
+            // 创建方框
+            const box = document.createElement('div');
+            box.style.position = 'absolute';
+            box.style.left = (centerX + lineLength) - 60 + 'px';
+            box.style.top = ((centerYTop + centerYBottom - boxHeight) / 2) + 'px';
+            box.style.width = '0';
+            box.style.height = boxHeight + 'px'; // 初始宽度设置为 0
+            box.style.border = '2px dashed black';
+            box.style.borderRadius = '10px'; // 设置圆角
+            box.style.overflow = 'hidden';
+            box.style.opacity = '0';
+            box.style.transformOrigin = 'left top'; // 设置变换原点为左上角
+            box.style.backgroundColor = 'white'; // 设置背景色
+            box.style.pointerEvents = 'auto'; // 允许方框内的鼠标事件
+            animationContainer.appendChild(box);
+    
+            // 创建图片元素
+            const img = document.createElement('img');
+            img.src = '/asset/degradation_pathway/Adda.png'; // 替换为您的图片路径
+            img.style.width = '100%';
+            img.style.height = '100%';
+            box.appendChild(img);
+    
+            // 创建取消按钮
+            const cancelButton = document.createElement('button');
+            cancelButton.innerHTML = '&times;';
+            cancelButton.style.position = 'absolute';
+            cancelButton.style.top = '5px';
+            cancelButton.style.right = '5px';
+            cancelButton.style.background = 'transparent';
+            cancelButton.style.border = 'none';
+            cancelButton.style.fontSize = '24px';
+            cancelButton.style.fontWeight = 'bolder';
+            cancelButton.style.cursor = 'pointer';
+            cancelButton.style.color = 'red';
+            cancelButton.style.zIndex = '1001';
+            box.appendChild(cancelButton);
+    
+            // 添加事件监听器，点击按钮时移除动画和方框
+            cancelButton.addEventListener('click', function () {
+                // 移除动画容器
+                animationContainer.remove();
+            });
+    
+            // 强制重绘以应用初始样式
+            void lineTop.offsetWidth;
+    
+            // 开始动画
+            // 延伸线条
+            lineTop.style.transition = 'width 1s';
+            lineBottom.style.transition = 'width 1s';
+    
+            lineTop.style.width = lineLength + 'px';
+            lineBottom.style.width = lineLength + 'px';
+    
+            // 延迟后显示方框
+            setTimeout(() => {
+                box.style.transition = 'width 1s, opacity 1s';
+                box.style.width = boxWidth + 'px'; // 改变宽度
+                box.style.opacity = '1';
+            }, 1000);
+        }
+    
+        function startAnimationArea6() {
+    if (document.getElementById('animationContainerArea6')) return;
+
+    const area6 = document.getElementById('area1-6');
+    const coords = area6.coords.split(',').map(Number);
+
+    const x1 = coords[0];
+    const y1 = coords[1];
+    const x2 = coords[2];
+    const y2 = coords[3];
+
+    const image = document.getElementById('image-1');
+    const imageOffsetX = image.offsetLeft;
+    const imageOffsetY = image.offsetTop;
+
+    const centerX = (x1 + x2) / 2 + imageOffsetX;
+    const centerYTop = y1 + imageOffsetY;
+    const centerYBottom = y2 + imageOffsetY;
+
+    const lineLength = 230; 
+    const boxWidth = 470;
+    const boxHeight = 400;
+
+    const animationContainer = document.createElement('div');
+    animationContainer.id = 'animationContainerArea6';
+    animationContainer.style.position = 'absolute';
+    animationContainer.style.left = '0';
+    animationContainer.style.top = '0';
+    animationContainer.style.width = '100%';
+    animationContainer.style.height = '100%';
+    animationContainer.style.pointerEvents = 'none'; 
+    animationContainer.style.zIndex = '1000';
+
+    const container = document.querySelector('.image-map-container');
+    container.appendChild(animationContainer);
+
+    const lineTop = document.createElement('div');
+    lineTop.style.position = 'absolute';
+    lineTop.style.left = centerX + 'px';
+    lineTop.style.top = centerYTop + 'px';
+    lineTop.style.width = '0';
+    lineTop.style.height = '0';
+    lineTop.style.borderTop = '2px dashed black';
+    lineTop.style.transformOrigin = 'left top';
+    lineTop.style.transform = 'rotate(-45deg)';
+    animationContainer.appendChild(lineTop);
+
+    const lineBottom = document.createElement('div');
+    lineBottom.style.position = 'absolute';
+    lineBottom.style.left = centerX + 'px';
+    lineBottom.style.top = centerYBottom + 'px';
+    lineBottom.style.width = '0';
+    lineBottom.style.height = '0';
+    lineBottom.style.borderTop = '2px dashed black';
+    lineBottom.style.transformOrigin = 'left bottom';
+    lineBottom.style.transform = 'rotate(45deg)';
+    animationContainer.appendChild(lineBottom);
+
+    const box = document.createElement('div');
+    box.style.position = 'absolute';
+    box.style.left = (centerX + lineLength) - 60 + 'px';
+    box.style.top = ((centerYTop + centerYBottom - boxHeight) / 2) + 'px';
+    box.style.width = '0';
+    box.style.height = boxHeight + 'px';
+    box.style.border = '2px dashed black';
+    box.style.borderRadius = '10px'; 
+    box.style.overflow = 'hidden';
+    box.style.opacity = '0';
+    box.style.transformOrigin = 'left top';
+    box.style.backgroundColor = 'white';
+    box.style.pointerEvents = 'auto';
+    animationContainer.appendChild(box);
+
+    const img = document.createElement('img');
+    img.src = '/asset/degradation_pathway/PAA.png'; 
+    img.style.width = '100%';
+    img.style.height = '100%';
+    box.appendChild(img);
+
+    const cancelButton = document.createElement('button');
+    cancelButton.innerHTML = '&times;';
+    cancelButton.style.position = 'absolute';
+    cancelButton.style.top = '5px';
+    cancelButton.style.right = '5px';
+    cancelButton.style.background = 'transparent';
+    cancelButton.style.border = 'none';
+    cancelButton.style.fontSize = '24px';
+    cancelButton.style.fontWeight = 'bolder';
+    cancelButton.style.cursor = 'pointer';
+    cancelButton.style.color = 'red';
+    cancelButton.style.zIndex = '1001';
+    box.appendChild(cancelButton);
+
+    cancelButton.addEventListener('click', function () {
+        animationContainer.remove();
+    });
+
+    void lineTop.offsetWidth;
+
+    lineTop.style.transition = 'width 1s';
+    lineBottom.style.transition = 'width 1s';
+
+    lineTop.style.width = lineLength + 'px';
+    lineBottom.style.width = lineLength + 'px';
+
+    setTimeout(() => {
+        box.style.transition = 'width 1s, opacity 1s';
+        box.style.width = boxWidth + 'px';
+        box.style.opacity = '1';
+    }, 1000);
+}
+
+        // 页面加载完成后，默认显示第一张图片并调整地图区域
+        window.addEventListener('load', function () {
+            showImage(1);
+        });
+    </script>
+    
+    
+
+
+    <script src="/js/universal.js"></script>
+
+</body>
+
+</html>

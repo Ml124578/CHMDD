@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+    <!-- 在您的 <head> 或 <body> 底部添加 -->
+
+<script src="/js/chart.umd.js"></script>
+<head>
+    <title>Protein Analysis</title>
+    <style>
+        /* Optional CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .protein-analysis {
+            white-space: pre-wrap; /* Preserve whitespace */
+        }
+        .sequence-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            white-space: pre;
+        }
+
+        .sequence-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .amino-acid {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            margin: 1px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .hydrophobic-strong {
+            background-color: #FF6347; /* 红色 */
+            color: white;
+        }
+
+        .hydrophobic-medium {
+            background-color: #FFA500; /* 橙色 */
+            color: white;
+        }
+
+        .hydrophilic-medium {
+            background-color: #90EE90; /* 绿色 */
+            color: black;
+        }
+
+        .hydrophilic-strong {
+            background-color: #1E90FF; /* 蓝色 */
+            color: white;
+        }
+
+        .index {
+            width: 40px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .legend {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="protein-analysis" class="protein-analysis"></div>
+    <canvas id="aminoAcidCompositionChart" width="400" height="200"></canvas>
+    <div id="sequence-container" class="sequence-container"></div>
+
+    <!-- 图例 -->
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color hydrophobic-strong"></div>
+            <span>Strong Hydrophobic (≥ 2)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color hydrophobic-medium"></div>
+            <span>Medium Hydrophobic (0 to 2)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color hydrophilic-medium"></div>
+            <span>Medium Hydrophilic (−2 to 0)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color hydrophilic-strong"></div>
+            <span>Strong Hydrophilic (＜ −2)</span>
+        </div>
+    </div>
+    <script>
+        // Define amino acids and their properties
+        const aminoAcids = {
+            "A": {
+                "name": "Ala",
+                "fullName": "Alanine",
+                "weight": 89.094,
+                "hydropathy": 1.8,
+                "atoms": { "C": 3, "H": 5, "N": 1, "O": 1, "S": 0 }
+            },
+            "R": {
+                "name": "Arg",
+                "fullName": "Arginine",
+                "weight": 174.203,
+                "hydropathy": -4.5,
+                "atoms": { "C": 6, "H": 12, "N": 4, "O": 1, "S": 0 }
+            },
+            "N": {
+                "name": "Asn",
+                "fullName": "Asparagine",
+                "weight": 132.119,
+                "hydropathy": -3.5,
+                "atoms": { "C": 4, "H": 6, "N": 2, "O": 2, "S": 0 }
+            },
+            "D": {
+                "name": "Asp",
+                "fullName": "Aspartic acid",
+                "weight": 133.104,
+                "hydropathy": -3.5,
+                "atoms": { "C": 4, "H": 5, "N": 1, "O": 3, "S": 0 }
+            },
+            "C": {
+                "name": "Cys",
+                "fullName": "Cysteine",
+                "weight": 121.154,
+                "hydropathy": 2.5,
+                "atoms": { "C": 3, "H": 5, "N": 1, "O": 1, "S": 1 }
+            },
+            "Q": {
+                "name": "Gln",
+                "fullName": "Glutamine",
+                "weight": 146.146,
+                "hydropathy": -3.5,
+                "atoms": { "C": 5, "H": 8, "N": 2, "O": 2, "S": 0 }
+            },
+            "E": {
+                "name": "Glu",
+                "fullName": "Glutamic acid",
+                "weight": 147.131,
+                "hydropathy": -3.5,
+                "atoms": { "C": 5, "H": 7, "N": 1, "O": 3, "S": 0 }
+            },
+            "G": {
+                "name": "Gly",
+                "fullName": "Glycine",
+                "weight": 75.067,
+                "hydropathy": -0.4,
+                "atoms": { "C": 2, "H": 3, "N": 1, "O": 1, "S": 0 }
+            },
+            "H": {
+                "name": "His",
+                "fullName": "Histidine",
+                "weight": 155.156,
+                "hydropathy": -3.2,
+                "atoms": { "C": 6, "H": 7, "N": 3, "O": 1, "S": 0 }
+            },
+            "I": {
+                "name": "Ile",
+                "fullName": "Isoleucine",
+                "weight": 131.175,
+                "hydropathy": 4.5,
+                "atoms": { "C": 6, "H": 11, "N": 1, "O": 1, "S": 0 }
+            },
+            "L": {
+                "name": "Leu",
+                "fullName": "Leucine",
+                "weight": 131.175,
+                "hydropathy": 3.8,
+                "atoms": { "C": 6, "H": 11, "N": 1, "O": 1, "S": 0 }
+            },
+            "K": {
+                "name": "Lys",
+                "fullName": "Lysine",
+                "weight": 146.189,
+                "hydropathy": -3.9,
+                "atoms": { "C": 6, "H": 12, "N": 2, "O": 1, "S": 0 }
+            },
+            "M": {
+                "name": "Met",
+                "fullName": "Methionine",
+                "weight": 149.208,
+                "hydropathy": 1.9,
+                "atoms": { "C": 5, "H": 9, "N": 1, "O": 1, "S": 1 }
+            },
+            "F": {
+                "name": "Phe",
+                "fullName": "Phenylalanine",
+                "weight": 165.191,
+                "hydropathy": 2.8,
+                "atoms": { "C": 9, "H": 9, "N": 1, "O": 1, "S": 0 }
+            },
+            "P": {
+                "name": "Pro",
+                "fullName": "Proline",
+                "weight": 115.132,
+                "hydropathy": -1.6,
+                "atoms": { "C": 5, "H": 7, "N": 1, "O": 1, "S": 0 }
+            },
+            "S": {
+                "name": "Ser",
+                "fullName": "Serine",
+                "weight": 105.093,
+                "hydropathy": -0.8,
+                "atoms": { "C": 3, "H": 5, "N": 1, "O": 2, "S": 0 }
+            },
+            "T": {
+                "name": "Thr",
+                "fullName": "Threonine",
+                "weight": 119.120,
+                "hydropathy": -0.7,
+                "atoms": { "C": 4, "H": 7, "N": 1, "O": 2, "S": 0 }
+            },
+            "W": {
+                "name": "Trp",
+                "fullName": "Tryptophan",
+                "weight": 204.228,
+                "hydropathy": -0.9,
+                "atoms": { "C": 11, "H": 10, "N": 2, "O": 1, "S": 0 }
+            },
+            "Y": {
+                "name": "Tyr",
+                "fullName": "Tyrosine",
+                "weight": 181.191,
+                "hydropathy": -1.3,
+                "atoms": { "C": 9, "H": 9, "N": 1, "O": 2, "S": 0 }
+            },
+            "V": {
+                "name": "Val",
+                "fullName": "Valine",
+                "weight": 117.148,
+                "hydropathy": 4.2,
+                "atoms": { "C": 5, "H": 9, "N": 1, "O": 1, "S": 0 }
+            },
+            // Unknown amino acid
+            "X": {
+                "name": "Xaa",
+                "fullName": "Unknown",
+                "weight": 110.0,
+                "hydropathy": 0.0,
+                "atoms": { "C": 0, "H": 0, "N": 0, "O": 0, "S": 0 }
+            }
+        };
+
+        // Define pKa values
+        const positive_pKs = {
+            "Nterm": 7.5,
+            "K": 10.0,
+            "R": 12.0,
+            "H": 5.98
+        };
+
+        const negative_pKs = {
+            "Cterm": 3.55,
+            "D": 4.05,
+            "E": 4.45,
+            "C": 9.0,
+            "Y": 10.0
+        };
+
+        const pKcterminal = {
+            "D": 4.55,
+            "E": 4.75
+        };
+
+        const pKnterminal = {
+            "A": 7.59,
+            "M": 7.0,
+            "S": 6.93,
+            "P": 8.36,
+            "T": 6.82,
+            "V": 7.44,
+            "E": 7.7
+        };
+
+        class ProteinAnalysis {
+            constructor(sequence) {
+                this.sequence = sequence.toUpperCase();
+                this.length = this.sequence.length;
+                this.aminoAcidCounts = this.countAminoAcids();
+                this.chargedAAsContent = this.selectCharged();
+                this.updatePKs();
+            }
+
+            countAminoAcids() {
+                let counts = {};
+                for (let aa in aminoAcids) {
+                    counts[aa] = 0;
+                }
+
+                for (let i = 0; i < this.sequence.length; i++) {
+                    let aa = this.sequence[i];
+                    if (counts.hasOwnProperty(aa)) {
+                        counts[aa] += 1;
+                    } else {
+                        // Handle unknown amino acids
+                        counts['X'] += 1;
+                    }
+                }
+
+                return counts;
+            }
+
+            getAminoAcidPercents() {
+                let percents = {};
+                for (let aa in this.aminoAcidCounts) {
+                    percents[aa] = (this.aminoAcidCounts[aa] / this.length) * 100;
+                }
+                return percents;
+            }
+
+            molecularWeight() {
+                let totalWeight = 0.0;
+                for (let aa in this.aminoAcidCounts) {
+                    let count = this.aminoAcidCounts[aa];
+                    let weight = aminoAcids[aa].weight || 0;
+                    totalWeight += weight * count;
+                }
+                // Subtract weight of water molecules formed during peptide bond formation
+                totalWeight -= (this.length - 1) * 18.01524;
+                return totalWeight.toFixed(2);
+            }
+
+            selectCharged() {
+                let charged = {};
+                const chargedAAs = ["K", "R", "H", "D", "E", "C", "Y"];
+                for (let aa of chargedAAs) {
+                    charged[aa] = this.aminoAcidCounts[aa] || 0;
+                }
+                charged["Nterm"] = 1.0;
+                charged["Cterm"] = 1.0;
+                return charged;
+            }
+
+            updatePKs() {
+                // Copy pKa values
+                this.pos_pKs = Object.assign({}, positive_pKs);
+                this.neg_pKs = Object.assign({}, negative_pKs);
+
+                let nterm = this.sequence[0];
+                let cterm = this.sequence[this.sequence.length - 1];
+
+                if (pKnterminal.hasOwnProperty(nterm)) {
+                    this.pos_pKs["Nterm"] = pKnterminal[nterm];
+                }
+                if (pKcterminal.hasOwnProperty(cterm)) {
+                    this.neg_pKs["Cterm"] = pKcterminal[cterm];
+                }
+            }
+
+            chargeAtpH(pH) {
+                let positiveCharge = 0.0;
+                for (let aa in this.pos_pKs) {
+                    let pK = this.pos_pKs[aa];
+                    let n = this.chargedAAsContent[aa] || 0;
+                    let partialCharge = 1.0 / (Math.pow(10, pH - pK) + 1.0);
+                    positiveCharge += n * partialCharge;
+                }
+
+                let negativeCharge = 0.0;
+                for (let aa in this.neg_pKs) {
+                    let pK = this.neg_pKs[aa];
+                    let n = this.chargedAAsContent[aa] || 0;
+                    let partialCharge = 1.0 / (Math.pow(10, pK - pH) + 1.0);
+                    negativeCharge += n * partialCharge;
+                }
+
+                return positiveCharge - negativeCharge;
+            }
+
+            isoelectricPoint() {
+                let min_pH = 4.05;
+                let max_pH = 12.0;
+                let pH = 7.0;
+                let charge = this.chargeAtpH(pH);
+                while ((max_pH - min_pH) > 0.0001) {
+                    if (charge > 0.0) {
+                        min_pH = pH;
+                    } else {
+                        max_pH = pH;
+                    }
+                    pH = (min_pH + max_pH) / 2.0;
+                    charge = this.chargeAtpH(pH);
+                }
+                return pH.toFixed(2);
+            }
+
+            totalNegativelyCharged() {
+                return (this.aminoAcidCounts['D'] || 0) + (this.aminoAcidCounts['E'] || 0);
+            }
+
+            totalPositivelyCharged() {
+                return (this.aminoAcidCounts['R'] || 0) + (this.aminoAcidCounts['K'] || 0);
+            }
+
+            extinctionCoefficients() {
+                let nTrp = this.aminoAcidCounts['W'] || 0;
+                let nTyr = this.aminoAcidCounts['Y'] || 0;
+                let nCys = this.aminoAcidCounts['C'] || 0;
+
+                // Reduced Cys (no disulfide bonds)
+                let reduced = nTrp * 5500 + nTyr * 1490;
+
+                // All Cys form disulfide bonds
+                let oxidized = reduced + Math.floor(nCys / 2) * 125;
+
+                return {
+                    reduced: reduced,
+                    oxidized: oxidized
+                };
+            }
+
+            estimatedHalfLife() {
+                let nterm = this.sequence[0];
+                const halfLives = {
+                    'A': '30 hours',
+                    'V': '100 hours',
+                    'L': '5 minutes',
+                    'I': '20 hours',
+                    'M': '30 hours',
+                    'F': '20 hours',
+                    'Y': '2.8 hours',
+                    'W': '2 minutes',
+                    'K': '1 hour',
+                    'R': '1 hour',
+                    'H': '3.5 hours',
+                    'D': '1.1 hours',
+                    'E': '1 hour',
+                    'S': '1.9 hours',
+                    'T': '7.2 hours',
+                    'C': '1.2 hours',
+                    'G': '30 hours',
+                    'P': '>20 hours',
+                    'N': '1.4 hours',
+                    'Q': '30 minutes'
+                };
+                let hl = halfLives[nterm] || 'Unknown';
+                return {
+                    nterm: nterm,
+                    halfLife: hl
+                };
+            }
+
+            instabilityIndex() {
+                // Placeholder value
+                // Actual calculation requires dipeptide weight matrix
+                return 40.71;
+            }
+
+            aliphaticIndex() {
+                let counts = this.aminoAcidCounts;
+                let X_Ala = ((counts['A'] || 0) / this.length) * 100;
+                let X_Val = ((counts['V'] || 0) / this.length) * 100;
+                let X_Ile = ((counts['I'] || 0) / this.length) * 100;
+                let X_Leu = ((counts['L'] || 0) / this.length) * 100;
+
+                let AI = X_Ala + 2.9 * X_Val + 3.9 * (X_Ile + X_Leu);
+                return AI.toFixed(2);
+            }
+
+            gravy() {
+                let totalHydropathy = 0.0;
+                for (let aa in this.aminoAcidCounts) {
+                    let count = this.aminoAcidCounts[aa];
+                    let hydropathy = aminoAcids[aa].hydropathy || 0.0;
+                    totalHydropathy += hydropathy * count;
+                }
+                return (totalHydropathy / this.length).toFixed(3);
+            }
+
+            atomicComposition() {
+    let totalAtoms = { 'C': 0, 'H': 0, 'N': 0, 'O': 0, 'S': 0 };
+
+    for (let aa in this.aminoAcidCounts) {
+        let count = this.aminoAcidCounts[aa];
+        let atoms = aminoAcids[aa].atoms || {};
+        for (let atom in atoms) {
+            totalAtoms[atom] += atoms[atom] * count;
+        }
+    }
+
+    // Adjust for N-terminal (adds an extra H)
+    totalAtoms['H'] += 1;
+
+    // Adjust for C-terminal (adds an extra O and H)
+    totalAtoms['O'] += 1;
+    totalAtoms['H'] += 1;
+
+    return totalAtoms;
+}
+
+            formula() {
+                let atoms = this.atomicComposition();
+                let formula = '';
+                for (let atom of ['C', 'H', 'N', 'O', 'S']) {
+                    let count = atoms[atom];
+                    if (count > 0) {
+                        formula += atom + count;
+                    }
+                }
+                return formula;
+            }
+
+            totalNumberOfAtoms() {
+                let atoms = this.atomicComposition();
+                let total = 0;
+                for (let atom in atoms) {
+                    total += atoms[atom];
+                }
+                return total;
+            }
+
+            
+        }
+
+        // Example usage:
+        // Replace with your protein sequence
+        let sequence = "MTATKLFLALTVAMPMATSHVDPKELDAVFADIRPDQPGCAYAVDLRGKVLYQGGFGLADLATREPITPATRFELASTSKQFTAALILILVQERRLKLAASIRTYLPDLPKVYDPVTVADLLHHTSGIREYFDAFRARGDDESKPHSREEVLAFVKAQRGLDGPPGRRFSYVNTNYFLLAEIVERLTGKSFPDAARERLFIPAGMTETRATLDTTSLVAGDARGYQIDKNGSFVSAAWTWQGYGDRGVRTNVGDLALWHGASLAATTGGEALEVARLANGKLRSGRSVDYAGGLFVDDRQSERVVSHSGLVVGNRAMDVLYPDSGIGISVMCNRDDIAPAERARKIALLVKPGAPDPAFDRAIDPAEMKRLGKVGDLRSAPDGYYRDPLYGQYLIVAHRDGEPIVSYNMRAEKVTRRQDGIYRARRGVLLSYAVAQVGIERVVQWTESGPIPYDYVGTGALETKLFRPGQYRSDELGITVTLSRDLKGWSLDTPAGAVPLEAALADDLVGPDAAFSLHAVGPQIFTFHTVNLSGIEF";
+        let analysis = new ProteinAnalysis(sequence);
+
+        // Prepare output
+        let output = "";
+        output += `Number of amino acids: ${analysis.length}\n\n`;
+        output += `Molecular weight: ${analysis.molecularWeight()}\n`;
+        output += `Theoretical pI: ${analysis.isoelectricPoint()}\n\n`;
+        output += `Amino acid composition:\n\n`;
+
+        let counts = analysis.aminoAcidCounts;
+        let percents = analysis.getAminoAcidPercents();
+        for (let aa in counts) {
+            if (counts[aa] > 0) {
+                output += `${aminoAcids[aa].name} (${aa})\t${counts[aa]}\t${percents[aa].toFixed(1)}%\n`;
+            }
+        }
+
+        output += `\nTotal number of negatively charged residues (Asp + Glu): ${analysis.totalNegativelyCharged()}\n`;
+        output += `Total number of positively charged residues (Arg + Lys): ${analysis.totalPositivelyCharged()}\n\n`;
+
+        output += `Atomic composition:\n`;
+        let atoms = analysis.atomicComposition();
+        for (let atom in atoms) {
+            output += `${atom}\t${atoms[atom]}\n`;
+        }
+        output += `\nFormula: ${analysis.formula()}\n`;
+        output += `Total number of atoms: ${analysis.totalNumberOfAtoms()}\n\n`;
+
+        output += `Extinction coefficients:\n`;
+        output += `Ext. coefficient (reduced): ${analysis.extinctionCoefficients().reduced}\n`;
+        output += `Ext. coefficient (oxidized): ${analysis.extinctionCoefficients().oxidized}\n\n`;
+
+        let halfLife = analysis.estimatedHalfLife();
+        output += `Estimated half-life:\n`;
+        output += `The N-terminal of the sequence is ${halfLife.nterm} (${aminoAcids[halfLife.nterm].fullName}).\n`;
+        output += `The estimated half-life is: ${halfLife.halfLife} (mammalian reticulocytes, in vitro).\n\n`;
+
+        output += `Instability index:\n`;
+        output += `The instability index (II) is computed to be ${analysis.instabilityIndex()}\n`;
+        output += `This classifies the protein as ${analysis.instabilityIndex() > 40 ? 'unstable' : 'stable'}.\n\n`;
+
+        output += `Aliphatic index: ${analysis.aliphaticIndex()}\n`;
+        output += `Grand average of hydropathicity (GRAVY): ${analysis.gravy()}\n`;
+
+        // Display the output in the div
+        document.getElementById('protein-analysis').textContent = output;
+
+
+        // 获取氨基酸组成数据
+let aminoAcidLabels = [];
+let aminoAcidValues = [];
+
+for (let aa in counts) {
+    if (counts[aa] > 0) {
+        aminoAcidLabels.push(`${aminoAcids[aa].name} (${aa})`);
+        aminoAcidValues.push(counts[aa]);
+    }
+}
+
+// 创建柱状图
+// 获取 Canvas 上下文
+let ctx = document.getElementById('aminoAcidCompositionChart').getContext('2d');
+
+// 计算总氨基酸数量
+let totalAminoAcids = aminoAcidValues.reduce((a, b) => a + b, 0);
+
+// 计算百分比
+let aminoAcidPercentages = aminoAcidValues.map(value => ((value / totalAminoAcids) * 100).toFixed(2));
+
+// 创建 Chart.js 柱状图
+let aminoAcidChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: aminoAcidLabels,
+        datasets: [{
+            label: 'Amino Acid Composition',
+            data: aminoAcidValues,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Amino Acids'
+                }
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Count'
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    // 工具提示显示计数和百分比
+                    label: function (context) {
+                        let count = context.raw;
+                        let percentage = aminoAcidPercentages[context.dataIndex];
+                        return `Amino acid composition: ${count}(count),   ${percentage}%(percentage)`;
+                    }
+                }
+            },
+            // 显示在柱头上方的标签
+            datalabels: {
+                display: true,
+                align: 'top',
+                formatter: function (value, context) {
+                    let percentage = aminoAcidPercentages[context.dataIndex];
+                    return `${value} (${percentage}%)`;
+                },
+                color: 'black',
+                font: {
+                    size: 12,
+                    weight: 'bold'
+                }
+            }
+        }
+    }
+});
+
+
+// 定义颜色映射函数
+function getHydropathyClass(hydropathy) {
+            if (hydropathy >= 2) {
+                return 'hydrophobic-strong';
+            } else if (hydropathy >= 0) {
+                return 'hydrophobic-medium';
+            } else if (hydropathy >= -2) {
+                return 'hydrophilic-medium';
+            } else {
+                return 'hydrophilic-strong';
+            }
+        }
+
+// 生成颜色编码的序列
+const sequenceContainer = document.getElementById('sequence-container');
+        const lineLength = 50;
+
+        // 生成颜色编码的序列
+        for (let i = 0; i < sequence.length; i += lineLength) {
+            const rowDiv = document.createElement('div');
+            rowDiv.classList.add('sequence-row');
+
+            // 添加行号
+            const startIndex = i + 1;
+            const endIndex = Math.min(i + lineLength, sequence.length);
+            const indexDiv = document.createElement('div');
+            indexDiv.classList.add('index');
+            indexDiv.textContent = startIndex;
+            rowDiv.appendChild(indexDiv);
+
+            // 添加氨基酸字符
+            for (let j = i; j < endIndex; j++) {
+                const aa = sequence[j];
+                const hydropathy = aminoAcids[aa]?.hydropathy || 0;
+                const className = getHydropathyClass(hydropathy);
+
+                const aaSpan = document.createElement('span');
+                aaSpan.classList.add('amino-acid', className);
+                aaSpan.textContent = aa;
+                rowDiv.appendChild(aaSpan);
+            }
+
+            // 添加结束行号
+            const endIndexDiv = document.createElement('div');
+            endIndexDiv.classList.add('index');
+            endIndexDiv.textContent = endIndex;
+            rowDiv.appendChild(endIndexDiv);
+
+            sequenceContainer.appendChild(rowDiv);
+        }
+
+    </script>
+</body>
+</html>

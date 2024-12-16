@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="./css/bootstrap.min.css" rel="stylesheet">
+<script src="/js/universal.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="./css/style.css">
+<link type="image/png" sizes="96x96" rel="icon" href="./icon-sgpa.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+  <title>Sequence Alignment</title>
+  <style>
+    .active-site {
+      background-color: yellow;
+    }
+
+    .active-site {
+      background-color: yellow;
+    }
+
+    .alignment-result {
+      max-height: 200vh;
+      overflow: auto;
+      width: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 16px;
+     
+    }
+
+    .sequence-alignment{
+      letter-spacing: 3px;
+
+    }
+
+    #mainbox {
+      background-color: rgb(225, 248, 233);
+    }
+
+    body {
+      background-color: rgb(244, 255, 248);
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="150"><text x="55" y="20" font-family="Arial" font-size="20" fill="rgba(0, 0, 0, 0.6)" transform="rotate(-45, 100, 100)">SeqAlign</text></svg>');
+      background-repeat: repeat;
+      padding-top: 60px; 
+    }
+
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+      min-height: calc(100% - (.5rem * 2));
+    }
+
+    .modal {
+      overflow-y: inherit;
+    }
+
+    @media (max-width: 720px) {
+      #mainbox {
+        min-height: 80vh;
+        /* 或者根据需要调整这个值 */
+      }
+    }
+
+    .tooltip-inner {
+      background-color: rgb(0, 0, 0);
+      max-width: 2000px;
+      font-size: 12px;
+      color: white;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .tooltip_highlight {
+      color: #00a819;
+    }
+
+    #loadingIcon {
+      display: none;
+      border: 3px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 4px solid #006e3b;
+      width: 20px;
+      height: 20px;
+      -webkit-animation: spin 2s linear infinite;
+      /* Safari */
+      animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .highlight-square {
+            width: 12px;  /* 方块的宽度 */
+            height: 12px; /* 方块的高度 */
+            background-color: yellow; /* 方块的背景颜色 */
+            border: 1px solid black; /* 方块的边框 */
+        }
+  </style>
+
+<body>
+  <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);" data-bs-auto-close="outside">
+		<div class="container">
+			<!--	<a class="navbar-brand fs-2 fw-bold" href="index.html">MlrDB</a>-->
+			<div class="m-1">
+				<a href="index.html">
+					<img src="./asset/icon/chmdd.png" alt="./asset/..." style="height: 6.5vh;">
+				</a>
+			</div>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto ">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="index.html">Home</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Alignment
+							tools</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/seq_align.html">SeqAlign</a></li>
+							<li><a class="dropdown-item" href="/test2.html">BLASTP</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./degradation_pathway.html">degradation_pathway</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./help.html">Help</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./test2.html">Logs</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="contacts.html">Contacts</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+  <div class="container pt-4" style="font-family: 'Times New Roman', Times, serif ;">
+    <div class="row justify-content-center">
+      <div class="col-md-8" id="mainbox">
+        <div style="align-items: center; text-align: center;">
+        <h3 class="text-center pt-5">SeqAlign</h3>
+        <p>A sequence alignment tool for cyanotoxin-degrading enzymes</p>
+        </div>
+        <div class="py-3">
+          <label for="inputType"><b>Enter Query Sequence:</b></label>
+          <select id="inputType" class="form-control" onchange="toggleInputFields()">
+            <option value="sequence">Sequence</option>
+            <option value="accession">NCBI Accession Number</option>
+          </select>
+        </div>
+        <div class="input-container" id="sequenceInput">
+          <label for="userSequence"><b>Sequence:</b></label>&nbsp;&nbsp;&nbsp;
+          <span id="sequenceNotes_1" style="text-decoration: underline;cursor: pointer;color: red;"><b>Notes</b>&nbsp;<i
+              class="fas fa-exclamation-circle"></i></span>
+          <textarea id="userSequence" class="form-control" placeholder="Please enter the amino acid sequence"
+            rows="4"></textarea>
+        </div>
+        <div class="input-container" id="accessionInput" style="display: none;">
+          <label for="ncbiAccessionNumber"><b>NCBI Accession Number:</b></label>&nbsp;&nbsp;&nbsp;
+          <span id="sequenceNotes_2" style="text-decoration: underline;cursor: pointer;color: red;"><b>Notes</b>&nbsp;<i
+              class="fas fa-exclamation-circle"></i></span>
+          <input type="text" id="ncbiAccessionNumber" class="form-control" placeholder="eg:7YLQ_A">
+          <div id="loadingMessage" style="display: none;"></div>
+          <div id="loadingIcon"></div>
+        </div>
+        <div class="py-3">
+          <label><input type="radio" name="knownSequence" value="seq1">MlrA</label>
+          <label class="px-3"><input type="radio" name="knownSequence" value="seq2">MlrB</label>
+          <label class="px-3"><input type="radio" name="knownSequence" value="seq3">MlrC</label>
+          <label class="px-3"><input type="radio" name="knownSequence" value="seq4">MlrD</label>
+          <i class="fas fa-question-circle" data-bs-toggle="tooltip" id="mlra-tooltip"></i>
+        </div>
+        <div class="py-1">
+          <button type="button" class="btn btn-primary" onclick="compareSequences()"
+            style="background: var(--green-003);">Submit</button>
+        </div>
+        <div class="py-3">
+          <div style="display: flex;  align-items: center;">
+            <h5>Reslut:</h5>&nbsp;&nbsp;&nbsp;
+            <a href="#" onclick="downloadResults()" style="color: #008514;">
+              <i class="fas fa-download"></i> Download
+            </a>&nbsp;&nbsp;&nbsp;
+            <div class="highlight-square"></div>Active Site
+          </div>
+          <pre id="alignmentResult" class="alignment-result"></pre>
+          <div id="seqalign_note" class="lh-sm fw-light" style="font-family: 'Times New Roman', Times, serif ;"><span
+              style="color: red;">Note:</span>
+            Hover over the amino acid to display its sequence number. See <a href="./help.html#sequence_alignment">help</a> for more details.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="modal fade" id="seqAlignModal" tabindex="-1" aria-labelledby="seqAlignModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="font-family: Arial, Helvetica, sans-serif;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="seqAlignModalLabel">SeqAlign Notice</h5>
+        </div>
+        <div class="modal-body" style="text-align: justify;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome to the SeqAlign page! Please read the instructions carefully. <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Sequence Alignment tool provides a user-friendly interface for
+          aligning sequences using the Smith-Waterman algorithm, optimized with the BLOSUM62 scoring matrix.<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This tool is based on four template sequences: MlrA, MlrB, MlrC, and MlrD
+          (Cyanobacterial Hepatotoxin Degrading Enzymes). Users can submit sequences or accession numbers for alignment
+          with these template sequences. The outcomes are presented in terms of <span
+            style="color: red;">scoring</span>,<span style="color: red;">similarity</span>, and <span
+            style="color: red;">alignment results</span>.
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            style="background: var(--green-003);">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="notesModal_1" tabindex="-1" aria-labelledby="notesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="font-family: Arial, Helvetica, sans-serif;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notesModalLabel_1">Notes</h5>
+        </div>
+        <div class="modal-body" style="font-size: small;">
+          <b>Ⅰ</b> Strongly recommend inputting sequences in standard FASTA format !<br>
+          <b>Ⅱ</b> Single or multiple sequences are allowed !<br>
+          <b>Ⅲ</b> Single sequences can be in FASTA format or plain sequence text !<br>
+          <b>Ⅳ</b> Multiple sequences should be input in standard FASTA format, or separated by '>' for each sequence
+          !<br>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            style="background: var(--green-003);">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="notesModal_2" tabindex="-1" aria-labelledby="notesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="font-family: Arial, Helvetica, sans-serif;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notesModalLabel_2">Notes</h5>
+        </div>
+        <div class="modal-body" style="font-size: small;">
+          <b>Ⅰ</b> Single or multiple accession numbers is allowed !<br>
+          <b>Ⅱ</b> Multiple accession numbers must be separated by a space or comma !<br>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            style="background: var(--green-003);">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  const BLOSUM62 = {
+  'A': {'A': 4, 'R': -1, 'N': -2, 'D': -2, 'C': 0, 'Q': -1, 'E': -1, 'G': 0, 'H': -2, 'I': -1, 'L': -1, 'K': -1, 'M': -1, 'F': -2, 'P': -1, 'S': 1, 'T': 0, 'W': -3, 'Y': -2, 'V': 0, 'B': -2, 'J': -1, 'Z': -1, 'X': -1, '*': -4},
+  'R': {'A': -1, 'R': 5, 'N': 0, 'D': -2, 'C': -3, 'Q': 1, 'E': 0, 'G': -2, 'H': 0, 'I': -3, 'L': -2, 'K': 2, 'M': -1, 'F': -3, 'P': -2, 'S': -1, 'T': -1, 'W': -3, 'Y': -2, 'V': -3, 'B': -1, 'J': -2, 'Z': 0, 'X': -1, '*': -4},
+  'N': {'A': -2, 'R': 0, 'N': 6, 'D': 1, 'C': -3, 'Q': 0, 'E': 0, 'G': 0, 'H': 1, 'I': -3, 'L': -3, 'K': 0, 'M': -2, 'F': -3, 'P': -2, 'S': 1, 'T': 0, 'W': -4, 'Y': -2, 'V': -3, 'B': 4, 'J': -3, 'Z': 0, 'X': -1, '*': -4},
+  'D': {'A': -2, 'R': -2, 'N': 1, 'D': 6, 'C': -3, 'Q': 0, 'E': 2, 'G': -1, 'H': -1, 'I': -3, 'L': -4, 'K': -1, 'M': -3, 'F': -3, 'P': -1, 'S': 0, 'T': -1, 'W': -4, 'Y': -3, 'V': -3, 'B': 4, 'J': -3, 'Z': 1, 'X': -1, '*': -4},
+  'C': {'A': 0, 'R': -3, 'N': -3, 'D': -3, 'C': 9, 'Q': -3, 'E': -4, 'G': -3, 'H': -3, 'I': -1, 'L': -1, 'K': -3, 'M': -1, 'F': -2, 'P': -3, 'S': -1, 'T': -1, 'W': -2, 'Y': -2, 'V': -1, 'B': -3, 'J': -1, 'Z': -3, 'X': -1, '*': -4},
+  'Q': {'A': -1, 'R': 1, 'N': 0, 'D': 0, 'C': -3, 'Q': 5, 'E': 2, 'G': -2, 'H': 0, 'I': -3, 'L': -2, 'K': 1, 'M': 0, 'F': -3, 'P': -1, 'S': 0, 'T': -1, 'W': -2, 'Y': -1, 'V': -2, 'B': 0, 'J': -2, 'Z': 4, 'X': -1, '*': -4},
+  'E': {'A': -1, 'R': 0, 'N': 0, 'D': 2, 'C': -4, 'Q': 2, 'E': 5, 'G': -2, 'H': 0, 'I': -3, 'L': -3, 'K': 1, 'M': -2, 'F': -3, 'P': -1, 'S': 0, 'T': -1, 'W': -3, 'Y': -2, 'V': -2, 'B': 1, 'J': -3, 'Z': 4, 'X': -1, '*': -4},
+  'G': {'A': 0, 'R': -2, 'N': 0, 'D': -1, 'C': -3, 'Q': -2, 'E': -2, 'G': 6, 'H': -2, 'I': -4, 'L': -4, 'K': -2, 'M': -3, 'F': -3, 'P': -2, 'S': 0, 'T': -2, 'W': -2, 'Y': -3, 'V': -3, 'B': -1, 'J': -4, 'Z': -2, 'X': -1, '*': -4},
+  'H': {'A': -2, 'R': 0, 'N': 1, 'D': -1, 'C': -3, 'Q': 0, 'E': 0, 'G': -2, 'H': 8, 'I': -3, 'L': -3, 'K': -1, 'M': -2, 'F': -1, 'P': -2, 'S': -1, 'T': -2, 'W': -2, 'Y': 2, 'V': -3, 'B': 0, 'J': -3, 'Z': 0, 'X': -1, '*': -4},
+  'I': {'A': -1, 'R': -3, 'N': -3, 'D': -3, 'C': -1, 'Q': -3, 'E': -3, 'G': -4, 'H': -3, 'I': 4, 'L': 2, 'K': -3, 'M': 1, 'F': 0, 'P': -3, 'S': -2, 'T': -1, 'W': -3, 'Y': -1, 'V': 3, 'B': -3, 'J': 3, 'Z': -3, 'X': -1, '*': -4},
+  'L': {'A': -1, 'R': -2, 'N': -3, 'D': -4, 'C': -1, 'Q': -2, 'E': -3, 'G': -4, 'H': -3, 'I': 2, 'L': 4, 'K': -2, 'M': 2, 'F': 0, 'P': -3, 'S': -2, 'T': -1, 'W': -2, 'Y': -1, 'V': 1, 'B': -4, 'J': 3, 'Z': -3, 'X': -1, '*': -4},
+  'K': {'A': -1, 'R': 2, 'N': 0, 'D': -1, 'C': -3, 'Q': 1, 'E': 1, 'G': -2, 'H': -1, 'I': -3, 'L': -2, 'K': 5, 'M': -1, 'F': -3, 'P': -1, 'S': 0, 'T': -1, 'W': -3, 'Y': -2, 'V': -2, 'B': 0, 'J': -3, 'Z': 1, 'X': -1, '*': -4},
+  'M': {'A': -1, 'R': -1, 'N': -2, 'D': -3, 'C': -1, 'Q': 0, 'E': -2, 'G': -3, 'H': -2, 'I': 1, 'L': 2, 'K': -1, 'M': 5, 'F': 0, 'P': -2, 'S': -1, 'T': -1, 'W': -1, 'Y': -1, 'V': 1, 'B': -3, 'J': 2, 'Z': -1, 'X': -1, '*': -4},
+  'F': {'A': -2, 'R': -3, 'N': -3, 'D': -3, 'C': -2, 'Q': -3, 'E': -3, 'G': -3, 'H': -1, 'I': 0, 'L': 0, 'K': -3, 'M': 0, 'F': 6, 'P': -4, 'S': -2, 'T': -2, 'W': 1, 'Y': 3, 'V': -1, 'B': -3, 'J': 0, 'Z': -3, 'X': -1, '*': -4},
+  'P': {'A': -1, 'R': -2, 'N': -2, 'D': -1, 'C': -3, 'Q': -1, 'E': -1, 'G': -2, 'H': -2, 'I': -3, 'L': -3, 'K': -1, 'M': -2, 'F': -4, 'P': 7, 'S': -1, 'T': -1, 'W': -4, 'Y': -3, 'V': -2, 'B': -2, 'J': -3, 'Z': -1, 'X': -1, '*': -4},
+  'S': {'A': 1, 'R': -1, 'N': 1, 'D': 0, 'C': -1, 'Q': 0, 'E': 0, 'G': 0, 'H': -1, 'I': -2, 'L': -2, 'K': 0, 'M': -1, 'F': -2, 'P': -1, 'S': 4, 'T': 1, 'W': -3, 'Y': -2, 'V': -2, 'B': 0, 'J': -2, 'Z': 0, 'X': -1, '*': -4},
+  'T': {'A': 0, 'R': -1, 'N': 0, 'D': -1, 'C': -1, 'Q': -1, 'E': -1, 'G': -2, 'H': -2, 'I': -1, 'L': -1, 'K': -1, 'M': -1, 'F': -2, 'P': -1, 'S': 1, 'T': 5, 'W': -2, 'Y': -2, 'V': 0, 'B': -1, 'J': -1, 'Z': -1, 'X': -1, '*': -4},
+  'W': {'A': -3, 'R': -3, 'N': -4, 'D': -4, 'C': -2, 'Q': -2, 'E': -3, 'G': -2, 'H': -2, 'I': -3, 'L': -2, 'K': -3, 'M': -1, 'F': 1, 'P': -4, 'S': -3, 'T': -2, 'W': 11, 'Y': 2, 'V': -3, 'B': -4, 'J': -2, 'Z': -2, 'X': -1, '*': -4},
+  'Y': {'A': -2, 'R': -2, 'N': -2, 'D': -3, 'C': -2, 'Q': -1, 'E': -2, 'G': -3, 'H': 2, 'I': -1, 'L': -1, 'K': -2, 'M': -1, 'F': 3, 'P': -3, 'S': -2, 'T': -2, 'W': 2, 'Y': 7, 'V': -1, 'B': -3, 'J': -1, 'Z': -2, 'X': -1, '*': -4},
+  'V': { 'A': 0, 'R': -3, 'N': -3, 'D': -3, 'C': -1, 'Q': -2, 'E': -2, 'G': -3, 'H': -3, 'I': 3, 'L': 1, 'K': -2, 'M': 1, 'F': -1, 'P': -2, 'S': -2, 'T': 0, 'W': -3, 'Y': -1, 'V': 4, 'B': -3, 'J': 2, 'Z': -2, 'X': -1, '*': -4 },
+  'B': { 'A': -2, 'R': -1, 'N': 4, 'D': 4, 'C': -3, 'Q': 0, 'E': 1, 'G': -1, 'H': 0, 'I': -3, 'L': -4, 'K': 0, 'M': -3, 'F': -3, 'P': -2, 'S': 0, 'T': -1, 'W': -4, 'Y': -3, 'V': -3, 'B': 4, 'J': -3, 'Z': 0, 'X': -1, '*': -4 },
+  'J': { 'A': -1, 'R': -2, 'N': -3, 'D': -3, 'C': -1, 'Q': -2, 'E': -3, 'G': -4, 'H': -3, 'I': 3, 'L': 3, 'K': -3, 'M': 2, 'F': 0, 'P': -3, 'S': -2, 'T': -1, 'W': -2, 'Y': -1, 'V': 2, 'B': -3, 'J': 3, 'Z': -3, 'X': -1, '*': -4 },
+  'Z': { 'A': -1, 'R': 0, 'N': 0, 'D': 1, 'C': -3, 'Q': 4, 'E': 4, 'G': -2, 'H': 0, 'I': -3, 'L': -3, 'K': 1, 'M': -1, 'F': -3, 'P': -1, 'S': 0, 'T': -1, 'W': -2, 'Y': -2, 'V': -2, 'B': 0, 'J': -3, 'Z': 4, 'X': -1, '*': -4 },
+  'X': { 'A': -1, 'R': -1, 'N': -1, 'D': -1, 'C': -1, 'Q': -1, 'E': -1, 'G': -1, 'H': -1, 'I': -1, 'L': -1, 'K': -1, 'M': -1, 'F': -1, 'P': -1, 'S': -1, 'T': -1, 'W': -1, 'Y': -1, 'V': -1, 'B': -1, 'J': -1, 'Z': -1, 'X': -1, '*': -4 },
+  '*': { 'A': -4, 'R': -4, 'N': -4, 'D': -4, 'C': -4, 'Q': -4, 'E': -4, 'G': -4, 'H': -4, 'I': -4, 'L': -4, 'K': -4, 'M': -4, 'F': -4, 'P': -4, 'S': -4, 'T': -4, 'W': -4, 'Y': -4, 'V': -4, 'B': -4, 'J': -4, 'Z': -4, 'X': -4, '*': 1 }
+};
+
+
+    const knownSequences = {
+      seq1: {
+        sequence: "MLDRRTLMGGILSMAGSKATGAALPGRRLRVFVARYEVIEGTCAFAMPGGPVSAQAAMLAFGEDAHLSQRLVRAADVLVAFKYYPHIDYVERARDLLDLLERIRAGEIMPTSSLFNCQMVAGLATQSSPMKELVADLFEFERRGEVLSGSLIGLGADFSLRVGGKVGEASGLPLDVRGKITGLAENVTQNLQGSRP",
+        activeSites: [39, 167, 169, 191]
+      },
+      seq2: {
+        sequence: "AGTAC",
+        activeSites: [1, 2, 3, 4, 5]
+      },
+      seq3: {
+        sequence: "MLDRRTLMGGILSMAGSKATGAALPGRRLRVFVATLGTETNSFSPLPTGLDAFRATMLWRPGEHPDFATEATGPLWAARERAREGRYEVIEGTCAFAMPGGPVSAQAYQLLRDEILDQLRRAMPVDIVAFGLHGAMLAFGEDECEADLLERARAIVGPDVALGAELDLHAHLSQRLVRAADVLVAFKYYPHIDYVERARDLLDLLERIRAGEIMPTSSLFNCQMVAGLATQSSPMKELVADLFEFERRGEVLSGSLIQGFRAGDVARMGSKVLIYTNNDQPAAASIAQDFGRRYQAMASIMKGNGPERSFAADIELAKAATAYPVILVDSSDNPGGGASGDNMALARAMLDNDLVPSCIGPIWDPLAVQLGFEAGLGADFSLRVGGKVGEASGLPLDVRGKITGLAENVTQNLQGSRPPLGRVVCISTAGLDIIVSEIRDQCYGPDMFRALGVEPANKRYVAVKSSEQWRIGFGDMGRSVIYVASSQQSSIRHYHKRSRPMWPFEPVLEHHH",
+        activeSites: [39, 167, 169, 191]
+      },
+      seq4: {
+        sequence: "LVYYLTQDLGYSIKDASLIYGTFLGVAYVTPILGGWLADRFIGRSAAIIGGALLKMAGYIGLLFGANVTVCLAAIVIGNGLFLPTLPATLGALFSPNDPDRQRSFSFYYLAVSAGALLAPLICGTLGETFGWRYSFLASAIGLAAAIVIFLAGRHLLPPDRPGAASQPIHEAPIGATGRSVIP",
+        activeSites: [1, 2, 3, 4, 9]
+      }
+    };
+
+    async function fetchSequenceFromNCBI(accession) {
+      const url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=${accession}&rettype=fasta&retmode=text`;
+      const response = await fetch(url);
+      const fastaData = await response.text();
+
+      const lines = fastaData.split('\n');
+      let sequence = '';
+      for (let i = 1; i < lines.length; i++) {
+        sequence += lines[i].trim();
+      }
+      return sequence;
+    }
+
+
+
+
+    function toggleInputFields() {
+      let inputType = document.getElementById('inputType').value;
+      if (inputType === 'accession') {
+        document.getElementById('sequenceInput').style.display = 'none';
+        document.getElementById('accessionInput').style.display = 'block';
+      } else if (inputType === 'sequence') {
+        document.getElementById('sequenceInput').style.display = 'block';
+        document.getElementById('accessionInput').style.display = 'none';
+      }
+
+    }
+
+
+
+    function smithWaterman(sequence1, sequence2) {
+      const gapPenalty = -1;
+      let scoreMatrix = Array(sequence1.length + 1).fill(null).map(() => Array(sequence2.length + 1).fill(0));
+      let maxScore = 0;
+      let maxPos = { i: 0, j: 0 }; // 记录最高得分的位置
+
+      // 填充得分矩阵并找到最高得分及其位置
+      for (let i = 1; i <= sequence1.length; i++) {
+        for (let j = 1; j <= sequence2.length; j++) {
+          const matchMismatchScore = BLOSUM62[sequence1[i - 1]][sequence2[j - 1]];
+          const scoreDiag = scoreMatrix[i - 1][j - 1] + matchMismatchScore;
+          const scoreUp = scoreMatrix[i - 1][j] + gapPenalty;
+          const scoreLeft = scoreMatrix[i][j - 1] + gapPenalty;
+          const score = Math.max(0, scoreDiag, scoreUp, scoreLeft);
+
+          scoreMatrix[i][j] = score;
+
+          if (score > maxScore) {
+            maxScore = score;
+            maxPos = { i, j };
+          }
+        }
+      }
+
+
+      // 从最高得分的位置开始回溯
+      let i = maxPos.i, j = maxPos.j;
+      let alignedSeq1 = '', alignedSeq2 = '', alignmentIndicator = '';
+
+      // 回溯前，为了保持序列完整性，首先添加末尾未匹配的部分
+      if (i < sequence1.length) {
+        let gap = sequence1.length - i;
+        alignedSeq1 += sequence1.substring(i) + alignedSeq1;
+        alignedSeq2 += '-'.repeat(gap);
+        alignmentIndicator += ' '.repeat(gap);
+      }
+      if (j < sequence2.length) {
+        let gap = sequence2.length - j;
+        alignedSeq2 += sequence2.substring(j) + alignedSeq2;
+        alignedSeq1 += '-'.repeat(gap);
+        alignmentIndicator += ' '.repeat(gap);
+      }
+
+      // 回溯过程
+      while (i > 0 && j > 0 && scoreMatrix[i][j] > 0) {
+        const score = scoreMatrix[i][j];
+        const diag = scoreMatrix[i - 1][j - 1];
+        const up = scoreMatrix[i - 1][j];
+        const left = scoreMatrix[i][j - 1];
+        const matchMismatchScore = BLOSUM62[sequence1[i - 1]][sequence2[j - 1]];
+
+        if (score === diag + matchMismatchScore) {
+          alignedSeq1 = sequence1[i - 1] + alignedSeq1;
+          alignedSeq2 = sequence2[j - 1] + alignedSeq2;
+          alignmentIndicator = (sequence1[i - 1] === sequence2[j - 1] ? '|' : ' ') + alignmentIndicator;
+          i--; j--;
+        } else if (score === left + gapPenalty) {
+          alignedSeq1 = '-' + alignedSeq1;
+          alignedSeq2 = sequence2[j - 1] + alignedSeq2;
+          alignmentIndicator = ' ' + alignmentIndicator;
+          j--;
+        } else {
+          alignedSeq1 = sequence1[i - 1] + alignedSeq1;
+          alignedSeq2 = '-' + alignedSeq2;
+          alignmentIndicator = ' ' + alignmentIndicator;
+          i--;
+        }
+      }
+
+      // 如果回溯未到达序列的开头，则添加开头未匹配的部分
+      if (i > 0) {
+        alignedSeq1 = sequence1.substring(0, i) + alignedSeq1;
+        alignedSeq2 = '-'.repeat(i) + alignedSeq2;
+        alignmentIndicator = ' '.repeat(i) + alignmentIndicator;
+      }
+      if (j > 0) {
+        alignedSeq2 = sequence2.substring(0, j) + alignedSeq2;
+        alignedSeq1 = '-'.repeat(j) + alignedSeq1;
+        alignmentIndicator = ' '.repeat(j) + alignmentIndicator;
+      }
+      let matches = 0;
+      for (let k = 0; k < alignmentIndicator.length; k++) {
+        if (alignmentIndicator[k] === '|') {
+          matches++;
+        }
+      }
+      let coverage =( Math.min(sequence1.length, sequence2.length) / Math.max(sequence1.length, sequence2.length)) * 100 ;
+      let identity = (matches / Math.min(sequence1.length, sequence2.length)) * 100;
+      console.log(matches, Math.min(sequence1.length, sequence2.length),alignmentIndicator.length)
+      return { score: maxScore, alignedSeq1, alignmentIndicator, alignedSeq2, identity, coverage};
+    }
+
+    function highlightActiveSites(alignedSeq1, alignmentIndicator, alignedSeq2, activeSites) {
+    let highlightedAlignment1 = 'Sequence: ';
+    let highlightedAlignment2 = 'Template: ';
+    let highlightedAlignmentIndicator = '          '; // 空格数与 'Sequence 1: ' 字符数相同
+    let seq2NonGapIndex = 0; // Track non-gap characters in alignedSeq2
+    let seq1NonGapIndex = 0; // Track non-gap characters in alignedSeq1
+
+    // Process alignedSeq1 and alignedSeq2
+    for (let i = 0; i < alignedSeq2.length; i++) {
+        let char1 = alignedSeq1[i] || '-';
+        let char2 = alignedSeq2[i] || '-';
+
+        // Process Seq1 character
+        if (char1 !== '-') {
+            seq1NonGapIndex++;
+            char1 = `<span title="Seq1 Pos: ${seq1NonGapIndex}">${char1}</span>`;
+        }
+
+        // Process Seq2 character and highlight active sites
+        if (char2 !== '-') {
+            seq2NonGapIndex++;
+            let spanClass = activeSites.includes(seq2NonGapIndex) ? ' class="active-site"' : '';
+            char2 = `<span${spanClass} title="Seq2 Pos: ${seq2NonGapIndex}">${char2}</span>`;
+
+            // Highlight corresponding Seq1 character if it's an active site and not a gap
+            if (activeSites.includes(seq2NonGapIndex) && char1 !== '-') {
+                char1 = char1.replace('<span ', '<span class="active-site" ');
+            }
+        }
+
+        highlightedAlignment1 += char1;
+        highlightedAlignment2 += char2;
+        highlightedAlignmentIndicator += alignmentIndicator[i] || ' ';
+    }
+
+    return highlightedAlignment1 + '\n' + highlightedAlignmentIndicator + '\n' + highlightedAlignment2;
+}
+
+
+
+
+
+    async function compareSequences() {
+      let inputType = document.getElementById('inputType').value;
+      let userInputs = []; // 用于存储用户输入的序列或登录号
+
+      // 根据选择的输入方式，获取用户的输入
+      if (inputType === 'accession') {
+        // 当输入类型为NCBI登录号时
+        userInputs = document.getElementById('ncbiAccessionNumber').value.split(/\s+|\n+|,+|，+/).filter(input => input.trim() !== '');
+        if (userInputs.length === 0) {
+          alert("Please enter at least one accession number.");
+          return;
+        }
+      } else if (inputType === 'sequence') {
+        // 当输入类型为序列时
+        let userSequencesInput = document.getElementById('userSequence').value.trim();
+        userInputs = userSequencesInput.split('>').filter(seq => seq.trim() !== '');
+        console.log(userInputs)
+        if (userInputs.length === 0) {
+          alert("Please enter at least one sequence.");
+          return;
+        }
+      }
+
+      // 显示加载提示
+      document.getElementById('loadingMessage').style.display = 'block';
+      document.getElementById('loadingMessage').innerText = 'Getting sequence(s)...';
+      document.getElementById('loadingIcon').style.display = 'block';
+
+      let resultsHTML = '';
+
+      for (let userInput of userInputs) {
+        let userSequence = '';
+        let sequenceHeader = '';
+        let sequenceLines_1 = '';
+        if (inputType === 'sequence') {
+          let lines = userInput.split('\n');
+          console.log(lines);
+          sequenceHeader = /[^a-zA-Z]/.test(lines[0]) ? lines[0] : '';
+          //    console.log(sequenceHeader);
+          let sequenceLines = lines[0].startsWith('>') ? lines.slice(1) : lines;
+          if (sequenceLines.length > 0 && /[^a-zA-Z]/.test(sequenceLines[0])) {
+            sequenceLines_1 = sequenceLines.slice(1);
+            //       console.log(sequenceLines_1);
+          } else {
+            sequenceLines_1 = sequenceLines;
+          }
+          userSequence = sequenceLines_1.join('').replace(/[^a-zA-Z]/g, '').toUpperCase();
+          //    console.log(userSequence);
+        } else if (inputType === 'accession') {
+          userInput_up = userInput.toUpperCase();
+          // 对于NCBI登录号，获取对应的序列
+          try {
+            userSequence = await fetchSequenceFromNCBI(userInput_up);
+            if (!userSequence) throw new Error('No sequence returned');
+            sequenceHeader = userInput_up; // 使用登录号作为头部
+          } catch (error) {
+            alert(`Failed to fetch sequence for accession number: ${userInput}. Please check the accession number or network connection.`);
+            document.getElementById('loadingMessage').style.display = 'none'; 
+            document.getElementById('loadingIcon').style.display = 'none';
+            return; // 终止函数执行
+          }
+        }
+
+        // 获取选中的单选按钮的值
+        let selectedSeqValue = document.querySelector('input[name="knownSequence"]:checked')?.value;
+        let knownSequenceInfo = knownSequences[selectedSeqValue];
+        if (!knownSequenceInfo) {
+          alert('Please select a sequence to align with.');
+          document.getElementById('loadingMessage').style.display = 'none';
+          document.getElementById('loadingIcon').style.display = 'none';
+          return;
+        }
+
+        // 进行比对
+        const result = smithWaterman(userSequence, knownSequenceInfo.sequence);
+        const highlightedResult = highlightActiveSites(result.alignedSeq1, result.alignmentIndicator, result.alignedSeq2, knownSequenceInfo.activeSites);
+
+        // 为每个比对结果生成HTML
+        resultsHTML += `<span style="font-weight: bold; color: darkgreen;font-family: 'Times New Roman', Times, serif;">Sequence Name:</span> ${sequenceHeader}<br>`;
+        resultsHTML += `<span style="font-weight: bold; color: darkgreen;font-family: 'Times New Roman', Times, serif;">Best score:</span> ${result.score}<br>`;
+        resultsHTML += `<span style="font-weight: bold; color: darkgreen;font-family: 'Times New Roman', Times, serif;">Identity:</span> ${(result.identity).toFixed(2)}%<br>`;
+        resultsHTML += `<span style="font-weight: bold; color: darkgreen;font-family: 'Times New Roman', Times, serif;">Coverage:</span> ${(result.coverage).toFixed(2)}%<br>`;
+        resultsHTML += `<span style="font-weight: bold; color: darkgreen;font-family: 'Times New Roman', Times, serif;">Alignment result:</span><br><div style='letter-spacing: 3px;'><b>${highlightedResult}</b><hr></div>`;
+      }
+
+      // 显示所有比对结果
+      document.getElementById('alignmentResult').innerHTML = resultsHTML;
+      document.getElementById('loadingMessage').style.display = 'none';
+      document.getElementById('loadingIcon').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.location.pathname.endsWith('/seq_align.html')) {
+        var seqAlignModal = new bootstrap.Modal(document.getElementById('seqAlignModal'), {});
+        seqAlignModal.show();
+      }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      var tooltipTriggerEl = document.getElementById('mlra-tooltip');
+      var tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
+        title: 'The template is based on:<br>MlrA:<span class="tooltip_highlight"><b>AAAAAAA</b></span><br>MlrB:<span class="tooltip_highlight"><b>BBBBBB</b></span><br>MlrC:<span class="tooltip_highlight"><b>7YLQ_A</b></span><br>MlrD:<span class="tooltip_highlight"><b>DDD</b></span>',
+        html: true,
+        placement: "right",
+        customClass: 'custom-tooltip'
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      var notesModal = new bootstrap.Modal(document.getElementById('notesModal_1'), {});
+      document.getElementById('sequenceNotes_1').addEventListener('click', function () {
+        notesModal.show();
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      var notesModal = new bootstrap.Modal(document.getElementById('notesModal_2'), {});
+      document.getElementById('sequenceNotes_2').addEventListener('click', function () {
+        notesModal.show();
+      });
+    });
+
+    function downloadResults() {
+    const element = document.createElement('a');
+    const htmlContent = document.getElementById('alignmentResult').innerHTML;
+    const content = htmlContent.replace(/<br\s*\/?>/gi, '\n').replace(/<hr\s*\/?>/gi, '\n=======================================\n').replace(/<[^>]+>/g, '').replace(/^\s*$(?:\r\n?|\n)/gm, '');
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    element.setAttribute('href', url);
+    element.setAttribute('download', 'alignment_results.txt');
+    document.body.appendChild(element);
+
+    element.click();
+    document.body.removeChild(element);
+    URL.revokeObjectURL(url);
+}
+
+
+  </script>
+</body>
+
+</html>

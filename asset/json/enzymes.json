@@ -1,0 +1,33 @@
+{
+    "Sphingopyxis sp. USTB-05": ["MlrA,ADK25053", "MlrB,AGG86526", "MlrC,AGH62481", "MlrD,XER93497"],
+    "Sphingopyxis sp. MB-E": ["MlrA,AOW44967", "MlrB,AOW44968","MlrC,AOW44969","MlrD,AOW44970"],
+    "Sphingopyxis sp. C-1": ["MlrA,WP_062186669", "MlrB,WP_062186667", "MlrC,WP_062186671", "MlrD,WP_062187111"],
+    "Sphingopyxis sp. X20": ["MlrA,QCT05771", "MlrB,QCT05773", "MlrC,QCT05770", "MlrD,QCT05772"],
+    "Sphingopyxis sp. HW": ["MlrA,QVQ24103"],
+    "Sphingomonas sp. ACM-3962": ["MlrA,AAL10286", "MlrB,AMH41235", "MlrC,7YLQ_A", "MlrD,AAL10289"],
+    "Rhizobium sp. TH": ["MlrA,AQV08234", "MlrC,AQV08233","MlrD,AQV08235"],
+    "Novosphingobium sp. MD-1": ["MlrA,WP_125955355", "MlrB,WP_125955354", "MlrC,WP_304413634","MlrD,GAO55859"],
+    "Novosphingobium sp. THN1": ["MlrA,AEC46646", "MlrB,AXU20196", "MlrC,AEC46645", "MlrD,AEC46647"],
+    "Novosphingobium sp. ERW19": ["MlrA,WP_168905359","MlrB,NLR41060", "MlrC,WP_168905358", "MlrD,NLR41059"],
+    "Sphingomonas sp. B-9": ["MlrA,BBE32455", "MlrB,BBE32457", "MlrD,BBE32456"],
+    "Novosphingobium sp. ERN07": ["MlrA,WP_168852277","MlrB,NLR70811", "MlrC,WP_118074286","MlrD,NLR70810"],
+    "Stenotrophomonas sp. EMS": ["MlrA,ADB03118"],
+    "Kurthia gibsonii strain A1": ["MlrA,APC23409"],
+    "Sphingomonas sp. Y2": ["MlrA,BAC82713", "MlrC,RKS88700"],
+    "Sphingopyxis sp. YF1": ["MlrA,ARO92191", "MlrB,ARO92192", "MlrC,WP_242774163", "MlrD,UNU44632"],
+    "Sphingopyxis sp. m6": ["MlrA,AZS27822","MlrB,AZS27823", "MlrC,AZS27824", "MlrD,AZS27825"],
+    "Sphingopyxis sp. YMCD": ["MlrD,ARO92194"],
+    "Sphingomonas sp. DSM 19791":["MlrC,RKS88700"],
+    "Sphingopyxis sp. LH21":["MlrA,AAZ16519"],
+    "Sphingopyxis sp. THE1":["MlrA,QTM97464"],
+    "Sphingopyxis sp. TH2":["MlrA,QTM97465"],
+    "Sphingosinicella sp. JEZ-8L":["MlrA,ATQ36699"],
+    "Sphingopyxis sp. TH9":["MlrA,QTM97467"],
+    "Sphingopyxis sp. N5":["MlrA,QTM97463"],
+    "Gemmobacter terrae A2":["MlrA,APC23410"],
+    "Sphingopyxis sp. TH3":["MlrA,QTM97466"],
+    "Sphingopyxis sp. TT25":["MlrA,AFC37495"],
+    "Sphingomonas sp. NV3":["MlrA,AER41696"]
+
+  }
+  

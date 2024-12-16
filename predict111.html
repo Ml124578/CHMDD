@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/universal.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="./icon-sgpa.png">
+    <script src="/js/PPP.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/chart.umd.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<style>
+    .highlight {
+        background-color: yellow;
+    }
+
+    body {
+        background-color: rgb(244, 255, 248);
+        padding-top: 60px;
+    }
+
+    #mainbox {
+        background-color: rgb(244, 255, 248);
+        font-family: 'Times New Roman', Times, serif;
+        width: 60%;
+        /* 设置最大宽度为800px，你可以根据需要调整 */
+        margin: 0 auto;
+        /* 使其居中 */
+    }
+
+    #mainbox>*:not(h1) {
+        font-size: 18px;
+    }
+
+    #alignment-result {
+        position: relative;
+        display: flex;
+        border: 2px solid #000000;
+        flex-direction: column;
+        /* 垂直排布 */
+        align-items: center;
+        /* 内容居中 */
+    }
+
+    #results {
+        position: relative;
+        border: 2px solid #000000;
+        text-align: center;
+        /* 将内容居中 */
+        padding: 10px;
+        /* 添加内边距 */
+    }
+
+    .result-item {
+        display: flex;
+        /* 使用flex布局 */
+        justify-content: center;
+        /* 居中对齐 */
+        align-items: center;
+        /* 垂直居中对齐 */
+    }
+
+    .result-item>div {
+        margin: 0 10px;
+        /* 添加水平内边距 */
+        text-align: left;
+    }
+
+    @media (max-width: 768px) {
+
+        #results th,
+        #results td {
+            font-size: 10px;
+            /* 缩小字体 */
+            padding: 5px;
+            /* 缩小单元格间距 */
+        }
+    }
+
+    #loadingIcon {
+        display: none;
+        border: 3px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #006e3b;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 2s linear infinite;
+        /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Add media queries in your style section */
+    @media (max-width: 600px) {
+        #alignment-result pre {
+            font-size: 8px;
+        }
+
+        #score {
+            font-size: 8px;
+        }
+
+        #mainbox {
+            width: 100%;
+        }
+
+        .amino-acid {
+            display: inline-block;
+            width: 5.5px;
+            height: 5.5px;
+            text-align: center;
+            line-height: 5.5px;
+            margin: 0.35px;
+            font-size: 5.5px;
+            font-weight: bold;
+        }
+
+        /* 行号样式 */
+        .index {
+            width: 10px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 4.5px;
+        }
+
+        .legend {
+            margin-top: 4.5px;
+            margin-bottom: 4.5px;
+            display: flex;
+            gap: 4.5px;
+            font-size: 4.5px;
+            white-space: nowrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 4.5px;
+            height: 4.5px;
+            margin-right: 2.5px;
+        }
+    }
+
+    @media (min-width: 601px) and (max-width: 770px) {
+        #alignment-result pre {
+            font-size: 12px;
+        }
+
+        #score {
+            font-size: 12px;
+        }
+
+        #mainbox {
+            width: 100%;
+        }
+
+        .amino-acid {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            text-align: center;
+            line-height: 7px;
+            margin: 0.5px;
+            font-size: 7px;
+            font-weight: bold;
+        }
+
+        /* 行号样式 */
+        .index {
+            width: 15px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 6px;
+        }
+
+        .legend {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            gap: 5px;
+            font-size: 5px;
+            white-space: nowrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 5px;
+            height: 5px;
+            margin-right: 3px;
+        }
+    }
+
+    @media (min-width: 770px) and (max-width: 992px) {
+        #alignment-result pre {
+            font-size: 16px;
+        }
+
+        #score {
+            font-size: 16px;
+        }
+
+        #mainbox {
+            width: 100%;
+        }
+
+        .amino-acid {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            text-align: center;
+            line-height: 8px;
+            margin: 0.5px;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        /* 行号样式 */
+        .index {
+            width: 15px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 7px;
+        }
+
+        .legend {
+            margin-top: 6px;
+            margin-bottom: 6px;
+            display: flex;
+            gap: 6px;
+            font-size: 6px;
+            white-space: nowrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 6px;
+            height: 6px;
+            margin-right: 3px;
+        }
+    }
+
+    @media (min-width: 992px) and (max-width: 1200px) {
+        #alignment-result pre {
+            font-size: 16px;
+        }
+
+        #score {
+            font-size: 16px;
+        }
+
+        #mainbox {
+            width: 100%;
+        }
+
+        .amino-acid {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            text-align: center;
+            line-height: 13px;
+            margin: 0.8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* 行号样式 */
+        .index {
+            width: 20px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .legend {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+        }
+    }
+
+    @media (min-width: 1201px) {
+        #alignment-result pre {
+            font-size: 18px;
+        }
+
+        #score {
+            font-size: 18px;
+        }
+
+        #mainbox {
+            width: 70%;
+        }
+
+        .amino-acid {
+            display: inline-block;
+            width: 19px;
+            height: 19px;
+            text-align: center;
+            line-height: 19px;
+            margin: 1px;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        /* 行号样式 */
+        .index {
+            width: 30px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .legend {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+        }
+    }
+
+    #score {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #catalytic-mechanism {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        /* 允许换行 */
+    }
+
+    .highlight-square {
+        width: 12px;
+        height: 12px;
+        background-color: yellow;
+        border: 1px solid black;
+    }
+
+    .tooltip-inner {
+        background-color: rgb(0, 0, 0);
+        max-width: 2000px;
+        font-size: 12px;
+        color: white;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .tooltip_highlight {
+        color: #00a819;
+    }
+
+    .button_PSP {
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* 父容器，等比缩放 */
+    .sequence-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        white-space: nowrap;
+        /* 不换行 */
+        transform-origin: top left;
+        transform: scale(1);
+        /* 初始缩放比例为 1 */
+        width: auto;
+        height: auto;
+    }
+
+    /* 序列行 */
+    .sequence-row {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        /* 不换行 */
+    }
+
+    /* 氨基酸样式，使用视口单位实现等比缩放 */
+    /* 氨基酸分类样式 */
+    .hydrophobic-strong {
+        background-color: #1E90FF;
+        color: white;
+    }
+
+    .hydrophobic-medium {
+        background-color: #90EE90;
+        color: white;
+    }
+
+    .hydrophilic-medium {
+        background-color: #FFA500;
+        color: black;
+    }
+
+    .hydrophilic-strong {
+        background-color: #FF6347;
+        color: white;
+    }
+
+    .algorithm-parameters-container {
+        margin: 20px 0px 0px 0px;
+        background-color: #efffec;
+
+    }
+
+    .toggle-button {
+        width: 100%;
+        /* 按钮宽度与容器一致 */
+        background-color: #388c45;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 17px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .toggle-button span.symbol {
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 1;
+        vertical-align: middle;
+    }
+
+    #algorithm-parameters label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    #algorithm-parameters select {
+        margin-top: 5px;
+        padding: 5px;
+        font-size: 14px;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);">
+        <div class="container">
+            <div class="m-1">
+                <a href="/index.html">
+                    <img src="/asset/icon/chmdd.png" alt="..." style="height: 6.5vh;" id="nav-img">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Strain.html">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Sequnce.html">Sequence</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  active" href="#">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/help.html">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contacts.html">Contacts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 主体内容 -->
+    <div class="container pb-5" id="mainbox">
+        <h1 class="text-center pt-5" style="font-family:Arial, sans-serif">Predict</h1>
+        <!-- 输入类型选择 -->
+        <div class="form-group">
+            <label for="input-type">Choose Input Type:</label>
+            <select class="form-control" id="input-type" style="border: 2px solid black;" onchange="toggleInputField()">
+                <option value="sequence">Enter Sequence</option>
+                <option value="accession">Enter NCBI Accession Number</option>
+            </select>
+        </div>
+        <!-- 序列输入框 -->
+        <div class="form-group pt-3" id="sequence-input-group">
+            <label for="user-seq">Enter your sequence:</label>
+            <textarea class="form-control" id="user-seq" rows="4"
+                placeholder="Please enter the amino acid sequence in standard FASTA format"
+                style="border: 2px solid black;"></textarea>
+            <small id="inputError" class="form-text text-danger" style="display: none;">Please enter a valid
+                sequence.</small>
+            <button id="psp_button_sequence" class="button_PSP" onclick="performPSPSequence()"
+                style="justify-content: left; ">Physicochemical Property Prediction</button>
+        </div>
+        <!-- 登录号输入框 -->
+        <div class="form-group pt-3" id="accession-input-group" style="display:none;">
+            <label for="ncbi-accession">Enter NCBI Accession Number:</label>
+            <input type="text" class="form-control" id="ncbi-accession" placeholder="e.g., 7YLQ_A"
+                style="border: 2px solid black;">
+            <div id="loadingMessage" style="display: none;"></div>
+            <div id="loadingIcon" style="display: none;"></div>
+            <button id="psp_button_accession" class="button_PSP" onclick="performPSPAccession()"
+                style="justify-content: left;">Physicochemical Property Prediction</button>
+        </div>
+        <!-- algorithm Selection -->
+        <div class="algorithm-parameters-container">
+            <!-- 按钮使用 <span> 包裹加减号 -->
+            <button class="toggle-button" onclick="toggleSocringParameters()">
+                <span class="symbol">+</span> Scoring parameters
+            </button>
+            <div id="algorithm-parameters" style="display: none;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label for="matrix-select">Matrix:</label>
+                    <select id="matrix-select">
+                        <option value="BLOSUM62">BLOSUM62</option>
+                        <option value="PAM250">PAM250</option>
+                        <option value="BLOSUM80">BLOSUM80</option>
+                        <option value="BLOSUM45">BLOSUM45</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label for="gap-cost-select">Gap Costs:</label>
+                    <select id="gap-cost-select">
+                        <option value="10,0.5">Existence: 10 Extension: 0.5</option>
+                        <option value="11,1">Existence: 11 Extension: 1</option>
+                        <option value="12,1">Existence: 12 Extension: 1</option>
+                        <option value="8,2">Existence: 8 Extension: 2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- 提交按钮 -->
+        <div class="pt-3" style="justify-content: center; display: flex;">
+            <button class="btn btn-primary" onclick="performAlignment1()"
+                style="background: var(--green-003);">Submit</button>
+        </div>
+        <!-- 结果显示 -->
+        <div id="results" class="mt-3" style="display: none;"></div>
+        <!-- 比对结果 -->
+        <div id="alignment-result" style="display: none;">
+            <!-- 下载链接和活性位点标记 -->
+            <div style="display: flex; align-items: center;">
+                <a href="#" onclick="downloadResults()" style="color: #008514;">
+                    <i class="fas fa-download"></i> Download
+                </a>&nbsp;&nbsp;&nbsp;
+                <div class="highlight-square"></div>Active Site
+            </div>
+            <!-- 比对得分和催化机制 -->
+            <div class="row pt-3" style="width: 80%;">
+                <div id="score" class="col-5"></div>
+                <div id="catalytic-mechanism" class="col-7" style="width: 50%;"></div>
+            </div>
+            <!-- 格式化的比对结果 -->
+            <pre class="pt-4" id="formatted-result"></pre>
+            <div id="seqalign_note" class="lh-sm fw-light" style="font-family: 'Times New Roman', Times, serif;">
+                <span style="color: red;">Note:</span>
+                See <a href="./help.html#sequence_alignment">help</a> for more details.
+            </div>
+        </div>
+        <div id="example_predict">
+            <div class="container" style="background-color: #388c45;">
+                <ul>
+                    <p></p>
+                    <dt style="color:white;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"
+                        class="py-3">
+                        A sequence alignment tool based on the Needleman-Wunsch algorithm and the BLOSUM 62 scoring
+                        matrix is provided.
+                        Users can upload a protein sequence in FASTA format or enter an NCBI accession number.
+                        A template sequence from the database can be selected to align with the uploaded sequence,
+                        and the results will be displayed as shown in the example.
+                    </dt>
+                    <p></p>
+                </ul>
+            </div>
+            <div>
+                <h4 style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                    <dt>Example</dt>
+                </h4>
+                <img src="/asset/icon/example.jpeg" height="100%" width="100%">
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="pspModal" tabindex="-1" aria-labelledby="pspModalLabel" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pspModalLabel">Physicochemical Property Prediction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="pspModalBody">
+                    <!-- 分析结果将在这里显示 -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const aminoAcidMap = {
+            'A': 0, 'R': 1, 'N': 2, 'D': 3, 'C': 4, 'Q': 5, 'E': 6,
+            'G': 7, 'H': 8, 'I': 9, 'L': 10, 'K': 11, 'M': 12, 'F': 13,
+            'P': 14, 'S': 15, 'T': 16, 'W': 17, 'Y': 18, 'V': 19,
+            'B': 20, 'Z': 21, 'X': 22, '*': 23
+        };
+        const PAM250_MATRIX = [
+            // A, R, N, D, C, Q, E, G, H, I, L, K, M, F, P, S, T, W, Y, V, B, Z, X, *
+            [2, -2, 0, 0, -2, 0, 0, 1, -1, -1, -2, -1, -1, -3, 1, 1, 1, -6, -3, 0, 0, -1, -4, -8], // A (0)
+            [-2, 6, 0, -1, -4, 1, -1, -3, 2, -2, -3, 3, 0, -4, 0, 0, -1, 2, -4, -2, -1, 0, -1, -8], // R (1)
+            [0, 0, 2, 2, -4, 1, 1, 0, 2, -2, -3, 0, -2, -3, 0, 1, 0, -4, -2, -2, 2, 1, -1, -8], // N (2)
+            [0, -1, 2, 4, -5, 2, 3, 1, 1, -2, -4, 0, -3, -6, -1, 0, 0, -7, -4, -2, 3, 3, -3, -8], // D (3)
+            [-2, -4, -4, -5, 12, -5, -5, -3, -3, -2, -6, -5, -5, -4, -3, 0, -2, -8, 0, -2, -4, -5, -1, -8], // C (4)
+            [0, 1, 0, 0, -5, 4, 2, -1, 3, -2, -2, 1, -1, -5, -1, -1, -1, -5, -4, -2, -1, 3, -1, -8], // Q (5)
+            [0, -1, 0, 2, -5, 2, 4, 0, 1, -2, -3, 0, -2, -5, 0, 0, -1, -7, -4, -2, 1, 3, -1, -8], // E (6)
+            [-1, -3, 0, -1, -3, -1, 0, 5, -2, -3, -4, -2, -3, -5, -2, 1, 0, -6, -6, -1, -1, -4, -2, -8], // G (7)
+            [-1, 2, 1, 1, -3, 1, 1, -2, 6, -2, -2, -1, -2, -4, -2, -1, -2, -7, -4, -2, 0, 2, -1, -8], // H (8)
+            [-1, -2, -2, -2, -2, -2, -2, -3, -2, 5, 2, -3, 2, -1, -2, -2, -1, -6, -1, 4, -2, -3, -1, -8], // I (9)
+            [-2, -3, -3, -4, -6, -2, -3, -4, -2, 2, 6, -3, 3, 0, -3, -2, -1, -4, -2, 2, -3, -3, -1, -8], // L (10)
+            [-1, 3, 0, 0, -5, 1, 0, -2, -1, -3, -3, 5, 0, -5, -1, -1, -1, -6, -4, -2, 0, 1, -1, -8], // K (11)
+            [-1, 0, -2, -3, -5, -1, -2, -3, -2, 2, 3, 0, 6, 0, -2, -1, -1, -4, -2, 1, -2, -1, -1, -8], // M (12)
+            [-3, -4, -3, -6, -4, -5, -5, -5, -4, -1, 0, -5, 0, 9, -3, -2, -2, 1, 3, -1, -3, -3, -1, -8], // F (13)
+            [1, 0, 0, -1, -3, -1, 0, -2, -2, -2, -3, -1, -2, -3, 6, -1, -1, -6, -5, -2, -2, 0, -2, -8], // P (14)
+            [1, 0, 1, 0, 0, -1, 0, 1, -1, -2, -2, -1, -1, -2, -1, 4, 2, -6, -3, -2, 0, 0, 0, -8], // S (15)
+            [1, -1, 0, 0, -2, -1, -1, 0, -2, -1, -1, -1, -1, -2, -1, 2, 5, -5, -3, 0, -1, -1, 0, -8], // T (16)
+            [-6, 2, -4, -7, -8, -5, -7, -6, -7, -6, -4, -6, -4, 1, -6, -6, -5, 17, 0, -6, -5, -6, -2, -8], // W (17)
+            [-3, -4, -2, -4, 0, -4, -4, -6, -4, -1, -2, -4, -2, 3, -5, -3, -3, 0, 10, -2, -3, -4, -1, -8], // Y (18)
+            [0, -2, -3, -2, -2, -2, -2, -1, -2, 4, 2, -2, 1, -1, -2, -2, 0, -6, -2, 4, -2, -2, -1, -8], // V (19)
+            [0, -1, 2, 3, -4, 1, 1, -1, 0, -2, -3, 0, -2, -3, -2, 0, -1, -5, -3, -2, 4, 1, -1, -8], // B (20)
+            [-1, 0, 1, 3, -5, 3, 3, -4, 2, -3, -3, 1, -1, -3, 0, 0, -1, -6, -4, -2, 1, 4, -1, -8], // Z (21)
+            [0, -1, -1, -3, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1, -2, 0, 0, -2, -1, -1, -1, -1, -1, -8], // X (22)
+            [-4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, 1] // * (23)
+        ];
+
+        const BLOSUM80_MATRIX = [
+            [7, -3, -3, -3, -1, -2, -2, 0, -3, -3, -3, -1, -2, -4, -1, 2, 0, -5, -4, -1, -3, -2, -1, -8], // A (0)
+            [-3, 9, -1, -3, -6, 1, 0, -4, 0, -5, -4, 3, -3, -5, -3, -2, -2, -5, -4, -4, -2, 0, -2, -8], // R (1)
+            [-3, -1, 6, 2, -5, 0, 0, -1, 1, -6, -6, 0, -4, -6, -4, 1, 0, -7, -4, -5, 5, 0, -2, -8], // N (2)
+            [-3, -3, 2, 7, -3, 0, 2, -3, -2, -7, -7, -2, -6, -6, -3, 0, -2, -8, -6, -6, 6, 1, -3, -8], // D (3)
+            [-1, -6, -5, -7, 13, -3, -3, -3, -3, -3, -2, -6, -3, -2, -6, -2, -2, -5, -5, -2, -6, -7, -4, -8], // C (4)
+            [-2, 1, 0, 0, -3, 6, 2, -4, 1, -5, -4, 2, 0, -5, -3, -1, -1, -4, -3, -4, -1, 5, -2, -8], // Q (5)
+            [-2, 0, 0, 2, -3, 2, 6, -4, 0, -6, -3, 1, -2, -5, 0, 0, -1, -6, -4, -3, 1, 4, -1, -8], // E (6)
+            [0, -4, -1, -3, -3, -4, -4, 7, -2, -7, -7, -2, -5, -6, -4, 0, -2, -6, -6, -1, -1, -4, -2, -8], // G (7)
+            [-3, 0, 1, -2, -3, 1, 0, -2, 10, -3, -2, -1, -2, -3, -2, 0, -2, -7, -4, -2, 0, 2, -1, -8], // H (8)
+            [-3, -5, -6, -7, -3, -5, -6, -7, -3, 7, 2, -5, 2, -1, -5, -4, -2, -5, -3, 0, -2, -3, -1, -8], // I (9)
+            [-3, -4, -6, -7, -2, -4, -3, -7, -2, 2, 6, -4, 3, 0, -4, -3, -1, -4, -2, 2, -3, -3, -1, -8], // L (10)
+            [-1, 3, 0, -2, -6, 2, 1, -2, -1, -5, -4, 5, 0, -5, -1, -1, -1, -6, -4, -2, 0, 1, -2, -8], // K (11)
+            [-2, -3, -4, -6, -3, 0, -2, -5, -2, 2, 3, 0, 6, -2, -4, -2, -1, -4, -2, 1, -2, -1, -1, -8], // M (12)
+            [-4, -5, -6, -6, -2, -5, -5, -6, -3, -1, 0, -5, -2, 9, -3, -4, -2, 1, 3, -1, -3, -3, -1, -8], // F (13)
+            [-1, -3, -4, -3, -6, -3, 0, -4, -2, -5, -4, -1, -4, -3, 12, -3, -1, -7, -6, -3, -2, 0, -2, -8], // P (14)
+            [2, -2, 1, 0, -2, -1, 0, 0, 0, -4, -3, -1, -2, -4, -3, 4, 2, -6, -3, -2, 0, 0, 0, -8], // S (15)
+            [0, -2, 0, -1, -2, -1, -1, -2, -2, -2, -1, -1, -1, -2, -1, 2, 5, -5, -3, 0, -1, -1, 0, -8], // T (16)
+            [-5, -5, -4, -8, -5, -2, -6, -6, -7, -5, -4, -6, -4, 1, -7, -6, -5, 15, 0, -5, -5, -6, -2, -8], // W (17)
+            [-4, -4, -2, -6, -5, -1, -4, -6, -4, -3, -2, -4, -2, 3, -6, -3, -3, 0, 10, -2, -3, -4, -1, -8], // Y (18)
+            [-1, -4, -3, -6, -2, -3, -3, -1, -2, 0, 2, -2, 1, -1, -3, -2, 0, -5, -2, 4, -2, -2, -1, -8], // V (19)
+            [-3, -2, 5, 6, -4, -1, 1, -1, 0, -2, -3, 0, -2, -3, -2, 0, -1, -5, -3, -2, 4, 1, -1, -8], // B (20)
+            [-2, 0, 0, 1, -7, 5, 6, -4, 2, -3, -3, 1, -1, -3, 0, 0, -1, -6, -4, -3, 1, 4, -1, -8], // Z (21)
+            [0, -1, -1, -3, -1, -2, -1, -2, -1, -1, -1, -2, -1, -1, -2, 0, 0, -2, -1, -1, -1, -1, -1, -8], // X (22)
+            [-4, -5, -4, -4, -4, -5, -4, -5, -4, -5, -4, -5, -5, -5, -4, -4, -4, -4, -4, -4, -4, -4, -4, 1]  // * (23)
+        ];
+
+        const BLOSUM62_MATRIX = [
+            [4, -1, -2, -2, 0, -1, -1, 0, -2, -1, -1, -1, -1, -2, -1, 1, 0, -3, -2, 0, -2, -1, 0, -4], // A (0)
+            [-1, 5, 0, -2, -3, 1, 0, -2, 0, -3, -2, 2, -1, -3, -2, -1, -1, -3, -2, -3, -1, 0, -1, -4], // R (1)
+            [-2, 0, 6, 1, -3, 0, 0, 0, 1, -3, -3, 0, -2, -3, -2, 1, 0, -4, -2, -3, 3, 0, -1, -4], // N (2)
+            [-2, -2, 1, 6, -3, 0, 2, -1, -1, -3, -4, -1, -3, -3, -1, 0, -1, -4, -3, -3, 4, 1, -1, -4], // D (3)
+            [0, -3, -3, -3, 9, -3, -4, -3, -3, -1, -1, -3, -1, -2, -3, -1, -1, -2, -2, -1, -3, -3, -2, -4], // C (4)
+            [-1, 1, 0, 0, -3, 5, 2, -2, 0, -3, -2, 1, 0, -3, -1, 0, -1, -2, -1, -2, 0, 3, -1, -4], // Q (5)
+            [-1, 0, 0, 2, -4, 2, 5, -2, 0, -3, -3, 1, -2, -3, -1, 0, -1, -3, -2, -2, 1, 4, -1, -4], // E (6)
+            [0, -2, 0, -1, -3, -2, -2, 6, -2, -4, -4, -2, -3, -3, -2, 0, -2, -2, -3, -3, -1, -2, -1, -4], // G (7)
+            [-2, 0, 1, -1, -3, 0, 0, -2, 8, -3, -3, -1, -2, -1, -2, -1, -2, -2, 2, -3, 0, 0, -1, -4], // H (8)
+            [-1, -3, -3, -3, -1, -3, -3, -4, -3, 4, 2, -3, 1, 0, -3, -2, -1, -3, -1, 3, -3, -3, -1, -4], // I (9)
+            [-1, -2, -3, -4, -1, -2, -3, -4, -3, 2, 4, -2, 2, 0, -3, -2, -1, -2, -1, 1, -4, -3, -1, -4], // L (10)
+            [-1, 2, 0, -1, -3, 1, 1, -2, -1, -3, -2, 5, -1, -3, -1, 0, -1, -3, -2, -2, 0, 1, -1, -4], // K (11)
+            [-1, -1, -2, -3, -1, 0, -2, -3, -2, 1, 2, -1, 5, 0, -2, -1, -1, -1, -1, 1, -3, -1, -1, -4], // M (12)
+            [-2, -3, -3, -3, -2, -3, -3, -3, -1, 0, 0, -3, 0, 6, -4, -2, -2, 1, 3, -1, -3, -3, -1, -4], // F (13)
+            [-1, -2, -2, -1, -3, -1, -1, -2, -2, -3, -3, -1, -2, -4, 7, -1, -1, -4, -3, -2, -2, -1, -2, -4], // P (14)
+            [1, -1, 1, 0, -1, 0, 0, 0, -1, -2, -2, 0, -1, -2, -1, 4, 1, -3, -2, -2, 0, 0, 0, -4], // S (15)
+            [0, -1, 0, -1, -1, -1, -1, -2, -2, -1, -1, -1, -1, -2, -1, 1, 5, -2, -2, 0, -1, -1, 0, -4], // T (16)
+            [-3, -3, -4, -4, -2, -2, -3, -2, -2, -3, -2, -3, -1, 1, -4, -3, -2, 11, 2, -3, -4, -3, -2, -4], // W (17)
+            [-2, -2, -2, -3, -2, -1, -2, -3, 2, -1, -1, -2, -1, 3, -3, -2, -2, 2, 7, -1, -3, -2, -1, -4], // Y (18)
+            [0, -3, -3, -3, -1, -2, -2, -3, -3, 3, 1, -2, 1, -1, -2, -2, 0, -3, -1, 4, -3, -2, -1, -4], // V (19)
+            [-2, -1, 3, 4, -3, 0, 1, -1, 0, -3, -4, 0, -3, -3, -2, 0, -1, -4, -3, -3, 4, 1, -1, -4], // B (20)
+            [-1, 0, 0, 1, -3, 3, 4, -2, 0, -3, -3, 1, -1, -3, -1, 0, -1, -3, -2, -2, 1, 4, -1, -4], // Z (21)
+            [0, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2, 0, 0, -2, -1, -1, -1, -1, -1, -4], // X (22)
+            [-4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, 1], // * (23)
+        ];
+
+        const BLOSUM45_MATRIX = [
+            [5, -2, -1, -2, -1, -1, -1, 0, -2, -1, -1, -1, -1, -2, -1, 1, 0, -2, -2, 0, -1, -1, 0, -5], // A (0)
+            [-2, 7, 0, -1, -3, 1, 0, -2, 0, -3, -2, 3, -1, -2, -2, -1, -1, -2, -1, -2, -1, 0, -1, -5], // R (1)
+            [-1, 0, 6, 2, -2, 0, 0, 0, 1, -2, -3, 0, -2, -2, -2, 1, 0, -4, -2, -3, 4, 0, -1, -5], // N (2)
+            [-2, -1, 2, 7, -3, 0, 2, -1, 0, -4, -3, 0, -3, -4, -1, 0, -1, -4, -2, -3, 5, 1, -1, -5], // D (3)
+            [-1, -3, -2, -3, 12, -3, -3, -3, -3, -3, -2, -3, -2, -2, -4, -1, -1, -5, -3, -1, -2, -3, -2, -5], // C (4)
+            [-1, 1, 0, 0, -3, 6, 2, -2, 1, -2, -2, 1, 0, -4, -1, 0, -1, -2, -1, -3, 0, 4, -1, -5], // Q (5)
+            [-1, 0, 0, 2, -3, 2, 6, -2, 0, -3, -2, 1, -2, -3, 0, 0, -1, -3, -2, -3, 1, 4, -1, -5], // E (6)
+            [0, -2, 0, -1, -3, -2, -2, 7, -2, -4, -3, -2, -2, -3, -2, 0, -2, -2, -3, -3, -1, -2, -1, -5], // G (7)
+            [-2, 0, 1, 0, -3, 1, 0, -2, 10, -3, -2, -1, 0, -2, -2, -1, -2, -3, 2, -3, 0, 0, -1, -5], // H (8)
+            [-1, -3, -2, -4, -3, -2, -3, -4, -3, 5, 2, -3, 2, 0, -2, -2, -1, -2, 0, 3, -3, -3, -1, -5], // I (9)
+            [-1, -2, -3, -3, -2, -2, -2, -3, -2, 2, 5, -3, 2, 1, -3, -3, -1, -2, 0, 1, -3, -2, -1, -5], // L (10)
+            [-1, 3, 0, 0, -3, 1, 1, -2, -1, -3, -3, 5, -1, -3, -1, -1, -1, -2, -1, -2, 0, 1, -1, -5], // K (11)
+            [-1, -1, -2, -3, -2, 0, -2, -2, 0, 2, 2, -1, 6, 0, -2, -2, -1, -2, 0, 1, -2, -1, -1, -5], // M (12)
+            [-2, -2, -2, -4, -2, -4, -3, -3, -2, 0, 1, -3, 0, 8, -3, -2, -1, 1, 3, 0, -3, -3, -1, -5], // F (13)
+            [-1, -2, -2, -1, -4, -1, 0, -2, -2, -2, -3, -1, -2, -3, 9, -1, -1, -3, -3, -3, -2, -1, -1, -5], // P (14)
+            [1, -1, 1, 0, -1, 0, 0, 0, -1, -2, -3, -1, -2, -2, -1, 4, 2, -4, -2, -1, 0, 0, 0, -5], // S (15)
+            [0, -1, 0, -1, -1, -1, -1, -2, -2, -1, -1, -1, -1, -1, -1, 2, 5, -3, -1, 0, 0, -1, 0, -5], // T (16)
+            [-2, -2, -4, -4, -5, -2, -3, -2, -3, -2, -2, -2, -2, 1, -3, -4, -3, 15, 3, -3, -4, -2, -2, -5], // W (17)
+            [-2, -1, -2, -2, -3, -1, -2, -3, 2, 0, 0, -1, 0, 3, -3, -2, -1, 3, 8, -1, -2, -2, -1, -5], // Y (18)
+            [0, -2, -3, -3, -1, -3, -3, -3, -3, 3, 1, -2, 1, 0, -3, -1, 0, -3, -1, 5, -3, -3, -1, -5], // V (19)
+            [-1, -1, 4, 5, -2, 0, 1, -1, 0, -3, -3, 0, -2, -3, -2, 0, 0, -4, -2, -3, 4, 2, -1, -5], // B (20)
+            [-1, 0, 0, 1, -3, 4, 4, -2, 0, -3, -2, 1, -1, -3, -1, 0, -1, -2, -2, -3, 2, 4, -1, -5], // Z (21)
+            [0, -1, -1, -1, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, -2, -1, -1, -1, -1, -1, -5], // X (22)
+            [-5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, 1], // * (23)
+        ];
+
+
+        const storedSequences = [
+            { type: "MlrC", name: "7YLQ_A", species: "Sphingomonas sp. ACM-3962", activeSites: [39, 70, 167, 169, 191], seq: "MEMQRLAANNIKPKTRVMLDRRTLMGGILSMAGSKATGATLLGRGLRVFVATFGTETNSFSPLPTGLDAFQATMLWRPGEHPDFATEATGPLWAARERAREGRYEVIEGTCAFAMPGGPVSAQAYQLLRDEILDQLRRAMPVDIVAFGLHGAMLAFGEDECEADLLERARAIVGPDVALGAELDLHAHLSPRMVRAADVIVAFKYYPHTDYVERARDLLDLLERVRAGEIRPTSSLFDCRMVGGLTTQSSPMKDLVAELIERERRGEVLSGSLIQGFRAGDVARMGSKVLIYTNNDQPAAASIAQDFARRYQAMAPIMKGNGPERSFAADIELAKAATAFPVILVDSSDNPGGGASGDNMALARAMLDNALIPACIGPIWDPLAVRLAFEAGLGADFSLRVGGKVGEASGLPLDVRGKITGLAKNVTQNLQGSRPPLGRVVCISTGGLDIIVSEIRDQCYGPEMFRAVGVEPAKKRYVAVKSSEQWRIGFGDMGRSVIYVASSQQSSIRHYHKRSRPMWPFEPVDFSA" },
+            { type: "MlrB", name: "USTB-05", species: "Sphingomonas sp. 11111111", activeSites: [62, 65, 153, 225, 481], seq: "MSKFDTSALEAFVRHIPQNYKGPGGVVAVVKDGEVVLQHAWGFADLRTRTPMTLDTRMPICSVSKQFTCAVLLDAVGEPELLDDALEAYLDKFEDERPAVRDLCNNQSGLRDYWALSVLCGADPEGVFLPAQAQSLLRRLKTTHFEPGSHYSYCNGNFRILADLIEAHTGRTLVDILSERIFAPAGMKRAELISDTALFDECTGYEGDTVRGFLPATNRIQWMGDAGICASLNDMIAWEQFIDATRDDESGLYRRLSGPQTFKDGVAAPYGFGLNLHETGGKRLTGHGGALRGWRCQRWHCADERLSTIAMFNFEGGASEVAFKLMNIALGVSSSEVSRVEADSAWFGSWLDDETGLVLSLEDAGHGRMKARFGTSPEMMDVVSANEARSAVTTIRRDGETIELVRASENLRLSMKRVKGEAKHDIIGRYHSDELDADLLLVSEGGAIYGAFEGFLGKSDMYPLYSVGSDVWLLPVQRSMDAPSPGEWKLVFRRDDKGEITGLSVGCWLARGVEYRRVQP" },
+            { type: "MlrA", name: "222222", species: "Sphingomonas sp. 22222222", activeSites: [172, 176, 201, 205, 260, 264], seq: "MREFVKQRPLLCFYALAILIALAAHALRAMSPTPLGPMFKMLQETHAHLNIITAVRSTFEYPGAYTLLLFPAAPMFAALIVTGIGYGRAGFRELLSRCAPWRSPVSWRQGVTVIAVCFLAFFALTGIMWVQTFIYAPPGTLDRTFLRYGSDPLAIYAMLAASLLLSPGPLLEELGWRGFALPQLLKKFDPLAAAVILGLMWWAWHLPRDLPTLFSGEPGAAWGVIVKQFVIIPGFIAGTIIAVFVCNKLGGSMWGGVLIHAIHNELGVNVTAEWAPTVAGLGWRPWDLVEFAVAIGLVLICGRSLGAASPDNARLAWGNVPPKLPGVATDKSGANA" },
+            { type: "MlrD", name: "333333", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "SMAGSKATGAA" },
+            { type: "MlrD", name: "444444", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "CRRRTLTSTLLPHVRSTFDYPGAYTLLLFPAAPMLAALIVTGIGYGRSGFRELLSRCAPWRSPVSWRQGVTVIAVCFLAFFALTGIMWVQTYLYAPPGTLDRTFLRYGSDPLAIYAMLAASLLLSPGPLLEELGWRGFALPQLLKKFDPLAAAVILGLMWWAWHLPRDLPTLFSGEPGAAWGVIVKQFVIIPGFIAGTIIAVFVCNKLGGSMWGGVLIHAIHNELGVNVTAEWAPTVAGLGWRP" },
+            { type: "MlrD", name: "555555", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGEHPDFATEATGPLW" },
+            { type: "MlrD", name: "666666", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGEHPDFATEATGPLW" },
+            { type: "MlrB", name: "777777", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGEHPDFATEATGPLW" },
+            { type: "MlrB", name: "888888", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGE" },
+            { type: "MlrB", name: "999999", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGEHPDFATEATGPLW" },
+            { type: "MlrA", name: "101010", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGEHPDFATEATGPLW" },
+            { type: "MlrA", name: "11--11", species: "Sphingomonas sp. 22222222", activeSites: [39, 169, 191], seq: "LDAFRATMLWRPGEHPDFATEATGPLW" },
+            { type: "MlrA", name: "121212", species: "Sphingomonas sp. 22222222", activeSites: [172, 205, 260, 264], seq: "MREFVKQRPLLCFYALAILIALAAHALRAMSPTPLGPMFKMLQETHAHLNIITAVRSTFEYPGAYTLLLFPAAPMFAALIVTGIGYGRAGFRELLSRCAPWRSPVSWRQGVTVIAVCFLAFFALTGIMWVQTFIYAPPGTLDRTFLRYGSDPLAIYAMLAASLLLSPGPLLEELGWRGFALPQLLKKFDPLAAAVILGLMWWAWHLPRDLPTLFSGEPGAAWGVIVKQFVIIPGFIAGTIIAVFVCNKLGGSMWGGVLIHAIHNELGVNVTAEWAPTVAGLGWRPWDLVEFAVAIGLVLICGRSLGAASPDNARLAWGNVPPKLPGVATDKSGANA" },
+        ];
+
+        // 在初始化时，将所有评分矩阵转换为二维数组
+        const scoringMatrices = {
+            'BLOSUM62': BLOSUM62_MATRIX,
+            'PAM250': PAM250_MATRIX,
+            'BLOSUM80': BLOSUM80_MATRIX,
+            'BLOSUM45': BLOSUM45_MATRIX
+        };
+
+        // 优化后的 getScore
+        function getScore(a, b, matrix) {
+            const idxA = aminoAcidMap[a];
+            const idxB = aminoAcidMap[b];
+            if (idxA === undefined || idxB === undefined) {
+                return -1; // 或根据需求处理
+            }
+            return matrix[idxA][idxB];
+        }
+        let scoringMatrix = scoringMatrices['BLOSUM62'];
+
+        const selectedMatrix = document.getElementById('matrix-select').value;
+        if (scoringMatrices[selectedMatrix]) {
+            scoringMatrix = scoringMatrices[selectedMatrix];
+        } else {
+            scoringMatrix = scoringMatrices['BLOSUM62']; // 默认
+        }
+
+        // 全局比对算法（Needleman-Wunsch 算法的 Affine Gap 版本）
+        function align(seq1, seq2, gapOpen, gapExtend) {
+            const n = seq1.length;
+            const m = seq2.length;
+
+            // 初始化矩阵
+            const M = Array(n + 1).fill(null).map(() => Array(m + 1).fill(-Infinity));
+            const Ix = Array(n + 1).fill(null).map(() => Array(m + 1).fill(-Infinity));
+            const Iy = Array(n + 1).fill(null).map(() => Array(m + 1).fill(-Infinity));
+            const traceM = Array(n + 1).fill(null).map(() => Array(m + 1).fill(''));
+            const traceIx = Array(n + 1).fill(null).map(() => Array(m + 1).fill(''));
+            const traceIy = Array(n + 1).fill(null).map(() => Array(m + 1).fill(''));
+
+            // 初始化第一格
+            M[0][0] = 0;
+            Ix[0][0] = -Infinity;
+            Iy[0][0] = -Infinity;
+
+            // 初始化第一列
+            for (let i = 1; i <= n; i++) {
+                M[i][0] = -Infinity;
+                Ix[i][0] = -gapOpen - gapExtend * (i - 1);
+                Iy[i][0] = -Infinity;
+                traceIx[i][0] = 'Ix';
+            }
+
+            // 初始化第一行
+            for (let j = 1; j <= m; j++) {
+                M[0][j] = -Infinity;
+                Ix[0][j] = -Infinity;
+                Iy[0][j] = -gapOpen - gapExtend * (j - 1);
+                traceIy[0][j] = 'Iy';
+            }
+            // 填充矩阵
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= m; j++) {
+                    const scoreMatch = getScore(seq1[i - 1], seq2[j - 1], scoringMatrix);
+
+                    // 计算 M 矩阵
+                    const mFromM = M[i - 1][j - 1] + scoreMatch;
+                    const mFromIx = Ix[i - 1][j - 1] + scoreMatch;
+                    const mFromIy = Iy[i - 1][j - 1] + scoreMatch;
+                    M[i][j] = Math.max(mFromM, mFromIx, mFromIy);
+
+                    if (M[i][j] === mFromM) {
+                        traceM[i][j] = 'M';
+                    } else if (M[i][j] === mFromIx) {
+                        traceM[i][j] = 'Ix';
+                    } else {
+                        traceM[i][j] = 'Iy';
+                    }
+
+                    // 计算 Ix 矩阵
+                    const ixFromM = M[i - 1][j] - gapOpen - gapExtend;
+                    const ixFromIx = Ix[i - 1][j] - gapExtend;
+                    Ix[i][j] = Math.max(ixFromM, ixFromIx);
+                    if (Ix[i][j] === ixFromM) {
+                        traceIx[i][j] = 'M';
+                    } else {
+                        traceIx[i][j] = 'Ix';
+                    }
+
+                    // 计算 Iy 矩阵
+                    const iyFromM = M[i][j - 1] - gapOpen - gapExtend;
+                    const iyFromIy = Iy[i][j - 1] - gapExtend;
+                    Iy[i][j] = Math.max(iyFromM, iyFromIy);
+                    if (Iy[i][j] === iyFromM) {
+                        traceIy[i][j] = 'M';
+                    } else {
+                        traceIy[i][j] = 'Iy';
+                    }
+
+                }
+            }
+
+            // 选择得分最高的结束状态
+            let maxScore = Math.max(M[n][m], Ix[n][m], Iy[n][m]);
+            let currentMatrix = '';
+            if (maxScore === M[n][m]) {
+                currentMatrix = 'M';
+            } else if (maxScore === Ix[n][m]) {
+                currentMatrix = 'Ix';
+            } else {
+                currentMatrix = 'Iy';
+            }
+
+            // 回溯
+            let align1 = '';
+            let align2 = '';
+            let matchline = '';
+            let i = n;
+            let j = m;
+
+            while (i > 0 || j > 0) {
+                if (currentMatrix === 'M') {
+                    align1 = seq1[i - 1] + align1;
+                    align2 = seq2[j - 1] + align2;
+                    matchline = (seq1[i - 1] === seq2[j - 1] ? '|' : '.') + matchline;
+
+                    const prevMatrix = traceM[i][j];
+                    i--;
+                    j--;
+                    currentMatrix = prevMatrix;
+                } else if (currentMatrix === 'Ix') {
+                    align1 = seq1[i - 1] + align1;
+                    align2 = '-' + align2;
+                    matchline = ' ' + matchline;
+
+                    const prevMatrix = traceIx[i][j];
+                    i--;
+                    currentMatrix = prevMatrix;
+                } else if (currentMatrix === 'Iy') {
+                    align1 = '-' + align1;
+                    align2 = seq2[j - 1] + align2;
+                    matchline = ' ' + matchline;
+
+                    const prevMatrix = traceIy[i][j];
+                    j--;
+                    currentMatrix = prevMatrix;
+                }
+            }
+
+            // 计算匹配数和身份（identity）
+            let matches = 0;
+            for (let k = 0; k < matchline.length; k++) {
+                if (matchline[k] === '|') {
+                    matches++;
+                }
+            }
+            let coverage = (Math.min(seq1.length, seq2.length) / Math.max(seq1.length, seq2.length)) * 100;
+            let identity = (matches / Math.max(seq1.length, seq2.length)) * 100;
+
+            return {
+                score: maxScore,
+                align1,
+                matchline,
+                align2,
+                coverage,
+                identity
+            };
+        }
+
+        // 切换输入字段显示
+        function toggleInputField() {
+            const inputType = document.getElementById('input-type').value;
+            document.getElementById('sequence-input-group').style.display = inputType === 'sequence' ? 'block' : 'none';
+            document.getElementById('accession-input-group').style.display = inputType === 'accession' ? 'block' : 'none';
+        }
+
+        // 验证序列输入
+        function validateSequence(sequence) {
+            const validChars = /^[ACDEFGHIKLMNPQRSTVWYBZX]*$/i;
+            return sequence.length > 0 && validChars.test(sequence);
+        }
+
+        // 显示加载图标
+        function showLoadingIcon() {
+            document.getElementById('loadingIcon').style.display = 'block';
+            document.getElementById('loadingMessage').style.display = 'block';
+            document.getElementById('loadingMessage').innerText = 'Getting sequence(s)...';
+        }
+
+        // 隐藏加载图标
+        function hideLoadingIcon() {
+            document.getElementById('loadingIcon').style.display = 'none';
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
+
+
+        // 获取 NCBI 序列
+        function fetchNCBISequence(accessionNumber, callback) {
+            if (accessionNumber === lastAccessionNumber && lastFetchedSequence !== null) {
+                // 使用缓存的数据
+                callback(lastFetchedSequence.name, lastFetchedSequence.sequence);
+                return;
+            }
+            // 继续执行网络请求
+            const url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=${accessionNumber}&rettype=fasta&retmode=text`;
+            showLoadingIcon();
+            fetch(url)
+                .then(response => response.ok ? response.text() : Promise.reject('Network response was not ok.'))
+                .then(data => {
+                    const { name, fastaSeq } = parseFasta(data);
+                    // 更新缓存
+                    lastAccessionNumber = accessionNumber;
+                    lastFetchedSequence = { name: name || accessionNumber, sequence: fastaSeq };
+                    callback(lastFetchedSequence.name, lastFetchedSequence.sequence);
+                })
+                .catch(error => alert(`Failed to fetch sequence for accession number: ${accessionNumber}. Please check the accession number or network connection.`))
+                .finally(hideLoadingIcon);
+        }
+
+
+        // 解析 FASTA 序列
+        function parseFasta(seq) {
+            let fastaName = '';
+            const lines = seq.split('\n');
+            let fastaSeq = '';
+            lines.forEach(line => {
+                if (line.startsWith('>')) {
+                    fastaName = line.substring(1).trim();
+                } else {
+                    fastaSeq += line.trim();
+                }
+            });
+            return { name: fastaName, fastaSeq };
+        }
+
+
+
+        // 全局变量
+        let fetchedSequenceGlobal = '';
+        let fetchedSequenceName = '';
+        let fetchedSequenceNumber = '';
+        let currentResults = [];
+        let lastAccessionNumber = '';
+        let lastFetchedSequence = null;
+
+        function performAlignment1() {
+            // 清空之前的结果
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('formatted-result').innerHTML = '';
+            document.getElementById('score').innerHTML = '';
+            document.getElementById('catalytic-mechanism').innerHTML = '';
+
+            // 获取用户选择的评分矩阵和 Gap Costs
+            const selectedMatrix = document.getElementById('matrix-select').value;
+            const gapValues = document.getElementById('gap-cost-select').value.split(',');
+            const gapOpen = parseFloat(gapValues[0]);
+            const gapExtend = parseFloat(gapValues[1]);
+
+            // 设置评分矩阵
+            if (selectedMatrix === 'BLOSUM80') {
+                scoringMatrix = BLOSUM80_MATRIX;
+            } else if (selectedMatrix === 'PAM250') {
+                scoringMatrix = PAM250_MATRIX;
+            } else if (selectedMatrix === 'BLOSUM45') {
+                scoringMatrix = BLOSUM45_MATRIX;
+            } else {
+                scoringMatrix = BLOSUM62_MATRIX;
+            }
+
+            // 获取输入类型（序列或登录号）
+            const inputType = document.getElementById('input-type').value;
+
+            if (inputType === 'sequence') {
+                // 获取用户输入的序列
+                let userSeqInput = document.getElementById('user-seq').value.trim();
+                let { name, fastaSeq } = parseFasta(userSeqInput);
+                let userSeq = fastaSeq.toUpperCase();
+
+                // 验证输入序列
+                if (!validateSequence(userSeq)) {
+                    document.getElementById('inputError').style.display = 'block';
+                    return;
+                }
+                document.getElementById('inputError').style.display = 'none';
+
+                // 存储全局序列信息
+                fetchedSequenceGlobal = userSeq;
+                fetchedSequenceName = name || 'User Sequence';
+                fetchedSequenceNumber = userSeq.length;
+
+                // 处理比对
+                processAlignment(userSeq, gapOpen, gapExtend, scoringMatrix);
+
+            } else if (inputType === 'accession') {
+                // 获取用户输入的登录号
+                const accessionNumber = document.getElementById('ncbi-accession').value.trim().toUpperCase();
+                if (!accessionNumber) {
+                    alert("Please enter an accession number.");
+                    return;
+                }
+
+                // 获取序列数据
+                fetchNCBISequence(accessionNumber, (name, sequence) => {
+                    if (sequence) {
+                        fetchedSequenceGlobal = sequence;
+                        fetchedSequenceName = name || accessionNumber;
+                        fetchedSequenceNumber = sequence.length;
+
+                        // 处理比对
+                        processAlignment(sequence, gapOpen, gapExtend);
+                    }
+                });
+            } else {
+                console.error("Invalid input type");
+            }
+        }
+
+
+
+        // 处理比对
+        function processAlignment(userSeq, gapOpen, gapExtend) {
+            currentResults = storedSequences.map(storedSeq => {
+                const result = align(storedSeq.seq, userSeq, gapOpen, gapExtend);
+                return {
+                    name: storedSeq.name,
+                    species: storedSeq.species,
+                    type: storedSeq.type,
+                    score: result.score,
+                    identity: parseFloat(result.identity.toFixed(2)),
+                    coverage: parseFloat(result.coverage.toFixed(2))
+                };
+            });
+            displayResults(currentResults, 'score');
+        }
+
+
+        // 显示比对结果列表
+        function displayResults(results, sortBy) {
+            results.sort((a, b) => b[sortBy] - a[sortBy]);
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+            <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Name</th>
+                        <th>Species</th>
+                        <th>Type</th>
+                        <th onclick="sortResults('score')" style="cursor: pointer;">
+                            Score <i class="fas fa-caret-down"></i>
+                        </th>
+                        <th onclick="sortResults('identity')" style="cursor: pointer;">
+                            Identity (%) <i class="fas fa-caret-down"></i>
+                        </th>
+                        <th onclick="sortResults('coverage')" style="cursor: pointer;">
+                            Coverage (%) <i class="fas fa-caret-down"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${results.map(res => `
+                        <tr>
+                            <td><input type="radio" name="template-seq" value="${res.name}"></td>
+                            <td>${res.name}</td>
+                            <td>${res.species}</td>
+                            <td>${res.type}</td>
+                            <td>${res.score}</td>
+                            <td>${res.identity}%</td>
+                            <td>${res.coverage}%</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+            </div>
+            <br>
+            <button id="predict-button" class="btn btn-primary" onclick="performAlignment2()" style="background: var(--green-003);">Predict</button>
+        `;
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('example_predict').style.display = 'none';
+        }
+
+        // 添加的 sortResults 函数
+        function sortResults(sortBy) {
+            // 按照对应的字段从大到小排序
+            currentResults.sort((a, b) => b[sortBy] - a[sortBy]);
+            displayResults(currentResults, sortBy);
+        }
+
+        // 执行第二次比对
+        // 执行第二次比对
+        function performAlignment2() {
+            const templateRadio = document.querySelector('input[name="template-seq"]:checked');
+            if (!templateRadio) {
+                alert("Please choose a target");
+                return;
+            }
+
+            const inputType = document.getElementById('input-type').value;
+            let userSeq = '';
+            if (inputType === 'sequence') {
+                userSeq = document.getElementById('user-seq').value.trim().toUpperCase();
+                userSeq = userSeq.replace(/^>.*\n/, '').replace(/\n/g, '');
+            } else {
+                userSeq = fetchedSequenceGlobal;
+            }
+
+            alignAndDisplay(userSeq);
+        }
+
+        // 比对并显示结果
+        function alignAndDisplay(userSeq) {
+            const templateRadio = document.querySelector('input[name="template-seq"]:checked');
+            if (!templateRadio) {
+                alert("Please choose a target");
+                return;
+            }
+
+            const selectedSequence = storedSequences.find(seq => seq.name === templateRadio.value);
+
+            // **直接从下拉菜单中获取当前的 Gap Penalties**
+            const gapValues = document.getElementById('gap-cost-select').value.split(',');
+            const gapOpen = parseFloat(gapValues[0]);
+            const gapExtend = parseFloat(gapValues[1]);
+
+            // **设置评分矩阵**
+            const selectedMatrix = document.getElementById('matrix-select').value;
+            if (selectedMatrix === 'BLOSUM80') {
+                scoringMatrix = BLOSUM80_MATRIX;
+            } else if (selectedMatrix === 'PAM250') {
+                scoringMatrix = PAM250_MATRIX;
+            } else if (selectedMatrix === 'BLOSUM45') {
+                scoringMatrix = BLOSUM45_MATRIX;
+            } else {
+                scoringMatrix = BLOSUM62_MATRIX;
+            }
+
+            const result = align(selectedSequence.seq, userSeq, gapOpen, gapExtend);
+            const formattedResult = formatAlignment(result.align1, result.align2, result.matchline, selectedSequence.activeSites);
+
+            document.getElementById('formatted-result').innerHTML = formattedResult;
+            document.getElementById('score').innerHTML = `
+        Name: ${fetchedSequenceName}<br>
+        Length: ${fetchedSequenceNumber}<br>
+        Score: ${result.score}<br>
+        Identity: ${result.identity.toFixed(2)}%<br>
+        Coverage: ${result.coverage.toFixed(2)}%<br>
+        Predict active sites: <mark style='color:red;'>${getActiveSiteMatches(result, selectedSequence.activeSites).join(', ')}</mark>
+    `;
+
+            // 显示催化机制图（根据类型选择相应的 SVG）
+            displayCatalyticMechanism(selectedSequence.type, getActiveSiteMatches(result, selectedSequence.activeSites));
+            document.getElementById('alignment-result').style.display = 'flex';
+            document.getElementById('example_predict').style.display = 'none';
+        }
+
+
+
+        // 显示催化机制
+        function displayCatalyticMechanism(type, activeSiteMatches) {
+            let svgContent = '';
+            let tooltipContent = '';
+
+            // 动态设置内容
+            switch (type) {
+                case 'MlrC':
+                    svgContent = generateMlrCSvg(activeSiteMatches);
+                    tooltipContent = `
+                <div style="text-align: left; width:30vw;">
+                    <strong>Active Center:</strong> consists of a 
+                    <span style="color: red;">zinc ion</span> coordinated by four key residues:
+                    <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[0] || ''},${activeSiteMatches[2] || ''},${activeSiteMatches[3] || ''},${activeSiteMatches[4] || ''}</span>      
+                    and <span style="color: red;">one water molecule.</span>
+                    <ol style="margin: 5px 0; padding-left: 20px;">
+                        <li><strong>Step 1:</strong> 
+                            <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[1] || ''}</span> acts as a base catalyst, removing a proton from the water molecule bound to the zinc ion. 
+                            This creates a zinc-hydroxyl nucleophile that attacks the carbonyl carbon of the substrate's peptide bond, leading to cleavage and forming a tetrahedral intermediate.
+                        </li>
+                        <li><strong>Step 2:</strong> 
+                            <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[1] || ''}</span> serves as an acid catalyst, donating a proton to the leaving amine group. This proton transfer aids in the breakdown of the tetrahedral intermediate, ultimately completing the hydrolysis of the peptide bond.
+                        </li>
+                    </ol>
+                </div>`;
+                    break;
+                case 'MlrA':
+                    svgContent = generateMlrASvg(activeSiteMatches);
+                    tooltipContent = `
+                <div style="text-align: left; width:30vw;">
+                    <ol style="margin: 5px 0; padding-left: 20px;">
+                        <li>
+                            <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[0] || ''}</span> and <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[3] || ''}</span> activate a water molecule facilitating a nucleophilic attack on the Adda-Arg peptide bond of MC-LR.
+                        </li>
+                        <li>
+                            <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[4] || ''}</span> and <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[5] || ''}</span> help stabilize the transition state by forming an oxyanion hole, ensuring the efficient progression of the reaction. 
+                        </li>
+                        <li> 
+                            <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[1] || ''}</span> and <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[3] || ''}</span> may further accelerate the reaction rate by influencing the pKa of <span style="color: #db029a; font-weight: bold;">${activeSiteMatches[0] || ''}</span>.
+                        </li>
+                    </ol>
+                </div>`;
+                    break;
+                case 'MlrB':
+                    svgContent = generateMlrBSvg(activeSiteMatches);
+                    tooltipContent = '<p>MlrB specializes in the transformation process.</p>';
+                    break;
+                case 'MlrD':
+                    svgContent = generateMlrDSvg(activeSiteMatches);
+                    tooltipContent = '<p>MlrD aids in transport mechanisms.</p>';
+                    break;
+            }
+
+            // 更新页面内容
+            document.getElementById('catalytic-mechanism').innerHTML = `
+        <div class="CM-item" style="font-size: 1.5vw; display: inline-block; position: relative;">
+            Catalytic Mechanism
+            <span class="tooltip-container" style="color: red; cursor: pointer; margin-left: 5px; position: relative;">
+                <i class="fas fa-exclamation-circle"></i>
+                <div class="tooltip-text" style="
+                    visibility: hidden;
+                    position: absolute;
+                    left: 100%; /* 图标右侧 */
+                    top: 50%;
+                    transform: translateY(-50%);
+                    margin-left: 10px;
+                    background-color: #222;
+                    color: #fff;
+                    border-radius: 5px;
+                    padding: 10px;
+                    font-size: 0.9vw;
+                    z-index: 1000;
+                    text-align: left;
+                    opacity: 0;
+                    transition: opacity 0.3s, visibility 0.3s;
+                ">
+                    ${tooltipContent}
+                </div>
+            </span>
+        </div>
+        <div>${svgContent}</div>
+    `;
+
+            // 悬停效果
+            const tooltipContainer = document.querySelector('.tooltip-container');
+            const tooltipText = tooltipContainer.querySelector('.tooltip-text');
+
+            tooltipContainer.addEventListener('mouseover', () => {
+                tooltipText.style.visibility = 'visible';
+                tooltipText.style.opacity = '1';
+            });
+
+            tooltipContainer.addEventListener('mouseout', () => {
+                tooltipText.style.visibility = 'hidden';
+                tooltipText.style.opacity = '0';
+            });
+        }
+
+
+        // 生成 MlrC 的 SVG 内容
+        function generateMlrCSvg(activeSiteMatches) {
+            // 这里放置您的 MlrC 的 SVG 内容，可以使用 activeSiteMatches 来动态替换 SVG 中的文本
+            let svgTemplate = `
+                <svg class="chemical-structure" width="100%" height="100%" viewBox="120 20 350 250">
+        <text x="260" y="75" font-size="12" fill="black" font-weight="bold" id="E1">${activeSiteMatches[0] || ''}</text>
+        <text x="290" y="75" font-size="12" fill="black" font-weight="bold">(Oxy)</text>
+        <text x="180" y="70" font-size="12" fill="black" font-weight="bold" id="H1">${activeSiteMatches[3] || ''}</text>
+        <text x="130" y="120" font-size="12" fill="black" font-weight="bold" id="D">${activeSiteMatches[2] || ''}</text>
+        <text x="150" y="180" font-size="12" fill="black" font-weight="bold" id="H2">${activeSiteMatches[4] || ''}</text>
+        <text x="441" y="152" font-size="12" fill="black" font-weight="bold" id="E2">${activeSiteMatches[1] || ''}</text>
+        <line x1="260" y1="75" x2="230" y2="110" stroke="black" stroke-width="2" stroke-dasharray="2,5" />
+        <line x1="195" y1="70" x2="210" y2="105" stroke="black" stroke-width="2" stroke-dasharray="2,5" />
+        <line x1="170" y1="170" x2="210" y2="135" stroke="black" stroke-width="2" stroke-dasharray="2,5" />
+        <line x1="160" y1="115" x2="205" y2="120" stroke="black" stroke-width="2" stroke-dasharray="2,5" />
+        <defs>
+            <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+              <stop offset="0%" style="stop-color:rgb(255, 255, 255); stop-opacity:0" />
+              <stop offset="70%" style="stop-color:rgba(255, 0, 212, 0.776); stop-opacity:1" />
+            </radialGradient>
+        </defs>
+        <circle cx="220" cy="120" r="15" fill="url(#grad1)" />
+        <text x="211" y="125" font-size="12" fill="black" font-weight="bold">ZN</text>
+        <text x="411" y="109" font-size="12" fill="black" font-weight="bold">O</text>
+        <text x="385" y="152" font-size="12" fill="black" font-weight="bold">O</text>
+        <text x="411" y="135" font-size="12" fill="black" font-weight="bold">C</text>
+        <line x1="414" y1="110" x2="414" y2="125" stroke="black" stroke-width="2" />
+        <line x1="418" y1="110" x2="418" y2="125" stroke="black" stroke-width="2" />
+        <line x1="411" y1="135" x2="395" y2="145" stroke="black" stroke-width="2" />
+        <line x1="421" y1="135" x2="435" y2="145" stroke="black" stroke-width="2" />
+        <text x="290" y="150" font-size="12" fill="black" font-weight="bold">O</text>
+        <text x="300" y="121" font-size="12" fill="black" font-weight="bold">H</text>
+        <text x="321" y="148" font-size="12" fill="black" font-weight="bold">H</text>
+        <line x1="296" y1="139" x2="301" y2="122" stroke="black" stroke-width="2" />
+        <line x1="301" y1="145" x2="320" y2="144" stroke="black" stroke-width="2" />
+        <text x="270" y="210" font-size="12" fill="red" font-weight="bold">C</text>
+        <text x="270" y="180" font-size="12" fill="red" font-weight="bold">O</text>
+        <text x="300" y="210" font-size="12" fill="red" font-weight="bold">N</text>
+        <text x="300" y="180" font-size="12" fill="red" font-weight="bold">H</text>
+        <line x1="272" y1="199" x2="272" y2="182" stroke="red" stroke-width="2" />
+        <line x1="277" y1="199" x2="277" y2="182" stroke="red" stroke-width="2" />
+        <line x1="280" y1="206" x2="299" y2="206" stroke="red" stroke-width="2" />
+        <line x1="305" y1="199" x2="305" y2="182" stroke="red" stroke-width="2" />
+        <line x1="270" y1="210" x2="255" y2="220" stroke="black" stroke-width="2" />
+        <line x1="311" y1="210" x2="325" y2="221" stroke="black" stroke-width="2" />
+        <path d="M 270 190 Q 230 190 226 150" stroke="black" fill="none" stroke-width="2" />
+        <polygon points="221,150 231,150 226,135" fill="black" />
+        <path d="M 294 152 Q 300 170 288 192" stroke="black" fill="none" stroke-width="2" />
+        <polygon points="285,185 295,190 283,200" fill="black" />
+        <path d="M 385 152 Q 360 180 340 155" stroke="black" fill="none" stroke-width="2" />
+        <polygon points="346,153 339,163 330,148" fill="black" />
+    </svg>
+            `;
+            // 根据 activeSiteMatches 替换 SVG 中的占位符
+            return svgTemplate;
+        }
+
+        function generateMlrASvg(activeSiteMatches) {
+            let svgTemplate = `
+               <svg class="chemical-structure-MlrA" width="100%" height="100%" viewBox="30 0 500 570">
+    <text x="150" y="100" font-size="18" font-weight="bold">MC</text>
+    <line x1="210" y1="120" x2="230" y2="70" stroke="black" stroke-width="2"/>
+    <line x1="230" y1="70" x2="280" y2="70" stroke="black" stroke-width="2"/>
+    <path d="M 180 80
+           Q 183.3 60, 186.6 70 
+           T 193.3 70 
+           Q 196.6 60, 200 70 
+           T 206.6 70 
+           Q 210 60, 213.3 70 
+           T 220 70
+           Q 223.3 60, 230 70"
+        stroke="black" fill="transparent" stroke-width="2"
+        transform="rotate(50, 230, 70)" />
+    <text x="285" y="75" font-size="18" font-weight="bold" fill="blue">Arg</text>
+    <text x="198" y="135" font-size="18" font-weight="bold">C</text>
+    <line x1="127" y1="140" x2="195" y2="130" stroke="black" stroke-width="2" />
+    <line x1="217" y1="132" x2="268" y2="170" stroke="black" stroke-width="2"/>
+    <line x1="212" y1="140" x2="262" y2="179" stroke="black" stroke-width="2"/>
+    <text x="110" y="148" font-size="18" font-weight="bold" fill="blue">N</text>
+    <line x1="115" y1="130" x2="95" y2="90" stroke="black" stroke-width="2"/>
+    <text x="90" y="95" font-size="18" font-weight="bold"  transform="rotate(340, 80, 100)">H</text>
+    <line x1="110" y1="148" x2="80" y2="179" stroke="black" stroke-width="2"/>
+    <line x1="80" y1="179" x2="80" y2="229" stroke="black" stroke-width="2"/>
+    <path d="M 180 80
+           Q 183.3 60, 186.6 70 
+           T 193.3 70 
+           Q 196.6 60, 200 70 
+           T 206.6 70 
+           Q 210 60, 213.3 70 
+           T 220 70
+           Q 223.3 60, 230 70"
+        stroke="black" fill="transparent" stroke-width="2"
+        transform="rotate(50, 38, -38)" />
+        <text x="55" y="250" font-size="18" font-weight="bold" fill="#FFCC00">Adda</text>
+        <text x="265" y="185" font-size="18" font-weight="bold" fill="red">O</text>
+        <line x1="285" y1="178" x2="340" y2="178" stroke="green" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="340" y="185" font-size="18" font-weight="bold">H</text>
+        <line x1="357" y1="178" x2="392" y2="195" stroke="black" stroke-width="2"/>
+        <text x="395" y="205" font-size="18" font-weight="bold" fill="blue">N</text>
+        <line x1="357" y1="178" x2="392" y2="195" stroke="black" stroke-width="2"/>
+        <line x1="415" y1="195" x2="458" y2="178" stroke="black" stroke-width="2"/>
+        <line x1="403" y1="208" x2="403" y2="255" stroke="black" stroke-width="2"/>
+        <text x="395" y="270" font-size="18" font-weight="bold">H</text>
+        <text x="380" y="180" font-size="18" font-weight="bold">(ND2)</text>
+        <line x1="458" y1="178" x2="478" y2="135" stroke="black" stroke-width="2"/>
+        <line x1="478" y1="135" x2="518" y2="125" stroke="black" stroke-width="2"/>
+        <line x1="456" y1="178" x2="490" y2="205" stroke="black" stroke-width="2"/>
+        <line x1="460" y1="171" x2="496" y2="199" stroke="black" stroke-width="2"/>
+        <text x="493" y="215" font-size="18" font-weight="bold" fill="red">O</text>
+        <text x="423" y="250" font-size="18" font-weight="bold" fill="#db029a" class='N'>${activeSiteMatches[5] || ''}(Oxy)</text>
+        <text x="423" y="280" font-size="18" font-weight="bold" fill="#db029a" class='H1'>${activeSiteMatches[4] || ''}(Oxy)</text>
+        <path d="M 195 152 Q 150 270 255 305" stroke="black" fill="none" stroke-width="2" />
+        <text x="258" y="310" font-size="18" font-weight="bold" fill="red">O</text>
+        <polygon points="202,138 197,163 185,158" fill="black" />
+        <line x1="258" y1="310" x2="220" y2="345" stroke="black" stroke-width="2"/>
+        <text x="205" y="360" font-size="18" font-weight="bold">H</text>
+        <line x1="205" y1="360" x2="160" y2="390" stroke="green" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="130" y="402" font-size="18" font-weight="bold" fill="red">HO</text>
+        <line x1="155" y1="405" x2="175" y2="450" stroke="black" stroke-width="2"/>
+        <line x1="173" y1="445" x2="210" y2="445" stroke="black" stroke-width="2"/>
+        <line x1="175" y1="450" x2="210" y2="450" stroke="black" stroke-width="2"/>
+        <line x1="175" y1="450" x2="135" y2="480" stroke="black" stroke-width="2"/>
+        <text x="210" y="455" font-size="18" font-weight="bold" fill="red">O</text>
+        <text x="230" y="435" font-size="18" font-weight="bold" fill="#db029a" class='W1'>${activeSiteMatches[2] || ''}</text>
+        <text x="190" y="485" font-size="18" font-weight="bold" fill="#db029a" class='W2'>${activeSiteMatches[1] || ''}</text>
+        <line x1="135" y1="480" x2="95" y2="480" stroke="black" stroke-width="2"/>
+        <line x1="95" y1="480" x2="70" y2="450" stroke="black" stroke-width="2"/>
+        <text x="100" y="460" font-size="18" font-weight="bold" fill="#db029a" class='E'>${activeSiteMatches[0] || ''}</text>
+        <line x1="272" y1="310" x2="310" y2="345" stroke="black" stroke-width="2"/>
+        <text x="310" y="360" font-size="18" font-weight="bold">H</text>
+        <line x1="325" y1="360" x2="370" y2="390" stroke="green" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="372" y="400" font-size="18" font-weight="bold" fill="blue">N</text>
+        <line x1="390" y1="385" x2="433" y2="350" stroke="black" stroke-width="2"/>
+        <line x1="395" y1="388" x2="430" y2="360" stroke="black" stroke-width="2"/>
+        <line x1="433" y1="350" x2="475" y2="384" stroke="black" stroke-width="2"/>
+        <text x="477" y="400" font-size="18" font-weight="bold" fill="blue">NH</text>
+        <line x1="385" y1="405" x2="400" y2="445" stroke="black" stroke-width="2"/>
+        <line x1="400" y1="445" x2="460" y2="445" stroke="black" stroke-width="2"/>
+        <line x1="460" y1="445" x2="480" y2="405" stroke="black" stroke-width="2"/>
+        <line x1="405" y1="440" x2="455" y2="440 " stroke="black" stroke-width="2"/>
+        <line x1="460" y1="445" x2="480" y2="485" stroke="black" stroke-width="2"/>
+        <line x1="480" y1="485" x2="530" y2="485" stroke="black" stroke-width="2"/>
+        <text x="485" y="475" font-size="18" font-weight="bold" fill="#db029a" class='H2'>${activeSiteMatches[3] || ''}</text>
+</svg>
+               
+            `;
+            return svgTemplate;
+        }
+
+        function generateMlrBSvg(activeSiteMatches) {
+            let svgTemplate = `
+                <!-- MlrB 的 SVG 内容 -->
+               
+            `;
+            return svgTemplate;
+        }
+
+        function generateMlrDSvg(activeSiteMatches) {
+            let svgTemplate = `
+                <!-- MlrD 的 SVG 内容 -->
+              
+            `;
+            return svgTemplate;
+        }
+
+        // 格式化比对结果并高亮活性位点
+        function formatAlignment(align1, align2, matchline, activeSites) {
+            let formattedLines = [];
+            let tAminoAcidCount = 0;
+            let qAminoAcidCount = 0;
+            let aminoAcidCount = 0;
+            const lineLength = 60;
+
+            for (let i = 0; i < align1.length; i += lineLength) {
+                let tSegment = align1.slice(i, i + lineLength);
+                let qSegment = align2.slice(i, i + lineLength);
+                let mSegment = matchline.slice(i, i + lineLength);
+                let _mSegment = mSegment.replace(/ /g, '-');
+
+                // Store starting counts for display
+                let tStart = tAminoAcidCount + 1;
+                let qStart = qAminoAcidCount + 1;
+
+                // Update counts
+                tAminoAcidCount += (tSegment.match(/[^-]/g) || []).length;
+                qAminoAcidCount += (qSegment.match(/[^-]/g) || []).length;
+
+                let tCount = tStart.toString().padStart(4, ' ');
+                let qCount = qStart.toString().padStart(4, ' ');
+
+                // Corrected function call
+                const result = highlightActiveSites(tSegment, qSegment, activeSites, aminoAcidCount);
+                const { tSegmentHighlighted, qSegmentHighlighted } = result;
+                aminoAcidCount = result.aminoAcidCount;
+
+                formattedLines.push(`target ${tCount} ${tSegmentHighlighted}`);
+                formattedLines.push(`            ${_mSegment}`);
+                formattedLines.push(`query  ${qCount} ${qSegmentHighlighted}`);
+            }
+            return formattedLines.join('\n');
+        }
+
+
+        // 高亮活性位点
+        function highlightActiveSites(tSegment, qSegment, activeSites, aminoAcidCount) {
+            let tSegmentHighlighted = '';
+            let qSegmentHighlighted = '';
+
+            for (let j = 0; j < tSegment.length; j++) {
+                if (tSegment[j] !== '-') {
+                    aminoAcidCount++;
+                    const isActiveSite = activeSites.includes(aminoAcidCount);
+
+                    if (isActiveSite) {
+                        tSegmentHighlighted += `<span class="highlight">${tSegment[j]}</span>`;
+                        qSegmentHighlighted += `<span class="highlight">${qSegment[j]}</span>`;
+                    } else {
+                        tSegmentHighlighted += tSegment[j];
+                        qSegmentHighlighted += qSegment[j];
+                    }
+                } else {
+                    tSegmentHighlighted += tSegment[j];
+                    qSegmentHighlighted += qSegment[j];
+                }
+            }
+
+            return { tSegmentHighlighted, qSegmentHighlighted, aminoAcidCount };
+        }
+
+        // 获取活性位点匹配情况
+        function getActiveSiteMatches(result, activeSites) {
+            let matches = [];
+            let alignedTemplate = result.align1;
+            let alignedUserSeq = result.align2;
+            let templatePos = 0;
+            let userSeqPos = 0;
+
+            for (let i = 0; i < alignedTemplate.length; i++) {
+                if (alignedTemplate[i] !== '-') {
+                    templatePos++;
+                }
+                if (alignedUserSeq[i] !== '-') {
+                    userSeqPos++;
+                }
+
+                if (alignedTemplate[i] !== '-' && activeSites.includes(templatePos)) {
+                    if (alignedUserSeq[i] !== '-') {
+                        matches.push(`${alignedUserSeq[i]}${userSeqPos}`);
+                    } else {
+                        matches.push('-');
+                    }
+                }
+            }
+            return matches.filter(site => site !== '-');
+        }
+        //折叠面板
+        function toggleSocringParameters() {
+            const paramsDiv = document.getElementById('algorithm-parameters');
+            const toggleButton = document.querySelector('.toggle-button .symbol');
+
+            // 切换显示/隐藏
+            if (paramsDiv.style.display === 'none' || paramsDiv.style.display === '') {
+                paramsDiv.style.display = 'block';
+                toggleButton.textContent = '-'; // 显示减号
+            } else {
+                paramsDiv.style.display = 'none';
+                toggleButton.textContent = '+'; // 显示加号
+            }
+        }
+
+
+        // 下载结果
+        function downloadResults() {
+            const content = document.getElementById('formatted-result').innerText;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'alignment_results.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function performPSPSequence() {
+            let userSeqInput = document.getElementById('user-seq').value.trim();
+            // 使用 parseFasta() 解析用户输入
+            let { name, fastaSeq } = parseFasta(userSeqInput);
+            let userSeq = fastaSeq.toUpperCase();
+
+            if (!validateSequence(userSeq)) {
+                document.getElementById('inputError').style.display = 'block';
+                return;
+            }
+            document.getElementById('inputError').style.display = 'none';
+
+            // 使用 PSP.js 进行分析
+            performPSPAnalysis(userSeq, name || 'User Sequence');
+        }
+
+        function performPSPAccession() {
+            const accessionNumber = document.getElementById('ncbi-accession').value.trim().toUpperCase();
+            if (!accessionNumber) {
+                alert("Please enter an accession number.");
+                return;
+            }
+            fetchNCBISequence(accessionNumber, (name, sequence) => {
+                if (sequence) {
+                    performPSPAnalysis(sequence, name || accessionNumber);
+                }
+            });
+        }
+
+        let aminoAcidComposition = {};
+        function performPSPAnalysis(sequence, sequenceName) {
+            // 创建 ProteinAnalysis 对象
+            var analysis = new ProteinAnalysis(sequence);
+
+            // 获取分析结果
+            var numberOfAminoAcids = analysis.length;
+            var molecularWeight = analysis.molecularWeight();
+            var theoreticalPI = analysis.isoelectricPoint();
+            var instabilityIndex = analysis.instabilityIndex();
+            var aliphaticIndex = analysis.aliphaticIndex();
+            var gravy = analysis.gravy();
+            var aminoAcidComposition = analysis.aminoAcidCounts;
+            var formula = analysis.formula();
+            var totalNumberOfAtoms = analysis.totalNumberOfAtoms();
+            var totalNegativeResidues = analysis.totalNegativelyCharged();
+            var totalPositiveResidues = analysis.totalPositivelyCharged();
+            var atomicComposition = analysis.atomicComposition();
+            var extinctionCoefficients = analysis.extinctionCoefficients();
+            var csvContent = generateAminoAcidCompositionCSV(aminoAcidComposition);
+
+            // 构建 HTML 内容
+            var htmlContent = '';
+            htmlContent += '<div id="sequence-container" class="sequence-container"></div>'
+            htmlContent += '<div class="legend"><div class="legend-item"><div class="legend-color hydrophobic-strong"></div><span>Strong Hydrophobic</span></div><div class="legend-item"><div class="legend-color hydrophobic-medium"></div><span>Medium Hydrophobic</span></div><div class="legend-item"><div class="legend-color hydrophilic-medium"></div><span>Medium Hydrophilic</span></div><div class="legend-item"><div class="legend-color hydrophilic-strong"></div><span>Strong Hydrophilic</span></div><div class="class="legend-item""><b>Grand average of hydropathicity (GRAVY):</b> ' + gravy + '</div></div>'
+            htmlContent += '<div class="row"><p class="col-4"><b>Number of amino acids</b>: ' + numberOfAminoAcids + '</p>';
+            htmlContent += '<p class="col-4"><b>Molecular weight</b>: ' + (parseFloat(molecularWeight) / 1000).toFixed(2) + ' KDa</p>';
+            htmlContent += '<p class="col-4"><b>Theoretical pI</b>: ' + theoreticalPI + '</p></div>';
+            htmlContent += '<div class="row"><p class="col-4"><b>Instability index:</b> ' + instabilityIndex + '&nbsp;&nbsp;(Less than 40 is considered to be stable.)</p>';
+            htmlContent += '<p class="col-4"><b>Aliphatic index:</b> ' + aliphaticIndex + '</p>';
+            htmlContent += '<p class="col-4"><b>Formula</b>: ' + parseChemicalFormula(formula) + '</p><br><p><b>Total number of atoms</b>: ' + totalNumberOfAtoms + '</p></div>';
+            htmlContent += '<div class="row"><div class="col-12"><p><b>Amino acid composition ▼</b><button onclick="downloadAminoAcidCompositionCSV()">Download CSV</button></p></div></div>';
+            htmlContent += '<div class="row"><div class="col-12"><canvas id="aminoAcidCompositionChart" width="100%" height="50%"></canvas></div></div>';
+            htmlContent += '<div class="row"><p class="col-6"><b>Total number of negatively charged residues (Asp + Glu)</b>: ' + totalNegativeResidues + '</p>';
+            htmlContent += '<p class="col-6"><b>Total number of positively charged residues (Arg + Lys)</b>: ' + totalPositiveResidues + '</p></div>';
+            htmlContent += '<div class="row"><div class="col-6"><p><b>Atomic composition</b>: ' + formatAtomicComposition(atomicComposition) + '</p></div>';
+            htmlContent += '<div class="col-6"><p><b>Extinction coefficients:</b><br>';
+            htmlContent += '<span style="font-size:14px;line-height: 2.0;">Extinction coefficients are in units of  M-1 cm-1, at 280 nm measured in water.</span><br>';
+            htmlContent += 'assuming all Cys residues are reduced: ' + extinctionCoefficients.reduced + '<br>';
+            htmlContent += 'assuming all pairs of Cys residues form cystines: ' + extinctionCoefficients.oxidized + '</p></div>';
+            htmlContent += '</div></div>';
+
+            // 在弹框中显示结果
+            showPSPResult(htmlContent, sequenceName);
+            generateColoredSequence(sequence);
+            // 在内容被添加到 DOM 后，初始化图表
+            initializeAminoAcidChart(aminoAcidComposition);
+            window.csvContentForDownload = csvContent;
+
+        }
+
+        // 显示弹框
+        function showPSPResult(content, title) {
+            // 使用 Bootstrap Modal 显示结果
+            $('#pspModalLabel').css('font-weight', 'bold').text('Physicochemical Property Prediction - ' + title);
+            $('#pspModalBody').html(content);
+            $('#pspModal').modal('show');
+        }
+
+        // 辅助函数定义
+        function generateAminoAcidCompositionCSV(aminoAcidCounts) {
+            let total = 0;
+            for (let aa in aminoAcidCounts) {
+                total += aminoAcidCounts[aa]; // 计算总氨基酸数量
+            }
+
+            let csvRows = [];
+            csvRows.push('Amino Acid,Count,Percent');
+
+            for (let aa in aminoAcidCounts) {
+                const count = aminoAcidCounts[aa];
+                if (count > 0) {
+                    const percent = ((count / total) * 100).toFixed(1);
+                    const fullName = aminoAcids[aa]?.fullName || "Unknown";
+                    const name = aminoAcids[aa]?.name || aa;
+
+                    csvRows.push(`"${fullName} (${name})",${count},${percent}%`);
+                }
+            }
+
+            return csvRows.join('\n');
+        }
+
+        // **下载 CSV 文件的函数**
+        function downloadAminoAcidCompositionCSV() {
+            const csvContent = window.csvContentForDownload;
+            if (!csvContent) {
+                alert('CSV content is not available.');
+                return;
+            }
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'AminoAcidComposition.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        function parseChemicalFormula(formula) {
+            // 将化学式中的数字用下标表示
+            return formula.replace(/([A-Z])(\d+)/g, function (match, p1, p2) {
+                return p1 + '<sub>' + p2 + '</sub>';
+            });
+        }
+
+        const atomNames = {
+            'C': 'Carbon',
+            'H': 'Hydrogen',
+            'N': 'Nitrogen',
+            'O': 'Oxygen',
+            'S': 'Sulfur'
+        };
+
+        function formatAtomicComposition(atomicComposition) {
+            let content = '<pre style="font-size:18px;">';
+            for (let atom of ['C', 'H', 'N', 'O', 'S']) {
+                let count = atomicComposition[atom];
+                if (count > 0) {
+                    let name = atomNames[atom];
+                    content += `${name.padEnd(10)} ${atom.padEnd(2)}\t${count}\n`;
+                }
+            }
+            content += '</pre>';
+            return content;
+        }
+        function getHydropathyClass(hydropathy) {
+            if (hydropathy >= 2) {
+                return 'hydrophobic-strong';
+            } else if (hydropathy >= 0) {
+                return 'hydrophobic-medium';
+            } else if (hydropathy >= -2) {
+                return 'hydrophilic-medium';
+            } else {
+                return 'hydrophilic-strong';
+            }
+        }
+
+        // 生成颜色编码的序列
+        function generateColoredSequence(sequence) {
+            const sequenceContainer = document.getElementById('sequence-container');
+            sequenceContainer.innerHTML = ''; // 清空之前的内容
+            const lineLength = 50;
+
+            // 生成颜色编码的序列
+            for (let i = 0; i < sequence.length; i += lineLength) {
+                const rowDiv = document.createElement('div');
+                rowDiv.classList.add('sequence-row');
+
+                // 添加行号
+                const startIndex = i + 1;
+                const endIndex = Math.min(i + lineLength, sequence.length);
+                const indexDiv = document.createElement('div');
+                indexDiv.classList.add('index');
+                indexDiv.textContent = startIndex;
+                rowDiv.appendChild(indexDiv);
+
+                // 添加氨基酸字符
+                for (let j = i; j < endIndex; j++) {
+                    const aa = sequence[j];
+                    const hydropathy = aminoAcids[aa]?.hydropathy || 0;
+                    const className = getHydropathyClass(hydropathy);
+
+                    const aaSpan = document.createElement('span');
+                    aaSpan.classList.add('amino-acid', className);
+                    aaSpan.textContent = aa;
+                    rowDiv.appendChild(aaSpan);
+                }
+
+                // 添加结束行号
+                const endIndexDiv = document.createElement('div');
+                endIndexDiv.classList.add('index');
+                endIndexDiv.textContent = endIndex;
+                rowDiv.appendChild(endIndexDiv);
+
+                sequenceContainer.appendChild(rowDiv);
+            }
+        }
+        function initializeAminoAcidChart(aminoAcidComposition) {
+            let aminoAcidLabels = [];
+            let aminoAcidValues = [];
+
+            for (let aa in aminoAcidComposition) {
+                if (aminoAcidComposition[aa] > 0) {
+                    aminoAcidLabels.push(`${aminoAcids[aa].name} (${aa})`);
+                    aminoAcidValues.push(aminoAcidComposition[aa]);
+                }
+            }
+
+            // 获取 Canvas 上下文
+            let canvas = document.getElementById('aminoAcidCompositionChart');
+            if (canvas) {
+                let ctx = canvas.getContext('2d');
+
+                // 计算总氨基酸数量
+                let totalAminoAcids = aminoAcidValues.reduce((a, b) => a + b, 0);
+
+                // 计算百分比
+                let aminoAcidPercentages = aminoAcidValues.map(value => ((value / totalAminoAcids) * 100).toFixed(2));
+
+                // 创建 Chart.js 柱状图
+                let aminoAcidChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: aminoAcidLabels,
+                        datasets: [{
+                            label: 'Amino Acid Composition',
+                            data: aminoAcidValues,
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Amino Acids'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Count'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    // 工具提示显示计数和百分比
+                                    label: function (context) {
+                                        let count = context.raw;
+                                        let percentage = aminoAcidPercentages[context.dataIndex];
+                                        return `Amino acid composition: ${count}(count),   ${percentage}%(percentage)`;
+                                    }
+                                }
+                            },
+                            // 显示在柱头上方的标签
+                            datalabels: {
+                                display: true,
+                                align: 'top',
+                                formatter: function (value, context) {
+                                    let percentage = aminoAcidPercentages[context.dataIndex];
+                                    return `${value} (${percentage}%)`;
+                                },
+                                color: 'black',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error('Canvas element with id "aminoAcidCompositionChart" not found.');
+            }
+        }
+    </script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
