@@ -524,8 +524,8 @@ $(document).ready(function () {
 
 
     // 构建 JSON 文件路径
-    let jsonFilePath1 = `./asset/json/${mlr_style}_CM.json`;
-    let jsonFilePath2 = `./asset/json/${mlr_style}_IF.json`;
+    let jsonFilePath1 = `../asset/json/${mlr_style}_CM.json`;
+    let jsonFilePath2 = `../asset/json/${mlr_style}_IF.json`;
     // 使用jQuery的$.getJSON方法获取JSON文件
     $.getJSON(jsonFilePath1, function (data) {
         let entry = data.find(item => item.id === id);
@@ -626,7 +626,7 @@ $(document).ready(function () {
     }
 
     if (sequenceIds.length > 1) {
-        var jsonFilePath = './asset/json/' + sequenceIds[0] + '_seq.json';
+        var jsonFilePath = '../asset/json/' + sequenceIds[0] + '_seq.json';
         var sequenceId = sequenceIds[1];
 
         $.getJSON(jsonFilePath, function (data) {
@@ -751,7 +751,7 @@ $(document).ready(function () {
         var sequenceId = sequenceIds[1]; // 获取第二个序列ID
         console.log("Sequence Div ID: " + sequenceId); // 打印用于调试
 
-        var dataUrl = './asset/json/' + sequenceIds[0] + '_seq.json'; // 构建 JSON 文件的 URL
+        var dataUrl = '../asset/json/' + sequenceIds[0] + '_seq.json'; // 构建 JSON 文件的 URL
 
         // 获取 JSON 数据并处理
         $.getJSON(dataUrl, function (data) {
@@ -897,7 +897,7 @@ $(document).ready(function () {
 
     if (sequenceIds.length > 1) {
         var pdbId = sequenceIds[1]; // 获取数组的第二个元素作为PDB ID
-        var pdbFile = "./asset/PDB/" + pdbId + ".pdb"; // 构建文件路径
+        var pdbFile = "../asset/PDB/" + pdbId + ".pdb"; // 构建文件路径
         stage = new NGL.Stage("viewport");
         stage.loadFile(pdbFile).then(function (component) {
             stage.addComponent(component);
@@ -1120,7 +1120,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (sequenceIds.length > 1) {
         var pdbId = sequenceIds[1]; // 获取第二个元素作为PDB ID
-        var pdbFile = "./asset/PDB/" + pdbId + ".pdb"; // 构建文件路径
+        var pdbFile = "../asset/PDB/" + pdbId + ".pdb"; // 构建文件路径
 
         document.getElementById("lig_View").style.display = "block";
         stage_1 = new NGL.Stage("viewport_ligand", { backgroundColor: "white" });
@@ -1373,7 +1373,7 @@ function initializeControls() {
 initializeControls();
 //更新文献==================================================================================================================
 function displayReferences(sourceOrganism, enzyme) {
-    fetch('./asset/json/reference.json')
+    fetch('../asset/json/reference.json')
         .then(response => response.json())
         .then(references => {
             const container = document.getElementById('reference-container');
