@@ -97,7 +97,7 @@ function searchGene() {
     }).split(',')[1]; // 获取PDB ID
 
     // 构建跳转链接，包含酶名称和PDB ID
-    var redirectUrl = "../component/temp.html?point=" + encodeURIComponent(selectedRelatedEnzyme + "," + selectedPdbId);
+    var redirectUrl = "./temp.html?point=" + encodeURIComponent(selectedRelatedEnzyme + "," + selectedPdbId);
 
     // 执行页面跳转
     window.location.href = redirectUrl;

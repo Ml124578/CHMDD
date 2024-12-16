@@ -2479,7 +2479,7 @@
         let references = {}; // 定义一个空对象存储引用
 
         // 使用 fetch 获取 JSON 文件内容
-        fetch('/asset/json/reference.json')
+        fetch('./asset/json/reference.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
