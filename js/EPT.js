@@ -524,8 +524,8 @@ $(document).ready(function () {
 
 
     // 构建 JSON 文件路径
-    let jsonFilePath1 = `../asset/json/${mlr_style}_CM.json`;
-    let jsonFilePath2 = `../asset/json/${mlr_style}_IF.json`;
+    let jsonFilePath1 = `asset/json/${mlr_style}_CM.json`;
+    let jsonFilePath2 = `asset/json/${mlr_style}_IF.json`;
     // 使用jQuery的$.getJSON方法获取JSON文件
     $.getJSON(jsonFilePath1, function (data) {
         let entry = data.find(item => item.UniProt_id === id);
