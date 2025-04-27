@@ -4,7 +4,7 @@ var enzymeData = {}; // 存储酶的名称数据
 function loadJSON(callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', '../asset/json/enzymes.json', true);
+    xobj.open('GET', 'asset/json/enzymes.json', true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState === 4 && xobj.status === 200) {
             callback(xobj.responseText);
