@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/universal.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="./icon-sgpa.png">
+    <script src="./js/PPP.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/chart.umd.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="./css/predict.css">
+</head>
+<style>
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);">
+        <div class="container">
+            <div class="m-1">
+                <a href="./index.html">
+                    <img src="./asset/icon/chmdd.png" alt="..." style="height: 6.5vh;" id="nav-img">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Strain.html">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Hepatotoxins.html">Hepatotoxins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  active" href="#">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./help.html">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./contacts.html">Contacts</a>
+                    </li>
+                    <!--<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 主体内容 -->
+    <div class="container pb-5" id="mainbox">
+        <h1 class="text-center pt-5" style="font-family:Arial, sans-serif">Predict</h1>
+        <!-- 输入类型选择 -->
+        <div class="form-group">
+            <label for="input-type">Choose Input Type:</label>
+            <select class="form-control" id="input-type" style="border: 2px solid black;" onchange="toggleInputField()">
+                <option value="sequence">Enter Sequence</option>
+                <option value="accession">Enter NCBI Accession Number</option>
+            </select>
+        </div>
+        <!-- 序列输入框 -->
+        <div class="form-group pt-3" id="sequence-input-group">
+            <label for="user-seq">Enter your sequence:</label>
+            <textarea class="form-control" id="user-seq" rows="4"
+                placeholder="Please enter the amino acid sequence in standard FASTA format"
+                style="border: 2px solid black;"></textarea>
+            <small id="inputError" class="form-text text-danger" style="display: none;">Please enter a valid
+                sequence.</small>
+            <button id="psp_button_sequence" class="button_PSP" onclick="performPSPSequence()"
+                style="justify-content: left; ">Physicochemical Property Prediction</button>
+        </div>
+        <!-- 登录号输入框 -->
+        <div class="form-group pt-3" id="accession-input-group" style="display:none;">
+            <label for="ncbi-accession">Enter NCBI Accession Number:</label>
+            <input type="text" class="form-control" id="ncbi-accession" placeholder="e.g., 7YLQ_A"
+                style="border: 2px solid black;">
+            <div id="loadingMessage" style="display: none;"></div>
+            <div id="loadingIcon1" style="display: none;"></div>
+            <button id="psp_button_accession" class="button_PSP" onclick="performPSPAccession()"
+                style="justify-content: left;">Physicochemical Property Prediction</button>
+        </div>
+        <!-- algorithm Selection -->
+        <div class="algorithm-parameters-container">
+            <!-- Button with +/- sign -->
+            <button class="toggle-button" onclick="toggleSocringParameters()">
+                <span class="symbol">+</span> Scoring parameters
+            </button>
+            <div id="algorithm-parameters" style="display: none;">
+                <div class="matrix-selector-container">
+                    <label for="matrix-select">Matrix:</label>
+                    <select id="matrix-select">
+                        <option value="BLOSUM45">BLOSUM45</option>
+                        <option value="BLOSUM62" selected>BLOSUM62</option>
+                        <option value="BLOSUM80">BLOSUM80</option>
+                        <option value="PAM30">PAM30</option>
+                        <option value="PAM70">PAM70</option>
+                        <option value="PAM250">PAM250</option>
+                    </select>
+                </div>
+
+                <div class="d-flex flex-column flex-md-row bg-light p-3 rounded align-items-center counter_box">
+                    <!-- Gap Costs Label -->
+                    <label class="form-label me-md-3 mb-3 mb-md-0">Gap Costs:</label>
+
+                    <!-- Open Penalty -->
+                    <div class=" align-items-center me-md-4 mb-3 mb-md-0">
+                        <label for="gap-open" class="form-label me-2" style="font-size: 1.9vh;">Open Penalty</label>
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary" type="button" onclick="decrementGapOpen()"
+                                aria-label="Decrease Gap Open">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="number" id="gap-open" class="form-control text-center" value="10" min="0"
+                                max="20" step="1" readonly aria-label="Gap Open Penalty">
+                            <button class="btn btn-outline-secondary" type="button" onclick="incrementGapOpen()"
+                                aria-label="Increase Gap Open">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Extend Penalty -->
+                    <div class=" align-items-center mb-3 mb-md-0">
+                        <label for="gap-extend" class="form-label me-2" style="font-size: 1.9vh;">Extend Penalty</label>
+                        <div class="input-group">
+                            <button class="btn btn-outline-secondary" type="button" onclick="decrementGapExtend()"
+                                aria-label="Decrease Gap Extend">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="number" id="gap-extend" class="form-control text-center" value="0.5" min="0"
+                                max="10" step="0.5" readonly aria-label="Gap Extend Penalty">
+                            <button class="btn btn-outline-secondary" type="button" onclick="incrementGapExtend()"
+                                aria-label="Increase Gap Extend">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <!-- 提交按钮 -->
+        <div class="pt-3" style="justify-content: center; display: flex;">
+            <button class="btn btn-primary" onclick="performAlignment1()"
+                style="background: var(--green-003);">Submit</button>
+        </div>
+        <div id="comparisonLoading" style="display: none;"></div>
+        <div id="loadingIcon2" style="display: none;"></div>
+        <!-- 结果显示 -->
+        <div id="results" class="mt-3" style="display: none;"></div>
+        <!-- 比对结果 -->
+        <div id="alignment-result" style="display: none;">
+            <!-- 比对得分和催化机制 -->
+            <div class="row pt-3 predict—panel" style="width: 80%;">
+                <div id="score" class="col-5"></div>
+                <div id="catalytic-mechanism" class="col-7" style="width: 50%;"></div>
+            </div>
+            <div id="catalytic-mechanism-describe" style="width: 80%;  padding: 20px;"></div>
+            <!-- 格式化的比对结果 -->
+            <pre class="pt-4" id="formatted-result"></pre>
+            <!-- 下载链接和活性位点标记 -->
+            <div style="display: flex; align-items: center;">
+                <a href="" onclick="downloadResults(event)" style="color: #008514;">
+                    <i class="fas fa-download"></i> Download
+                </a>&nbsp;&nbsp;&nbsp;
+                <div class="highlight-square"></div>Active Site
+            </div>
+            <div id="seqalign_note" class="lh-sm fw-light" style="font-family: 'Times New Roman', Times, serif;">
+                <span style="color: red;">Note:</span>
+                See <a href="./help.html#sequence_alignment">help</a> for more details.
+            </div>
+        </div>
+        <div id="example_predict">
+            <div class="container" style="background-color: #388c45;">
+                <ul>
+                    <p></p>
+                    <dt style="color:white;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"
+                        class="py-3">
+                        A sequence alignment tool based on the Needleman-Wunsch algorithm and the BLOSUM 62 scoring
+                        matrix is provided.
+                        Users can upload a protein sequence in FASTA format or enter an NCBI accession number.
+                        A template sequence from the database can be selected to align with the uploaded sequence,
+                        and the results will be displayed as shown in the example.
+                    </dt>
+                    <p></p>
+                </ul>
+            </div>
+            <div>
+                <h4 style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                    <dt>Example</dt>
+                </h4>
+                <img src="./asset/help_img/Result.png" height="100%" width="100%">
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="pspModal" tabindex="-1" aria-labelledby="pspModalLabel" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pspModalLabel">Physicochemical Property Prediction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="pspModalBody">
+                    <!-- 分析结果将在这里显示 -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class=" text-center ">
+		<div class="container ">
+			<p class="FooterText">
+				Copyright©2023 ZhangLab at University of Science and Technology Beijing.All rights reserved.</p>
+		</div>
+	</footer>
+    <script src="./js/predict.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

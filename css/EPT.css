@@ -1,0 +1,353 @@
+.list-group-item {
+    color: #065f35;
+    border: none;
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+}
+
+.head_font {
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 600;
+}
+
+.card-title {
+    font-weight: 550;
+    font-size: 16px;
+    font-family: "Lato", sans-serif;
+    flex: 0 0 180px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.card-text {
+    font-size: 16px;
+    font-family: "Lato", sans-serif;
+    border-left: 2px solid #009e6c;
+    /* 添加宽度和样式 */
+}
+
+
+.list-group-item.active_list,
+.list-group-item:hover {
+    color: #599b7c;
+}
+
+.sequence_chunk {
+    margin: 1rem 0 1rem 1rem;
+    display: inline-block;
+    white-space: nowrap;
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+    position: relative;
+    font-weight: 600;
+}
+
+.sequence_chunk:before {
+    content: attr(data-number);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(20%, -80%);
+    background-color: rgb(235, 235, 235);
+    padding: 1px 2px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(0, 99, 30);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: rgb(0, 180, 57);
+}
+
+nav.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    font-family: "Lato", sans-serif;
+}
+
+/*@keyframes colorChange {
+    0% { background-color: rgb(251, 255, 234); }
+    50% { background-color: rgb(228, 255, 228); }
+    100% { background-color: rgb(231, 255, 251); }
+}*/
+
+.button_group {
+    background: none;
+    border: none;
+    font-size: 11px;
+    font-family: inherit;
+    color: #515354;
+    font-weight: 600;
+}
+
+#stageHeader_2,
+#stageHeader_1,
+#stageHeader {
+    padding: 5px 12px 5px 12px;
+    background-color: #eee;
+    color: rgb(90, 89, 89);
+}
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1000;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+@media (min-width: 720px) {
+    .modal-content {
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        /* Could be more or less, depending on screen size */
+    }
+
+}
+
+@media (max-width: 720px) {
+    .modal-content {
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        /* Could be more or less, depending on screen size */
+    }
+
+
+}
+
+.close-button_screenshot {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.confirm_button_screenshot {
+    color: #5a5a5a;
+}
+
+.confirm_button_screenshot:hover,
+.confirm_button_screenshot:focus {
+    color: black;
+
+    cursor: pointer;
+}
+
+.close-button_screenshot:hover,
+.close-button_screenshot:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.Composition_display td,
+.Composition_display th {
+    padding-left: 20px;
+    /* 增加左侧内边距 */
+    padding-right: 20px;
+    /* 增加右侧内边距 */
+}
+
+.atomic_composition_table td,
+.atomic_composition_table th {
+    padding-left: 20px;
+    /* 增加左侧内边距 */
+    padding-right: 20px;
+}
+
+.sequence_chunk.polar::after {
+    content: '';
+    display: block;
+    border-bottom: 3px solid red;
+    /* 使用border-bottom来控制下划线的粗细和颜色 */
+    margin-top: 2px;
+}
+
+.sequence_chunk.hydrophobic::after {
+    content: '';
+    display: block;
+    height: 3px;
+    /* 增加高度以加粗下划线 */
+    background-color: green;
+    margin-top: 2px;
+}
+
+.dropdown_P_H {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown_P_H-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown_P_H-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown_P_H-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropbtn_P_H:hover .dropdown_P_H-content {
+    display: block;
+}
+
+.dropdown_P_H:hover .dropdown_P_H-content {
+    display: block;
+}
+
+/* 默认字体大小 */
+.form-label {
+    font-size: 16px;
+    /* 初始字体大小 */
+}
+
+/* 基本样式 */
+.btn-success {
+    padding: 1em 1.5em;
+    /* 默认大小 */
+    font-size: 1rem;
+    /* 默认字体大小 */
+}
+
+/* 小屏幕设备 */
+@media (max-width: 600px) {
+    .btn-success {
+        padding: 0.4rem 0.4rem;
+        /* 较小的按钮大小 */
+        font-size: 0.5rem;
+        /* 较小的字体大小 */
+    }
+
+    .card-text {
+        font-size: 10px;
+        font-family: "Lato", sans-serif;
+    }
+
+    .card-title {
+        font-weight: 550;
+        font-size: 10px;
+        font-family: "Lato", sans-serif;
+        flex: 0 0 120px;
+        text-align: right;
+    }
+}
+
+/* 中等屏幕设备 */
+@media (min-width: 601px) and (max-width: 992px) {
+    .btn-success {
+        padding: 0.7rem 0.7rem;
+        /* 中等的按钮大小 */
+        font-size: 0.7rem;
+        /* 中等的字体大小 */
+    }
+
+    .card-text {
+        font-size: 13px;
+        font-family: "Lato", sans-serif;
+    }
+
+    .card-title {
+        font-weight: 550;
+        font-size: 13px;
+        font-family: "Lato", sans-serif;
+        flex: 0 0 160px;
+        text-align: right;
+    }
+}
+
+/* 大屏幕设备 */
+@media (min-width: 993px) {
+    .btn-success {
+        padding: 0.4rem 0.8rem;
+        /* 较大的按钮大小 */
+        font-size: 0.9rem;
+        /* 较大的字体大小 */
+    }
+
+    .card-text {
+        font-size: 16px;
+        font-family: "Lato", sans-serif;
+    }
+
+    .card-title {
+        font-weight: 550;
+        font-size: 16px;
+        font-family: "Lato", sans-serif;
+        flex: 0 0 180px;
+        text-align: right;
+    }
+}
+
+.residues-table {
+    font-size: clamp(5px, 2vw, 15px);
+}
+
+/* 搜索栏的初始样式 */
+#searchBox {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "Lato", sans-serif;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: top 0.3s;
+    z-index: 1;
+    background-color: white;
+}
+
+#searchBox.hidden {
+    transform: translateY(-100%); 
+}
+
+.ul_list {
+    position: sticky;
+    height: 100%;
+    overflow-y: auto;
+
+}
+
+.ul_list {
+    transition: transform 0.3s;
+    z-index: 999;
+}
+
+.ul_list.hidden {
+    transform: translateY(-100px);
+}
+#key_residues_display{
+    z-index: 0;
+}

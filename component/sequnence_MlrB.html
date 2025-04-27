@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CHMDD</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sequncen.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="../icon-sgpa.png">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/ngl.js"></script>
+</head>
+<body data-json-file="MlrB_seq">
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);">
+        <div class="container">
+            <div class="m-1">
+                <a href="../index.html">
+                    <img src="../asset/icon/chmdd.png" alt="null" style="height: 6.5vh;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Strain.html">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Hepatotoxins.html">Hepatotoxins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Predict.html">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../help.html">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../contacts.html">Contacts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <div class="container mt-4">
+            <div id="result_container" class="pt-5">
+                <div class="pt-4">
+                    <h2>
+                        <dt>MlrB</dt>
+                    </h2>
+                </div>
+                <hr>
+                <div id="sequence_content">
+                   <div class="p-3">
+                    <div style="display: flex;align-items: center; ">
+                        <div class="color-square" style="border: 1px solid #456; background-color: yellow; color: red;width: 20px; height: 20px;display: flex; align-items: center; justify-content: center; ">R</div>
+                        <div class="px-2" >active site</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="../asset/Clustal Omega/MlrB.aln-clustal_num"><img src="../asset/icon/icon_download.svg" alt="" style="width: 20px; height: 20px;"></a>
+                    </div>
+                </div>
+                <div class="position-relative pb-2 button_group row">
+                    <div class="col-md-6 col-12 button_group_left">
+                        <input type="checkbox" id="selectAllCheckbox"> Select All
+                        &nbsp;&nbsp;&nbsp;
+                        <span style="font-weight: bold; font-size: small;"><i class="fas fa-exclamation-circle"
+                                style="color: red;"></i>Hover over the amino acid to view the sequence number</span>
+                    </div>
+                   <div class="col-md-6 col-12 button_group_right">
+                   <button id="displaySelected">Display Selected</button>     
+                   <button id="restoreAll">Restore All</button>                   
+                   <button id="return_MlrAall" onclick="goBack()">Return</button>
+                </div>
+                </div>
+                    <div class="table-container">
+
+                        <table id="sequenceTable" class="table table-bordered">
+                            <tbody>
+                                <!-- 这里将由JavaScript生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+ 
+        <footer class="p-5 text-center ">
+            <div class="container ">
+                <p class="FooterText">
+                    Copyright©2023 ZhangLab at University of Science and Technology Beijing.All rights reserved.</p>
+            </div>
+        </footer>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/sequence.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

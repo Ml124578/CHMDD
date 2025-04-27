@@ -1,0 +1,32 @@
+@media (min-width: 720px) {
+ 
+  .FromContainer{
+        width: 70%;
+            }
+  }
+@media (min-width: 720px){
+.FooterText{
+    font-size: 0.8rem;
+}
+}
+@media (max-width: 720px){
+.FooterText{
+        font-size: 0.5rem;
+    }
+    }
+:root {
+        --green-001: linear-gradient(135deg, #044c2b , #208164,#044c2b); /* 定义颜色变量 */
+      }
+:root {
+        --green-002: linear-gradient(135deg, #208164, #044c2b ,#208164); /* 定义颜色变量 */
+      }
+:root {
+        --green-003: linear-gradient(135deg, #044c2b , #208164,#044c2b); /* 定义颜色变量 */
+      }
+      .FooterText{
+        font-weight: bold;
+        color: rgb(110, 110, 110);
+    }     
+
+      
+

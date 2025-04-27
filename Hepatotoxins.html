@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SGPA</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/popper.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="./asset/icon/chmdd.png">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/ngl.js"></script>
+    <script src="./js/mmtf.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        .btn {
+            background: rgb(0, 81, 43);
+            color: white;
+        }
+
+        .btn:hover {
+            background: rgb(0, 107, 57);
+            color: white;
+        }
+
+        .hotspot-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+
+
+        .dashed-line {
+            stroke: red;
+            stroke-width: 2;
+            fill: transparent;
+            stroke-dasharray: 5, 5;
+            stroke-dashoffset: 0;
+            animation: drawLine 1s forwards;
+        }
+
+        @keyframes drawLine {
+            from {
+                stroke-dashoffset: 250;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .popup-frame {
+            stroke: red;
+            stroke-width: 2;
+            fill: transparent;
+            stroke-dasharray: 5, 5;
+            opacity: 0;
+            animation: showFrame 0.5s forwards;
+        }
+
+        @keyframes showFrame {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .initial-hotspot-overlay {
+            position: absolute;
+            width: 175px;
+            height: 20px;
+            top: 800px;
+            left: 20px;
+            pointer-events: none;
+        }
+
+        .hotspot-border {
+            stroke: rgb(0, 30, 255);
+            stroke-width: 5;
+            fill: transparent;
+            stroke-dasharray: 8;
+            animation: dashMove 3s linear infinite;
+        }
+
+        @keyframes dashMove {
+            0% {
+                stroke-dashoffset: 0;
+            }
+
+            100% {
+                stroke-dashoffset: 30;
+            }
+        }
+    </style>
+    <style>
+        .nav-pills .nav-link.active {
+            background-color: transparent !important;
+            color: rgb(255, 255, 134) !important;
+        }
+
+        #pills-tab .nav-link {
+            color: white;
+        }
+
+        #tableContainer_1,
+        #tableContainer_2 {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: auto;
+            font-family: Verdana, Geneva, sans-serif !important;
+
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            word-wrap: break-word;
+            white-space: nowrap;
+            /* 禁止换行，内容完全展示 */
+            overflow: hidden;
+            /* 超出部分隐藏 */
+            text-overflow: ellipsis;
+            /* 溢出时显示省略号 */
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2 !important;
+            /* 保持表头背景色不变 */
+        }
+
+        table tr:nth-child(2n) {
+            background-color: #d8fff0;
+            /* 偶数行背景色 */
+        }
+
+        table tr:nth-child(2n+1) {
+            background-color: #f7ffc7;
+            /* 奇数行背景色 */
+        }
+
+        table th:first-child,
+        table td:first-child {
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            background-color: #f2f2f2;
+            z-index: 1;
+        }
+
+        table th:first-child {
+            z-index: 2;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);" id="topNavbar">
+        <div class="container">
+            <div class="m-1">
+                <a href="./index.html">
+                    <img src="./asset/icon/chmdd.png" alt="..." style="height: 6.5vh;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Strain.html">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Hepatotoxins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Predict.html">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./help.html">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./contacts.html">Contacts</a>
+                    </li>
+                    <!--<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4" style="font-family: Verdana, Geneva, sans-serif !important;">
+        <div class="row text-center mb-4 gx-2 gy-3 button-group">
+            <div class="col-6 col-md-3">
+                <a class="btn w-100" style="font-size: 20px;" href="./component/sequnence_MlrA.html">MlrA</a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a class="btn w-100" style="font-size: 20px;" href="./component/sequnence_MlrB.html">MlrB</a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a class="btn w-100" style="font-size: 20px;" href="./component/sequnence_MlrC.html">MlrC</a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a class="btn w-100" style="font-size: 20px;" href="./component/sequnence_MlrD.html">MlrD</a>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="font-family: Verdana, Geneva, sans-serif !important;">
+        <ul class="nav nav-pills mb-3 d-flex flex-column flex-md-row justify-content-between gap-3" id="pills-tab">
+            <li class="nav-item btn d-flex justify-content-center flex-fill">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                    type="button" role="tab" aria-controls="pills-home" aria-selected="false" tabindex="true"
+                    style="width: 100%; height: 100%;">Biodegradation Pathways</button>
+            </li>
+            <li class="nav-item btn d-flex justify-content-center flex-fill">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                    type="button" role="tab" aria-controls="pills-profile" aria-selected="-1"
+                    style="width: 100%; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center;">
+                    Microcystin Compounds' Bioactivity Data
+                </button>
+            </li>
+            <li class="nav-item btn d-flex justify-content-center flex-fill">
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+                    type="button" role="tab" aria-controls="pills-contact" aria-selected="false" tabindex="-1"
+                    style="width: 100%; height: 100%; padding: 0; display: flex; align-items: center; justify-content: center;">
+                    Nodularin Compounds' Bioactivity Data
+                </button>
+            </li>
+
+        </ul>
+
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="container pic-group mt-4 section_1">
+                <div class="row gx-2 gy-3">
+                    <div class="col-12 col-md-6"
+                        style="border: 2px solid #ddd; border-radius: 8px; position: relative;">
+                        <img src="./asset/degradation_pathway/MC.png" alt="Image 1" class="img-fluid w-100"
+                            usemap="#image-map">
+                        <table class="table mt-5" style="width: 100%; font-size: 12px;">
+                            <tr>
+                                <td></td>
+                                <td style="color: #ff00ff;"><b>X</b></td>
+                                <td style="color: #1b8181;"><b>Z</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-LR</b></td>
+                                <td>L-Leu</td>
+                                <td>L-Arg</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-YR</b></td>
+                                <td>L-Tyr</td>
+                                <td>L-Arg</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-RR</b></td>
+                                <td>L-Arg</td>
+                                <td>L-Arg</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-LF</b></td>
+                                <td>L-Phe</td>
+                                <td>L-Leu</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-LW</b></td>
+                                <td>L-Tyr</td>
+                                <td>L-Leu</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-LY</b></td>
+                                <td>L-Trp</td>
+                                <td>L-Leu</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-LA</b></td>
+                                <td>L-Leu</td>
+                                <td>L-Ala</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-RF</b></td>
+                                <td>L-Arg</td>
+                                <td>L-Phe</td>
+                            </tr>
+                            <tr>
+                                <td><b>MC-RW</b></td>
+                                <td>L-Arg</td>
+                                <td>L-Trp</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-12 col-md-6" style="border: 2px solid #ddd; border-radius: 8px;">
+                        <img src="./asset/degradation_pathway/NOD.png" alt="Image 2" class="img-fluid w-100">
+                        <table style="width: 100%; font-size: 12px;" class="table mt-5">
+                            <tr>
+                                <td></td>
+                                <td style="color: #008040;"><b>R<sub>1</sub></b></td>
+                                <td style="color: #ff0000;"><b>R<sub>2</sub></b></td>
+                                <td style="color: #000000;"><b>Other changes</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>NOD</b></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>CH<sub>3</sub></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><b>[DMAdda<sup>3</sup>]NOD</b></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>H</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><b>[D-Asp<sup>1</sup>]NOD</b></td>
+                                <td>H</td>
+                                <td>CH<sub>3</sub></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><b>[(6Z)-Adda<sup>3</sup>]NOD</b></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>Adda modifications</td>
+                            </tr>
+                            <tr>
+                                <td><b>[L-Val<sup>2</sup>]NOD</b></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>L-Arg → L-Val</td>
+                            </tr>
+                            <tr>
+                                <td><b>[L-Har<sup>2</sup>]NOD</b></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>CH<sub>3</sub></td>
+                                <td>L-Arg → L-hArg</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="container">
+                <span style="font-weight: bold; font-size: small;"><i class="fas fa-exclamation-circle"
+                        style="color: red;"></i>The data is sourced from <a
+                        href="https://cyanobioactivedb.jc-biotechaiteam.com/" class="">CyanoBioActiveDB</a></span>
+                <div id="tableContainer_1"></div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="container">
+                <span style="font-weight: bold; font-size: small;"><i class="fas fa-exclamation-circle"
+                        style="color: red;"></i>The data is sourced from <a
+                        href="https://cyanobioactivedb.jc-biotechaiteam.com/" class="">CyanoBioActiveDB</a></span>
+                <div id="tableContainer_2"></div>
+            </div>
+        </div>
+        <footer class="p-5 text-center">
+            <div class="container">
+                <p class="FooterText">
+                    Copyright©2023 ZhangLab at University of Science and Technology Beijing.All rights reserved.</p>
+            </div>
+        </footer>
+        <script src="./js/universal.js"></script>
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script>
+            // 指定CSV文件路径
+            const csvFilePath1 = './asset/toxic-csv/Microcystin.csv';
+            const csvFilePath2 = './asset/toxic-csv/Nodularin.csv';
+
+            // 获取并处理CSV文件的函数
+            function fetchCSVData(csvFilePath, containerId) {
+                fetch(csvFilePath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP Error! Status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(csvText => {
+                        const data = parseCSV(csvText);
+                        const table = generateTable(data);
+                        const container = document.getElementById(containerId);
+                        container.innerHTML = ''; // 清除任何加载消息
+                        container.appendChild(table);
+                    })
+                    .catch(error => {
+                        console.error('Unable to load CSV file:', error);
+                        document.getElementById(containerId).innerText = 'Unable to load CSV file.';
+                    });
+            }
+
+            // 获取并显示两个CSV文件的数据
+            fetchCSVData(csvFilePath1, 'tableContainer_1');
+            fetchCSVData(csvFilePath2, 'tableContainer_2');
+
+            // 简单的CSV解析函数
+            function parseCSV(text) {
+                const lines = text.split(/\r\n|\n/);
+                const result = [];
+                let headers = [];
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line === "") continue; // 跳过空行
+                    const values = parseCSVLine(line);
+                    if (i === 0) {
+                        headers = values;
+                    } else {
+                        const obj = {};
+                        headers.forEach((header, index) => {
+                            obj[header] = values[index] || "";
+                        });
+                        result.push(obj);
+                    }
+                }
+                return { headers, rows: result };
+            }
+
+            // 解析单行CSV，处理逗号分隔和引号包围的值
+            function parseCSVLine(line) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    if (char === '"') {
+                        if (inQuotes && line[i + 1] === '"') {
+                            current += '"';
+                            i++; // 跳过转义的引号
+                        } else {
+                            inQuotes = !inQuotes;
+                        }
+                    } else if (char === ',' && !inQuotes) {
+                        result.push(current);
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+                result.push(current);
+                return result;
+            }
+
+            // 生成HTML表格的函数
+            function generateTable(data) {
+                const table = document.createElement('table');
+                table.classList.add('table'); // 添加Bootstrap表格样式
+                const thead = document.createElement('thead');
+                const tbody = document.createElement('tbody');
+
+                // 定义需要转换为链接的列及其基础URL（如果有）
+                const linkColumns = {
+                    'Compound_URL': null, // 完整的URL已经在数据中
+                    'Chemspider_ID': null, // 完整的URL已经在数据中
+                    'PubChem_CID': 'https://pubchem.ncbi.nlm.nih.gov/compound/',
+                    'ChEMBL_ID': 'https://www.ebi.ac.uk/chembl/compound_report_card/'
+                };
+
+                // 辅助函数：创建链接元素
+                const createLink = (href, text) => {
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.textContent = text;
+                    link.target = '_blank'; // 在新标签页中打开链接
+                    return link;
+                };
+
+                // 创建表头
+                const headerRow = document.createElement('tr');
+                data.headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // 创建表体
+                data.rows.forEach(row => {
+                    const tr = document.createElement('tr');
+                    data.headers.forEach(header => {
+                        const td = document.createElement('td');
+                        const cellValue = row[header];
+
+                        if (linkColumns.hasOwnProperty(header)) {
+                            // 如果有基础URL，则拼接
+                            const baseURL = linkColumns[header];
+                            const href = baseURL ? `${baseURL}${cellValue}` : cellValue;
+                            td.appendChild(createLink(href, cellValue));
+                        } else {
+                            // 其他列直接显示文本
+                            td.textContent = cellValue;
+                        }
+
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+
+                return table;
+            }
+        </script>
+</body>
+
+</html>

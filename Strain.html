@@ -1,0 +1,2933 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CHMDD</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="./asset/icon/chmdd.png">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./asset/result-js-css/tongji.js"></script>
+    <script src="./js/csv.js"></script>
+    <script src="./js/jszip.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<style>
+    .table-box {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    #table_div{
+        border-right: 1px solid #000000;
+    }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 0px;
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 14px;
+
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #000000;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        text-align: center;
+    }
+    th,:nth-child(2)
+    td:nth-child(2) {
+    white-space: normal !important; /* 允许换行 */
+}
+    .table td:first-child,
+    .table th:first-child {
+        position: sticky;
+        left: 0;
+        background-color: #f8f9fa;
+        z-index: 1;
+    }
+
+    .table td:nth-child(2),
+    .table th:nth-child(2) {
+        position: sticky;
+        left: 62px;
+        /* 设置第二列的位置，依据第一列宽度调整 */
+        background-color: #f8f9fa;
+        z-index: 2;
+        /* 确保第二列在第一列的上面 */
+    }
+
+    @media (max-width: 1024px)  {
+        .table td:first-child,
+    .table th:first-child {
+        position: static;
+        left: 0;
+        background-color: #f8f9fa;
+        z-index: 0;
+    }
+
+    .table td:nth-child(2),
+    .table th:nth-child(2) {
+        position: static;
+        left: 83.5px;
+        /* 设置第二列的位置，依据第一列宽度调整 */
+        background-color: #f8f9fa;
+        z-index: 0;
+        /* 确保第二列在第一列的上面 */
+    }
+    }
+
+    table th {
+        background-color: #f2f2f2 !important;
+        font-size: small;
+        font-weight: bold;
+    }
+
+    table tr:nth-child(2n) {
+        background-color: #d8fff0;
+        /* 偶数行背景色 */
+    }
+
+    table tr:nth-child(2n+1) {
+        background-color: #f7ffc7;
+        /* 奇数行背景色 */
+    }
+
+    button {
+        font-size: 15px;
+    }
+
+    body {
+        padding-top: 80px;
+    }
+
+    .toolbar {
+        display: flex;
+        align-items: center;
+        /* 垂直居中对齐 */
+        gap: 10px;
+        /* 元素之间的间距 */
+        font-size: 15px;
+    }
+
+    #searchInput {
+        margin-left: auto;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: center;
+        /* 水平居中 */
+        vertical-align: middle;
+        /* 垂直居中 */
+    }
+
+    .custom-hr {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+
+    .sortable {
+        cursor: pointer;
+    }
+
+    .header-content {
+        display: flex;
+        /* 使用Flexbox布局 */
+        justify-content: space-between;
+        /* 在两端分布 */
+        align-items: center;
+        /* 垂直居中对齐 */
+        width: 100%;
+        /* 确保内容占满整个表头 */
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: bolder;
+    }
+
+    /* 滑动面板的样式 */
+    .sliding-panel {
+        position: fixed;
+        top: 50%;
+        /* 设置垂直方向为 50% */
+        right: -300px;
+        /* 初始位置在页面右侧之外 */
+        width: 300px;
+        height: 70%;
+        /* 面板的高度可以调整 */
+        background-color: #f7fff8;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+        overflow-y: auto;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        /* 确保滑动面板位于顶部 */
+        transform: translateY(-50%);
+        /* 垂直居中对齐 */
+    }
+
+    /* 当面板打开时 */
+    .sliding-panel.open {
+        right: 0;
+    }
+
+    /* 面板头部样式 */
+    .sliding-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #208164;
+        color: #ffffff;
+    }
+
+    .sliding-panel-header h2 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .sliding-panel-header button {
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* 面板内容样式 */
+    .sliding-panel-content {
+        padding: 15px;
+    }
+
+    #degradationRateHeader {
+        cursor: pointer;
+    }
+
+    #reference-container {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+    }
+
+    /* 去除列表样式 */
+    .reference-item {
+        text-align: justify;
+    }
+
+    /* 设置链接样式 */
+    .doi-link {
+        text-decoration: none;
+        color: rgb(0, 99, 30);
+    }
+
+    .doi-link:hover {
+        text-decoration: underline;
+    }
+
+    #reference-container ul li {
+        scroll-margin-top: 100px;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);"
+        data-bs-auto-close="outside">
+        <div class="container">
+            <!--	<a class="navbar-brand fs-2 fw-bold" href="index.html">MlrDB</a>-->
+            <div class="m-1">
+                <a href="./index.html">
+                    <img src="./asset/icon/chmdd.png" alt="./asset/..." style="height: 6.5vh;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Hepatotoxins.html">Hepatotoxins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Predict.html">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./help.html">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./contacts.html">Contacts</a>
+                    </li>
+                    <!--<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="slidingPanel" class="sliding-panel">
+        <div class="sliding-panel-header">
+            <h2>Annotations</h2>
+            <button id="closePanelBtn">&times;</button>
+        </div>
+        <div class="sliding-panel-content">
+            <ol>
+                <li>The Degradation Rates/Efficiency of different strains were determined under specific experimental
+                    conditions in their respective studies. Due to variations in experimental conditions, these values
+                    are not directly comparable.</li>
+            </ol>
+        </div>
+    </div>
+    <div class="table-box pt-3">
+        <div class="position-relative">
+            <div class="toolbar">
+                <button id="generateCSVBtn">Download</button>
+                <div id="selectedCount">Selected rows: 0</div>
+                <input type="text" id="searchInput" placeholder="Search...">
+
+            </div>
+        </div>
+        <div class="pt-3" id="table_div">
+            <div class="table-responsive">
+                <table class="table border table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col"><input type="checkbox" id="selectAllCheckbox"> Select</th>
+                            <th scope="col">Strain</th>
+                            <th scope="col" id="strainClassificationHeader" class="sortable" title="Click to sort">
+                                <div class="header-content">
+                                    Class Affiliated
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <polygon points="12,4 16,8 8,8" fill="black" /> <!-- 上三角 -->
+                                            <polygon points="12,20 8,16 16,16" fill="black" /> <!-- 下三角 -->
+                                        </g>
+                                    </svg>
+                                </div>
+                            </th>
+
+                            <th scope="col">Source</th>
+                            <th scope="col">16S rRNA or Genome GenBank Accession Number</th>
+                            <th scope="col">Degradable MCs Types</th>
+                            <th scope="col">Initial MCs Concentration</th>
+                            <th scope="col" id="degradationRateHeader">MCs Degradation Rate/Efficiency&nbsp;<i class="fas fa-exclamation-circle" style="color: red;"></i></th>
+                            <th scope="col">Analytical Method</th>
+                            <th scope="col">Degradable NODs</th>
+                            <th scope="col">Degradation Gene Cluster</th>
+                            <th scope="col">References</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="WP_121050248.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> ACM-3962(MJ-PV)</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Murrumbidgee River,Australia</td>
+                            <td>AF411072</td>
+                            <td>MC-LR, RR</td>
+                            <td>MC-LR 10 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 10 mg/L
+                            </td>
+                            <td>MC-LR 1.6mg/(L·h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 1.5mg/(L·h)
+                            </td>
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>no</td>
+                            <td>mlr</td>
+                            <td><a href="#[Dziga2016]">[Dziga2016]</a>,
+                                <a href="#[Dziga2012]">[Dziga2012]</a>,
+                                <a href="#[Jones1994]">[Jones1994]</a>,<br>
+                                <a href="#[Bourne1996]">[Bourne1996]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="BBE32454.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> Y2<br>
+                                <i>(Sphingosinicella
+                                    microcystinivorans)</i>
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Lake Suwa, Japan</td>
+                            <td>AB084247</td>
+                            <td>MC-LR, RR, YR</td>
+                            <td>MC-LR 10 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 18 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 22 mg/L
+                            </td>
+                            <td>MC-LR 100%/(6d)<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(6d)<br>
+                                <hr class="custom-hr">
+                                MC-YR 61 mg/L/d
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Park2001]">[Park2001]</a>,
+                                <a href="#[aruyama2006]">[aruyama2006]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> MD-1</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Kasumigaura Lake, Japan</td>
+                            <td>AB110635</td>
+                            <td>MC-LR, RR, YR</td>
+                            <td>MC-LR 1 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 1 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 1 mg/L
+                            </td>
+                            <td>MC-LR 95% (2.5h)<br>
+                                <hr class="custom-hr">
+                                MC-YR 98% (2.5h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 96% (2.5h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>no</td>
+                            <td>mlr</td>
+                            <td><a href="#[Okano2020]">[Okano2020]</a>,<a href="#[Saitou2003]">[Saitou2003]</a>,<a href="#[Saito2003]">[Saito2003]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingosinicella microcystinivorans</i> B9<br>(<i>Sphingomonas sp.</i> B-9)
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Tsukui Lake, Japan</td>
+                            <td>AB159609</td>
+                            <td>MC-LR,YR,RR,LA,LF,LW</td>
+                            <td>MC-LR 2 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 2 mg/L
+                            </td>
+                            <td>MC-LR 100%/(1d)<br>
+                                <hr class="custom-hr">
+                                MC-LR 100%/(1d)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>yes</td>
+                            <td>mlr</td>
+                            <td><a href="#[Miyachi2015]">[Miyachi2015]</a>,
+                                <a href="#[Jin2018]">[Jin2018]</a>,
+                                <a href="#[Imanishi2005]">[Imanishi2005]</a>,<br>
+                                <a href="#[Harada2004]">[Harada2004]</a>,
+                                <a href="#[Tsuji2006]">[Tsuji2006]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> 7CY</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Suwa Lake, Japan</td>
+                            <td>AB076083</td>
+                            <td>MC-LR, RR,
+                                LY, LW, LF</td>
+                            <td>MC-LR 6 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-LF 6 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-LW 6 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-LY 6 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 6 mg/L
+                            </td>
+                            <td>MC-LR 100%/(4d)<br>
+                                <hr class="custom-hr">
+                                MC-LF 100%/(4d)<br>
+                                <hr class="custom-hr">
+                                MC-LW 100%/(4d)<br>
+                                <hr class="custom-hr">
+                                MC-LY 100%/(4d)<br>
+                                <hr class="custom-hr">
+                                MC-RR 70%/(7h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>If MCRR is present,then yes</td>
+                            <td>-</td>
+                            <td><a href="#[Ishii2004]">[Ishii2004]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> MDB2
+                                (<i>Sphingosinicella sp.</i>)
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Tenryu river, Japan</td>
+                            <td>AB219940</td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Maruyama2006]">[Maruyama2006]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingomonas sp.</i> MDB3
+                                (<i>Sphingosinicella sp.</i>)
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Tenryu river, Japan</td>
+                            <td>AB219941</td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Maruyama2006]">[Maruyama2006]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> CBA4</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>San Roque Reservoir, Argentina</td>
+                            <td>AY920497</td>
+                            <td>MC-RR</td>
+                            <td>MC-RR 200 μg /L</td>
+                            <td>MC-RR 100%(36h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td>50<a href="#[Park2001]">[Park2001]</a>,</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> LH21</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Biologically active sand filter</td>
+                            <td>DQ112242</td>
+                            <td>MC-LR,LA</td>
+                            <td>MC-LR 25 µg/L,10 µg/L,5 µg/L<br>
+                                <hr class="custom-hr">
+                                MC-LA 25 µg/L,10 µg/L,5 µg/L
+                            </td>
+                            <td>MC-LR 100%/(5h)<br>
+                                <hr class="custom-hr">
+                                MC-LA 100%/(5h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Ho2007]">[Ho2007]</a>,
+                                <a href="#[Ho2006]">[Ho2006]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> C-1</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Biologically active sand filter</td>
+                            <td>AB161684</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 mg/L</td>
+                            <td>MC-LR 85%/(3h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Shimizu2012]">[Shimizu2012]</a>,
+                                <a href="#[Liu2024]">[Liu2024]</a>,
+                                <a href="#[Okano2009]">[Okano2009]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> USTB-05</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Dianchi Lake, China</td>
+                            <td>EF607053</td>
+                            <td>MC-LR, RR, YR</td>
+                            <td>MC-LR 28.8 mg/L <br>
+                                <hr class="custom-hr">
+                                MC-RR 42.3 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 14.8 mg/L
+                            </td>
+                            <td>MC-LR 100%/(24h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(36h)<br>
+                                <hr class="custom-hr">
+                                MC-YR 100%/(10h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>yes</td>
+                            <td>mlr</td>
+                            <td>
+                                <a href="#[Zou2022]">[Zou2022]</a>,
+                                <a href="#[Xu2019]">[Xu2019]</a>,
+                                <a href="#[Teng2024]">[Teng2024]</a>,<br>
+                                <a href="#[Teng2023]">[Teng2023]</a>,
+                                <a href="#[Wang2010]">[Wang2010]</a>,
+                                <a href="#[Feng2016]">[Feng2016]</a>,<br>
+                                <a href="#[Xu2015]">[Xu2015]</a>,
+                                <a href="#[Xiao2010]">[Xiao2010]</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Novosphingobium sp.</i> THN1</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>HQ664117</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 1.5 mg/L</td>
+                            <td>MC-LR 91.2%/(12h)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>
+                                <a href="#[Wang2020]">[Wang2020]</a>,
+                                <a href="#[Jiang2011]">[Jiang2011]</a>,
+                                <a href="#[Li2014]">[Li2014]</a>,
+                                <a href="#[Wang2017]">[Wang2017]</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Novosphingobium sp.</i> KKU25S</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Bueng Nong Khot, Thailand</td>
+                            <td>KP013622</td>
+                            <td>[Dha7]MC-LR</td>
+                            <td>[Dha7]MC-LR 25 µg/L</td>
+                            <td>[Dha7]MC-LR 100%/(24h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Phujomjai2016]">[Phujomjai2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Novosphingobium sp.</i> KKU15</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Kaen Nakhon, Thailand</td>
+                            <td>-</td>
+                            <td>[Dha7]MC-LR</td>
+                            <td>[Dha7]MC-LR 5 µg/mL</td>
+                            <td>[Dha7]MC-LR 100%/(3d)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>
+                                Liquid Chromatography-Mass Spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Somdee2014]">[Somdee2014]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Blastomonas fulva</i> strain T2</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Daejeon, Korea</td>
+                            <td>KM670031</td>
+                            <td>MC-LR</td>
+                            <td>20µg/L</td>
+                            <td>MC-LR 0.208 mg/L/d</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Jin2022]">[Jin2022]</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> TT25</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Myponga Reservoir, Australia</td>
+                            <td>JQ398614</td>
+                            <td>MC-LR, RR, YR, LA</td>
+                            <td>MC-LR 10 µg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 10 µg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 10 µg/L<br>
+                                <hr class="custom-hr">
+                                MC-LA 10 µg/L
+                            </td>
+                            <td>MC-LR 100%/(4h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(4h)<br>
+                                <hr class="custom-hr">
+                                MC-YR 100%/(4h)<br>
+                                <hr class="custom-hr">
+                                MC-LA 100%/(4h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Ho2012]">[Ho2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingomonas sp.</i> NV-3</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Lake Rotoiti, New Zealand</td>
+                            <td>JN256930</td>
+                            <td>MC-LR,[Dha7]MC-LR</td>
+                            <td>Mixed [Dha7]MC-LR and MC-LR 25 mg/L</td>
+                            <td>Mixed [Dha7]MC-LR and MC-LR 0.35 mg/(L·h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Somdee2013]">[Somdee2013]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> MB-E</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Missisquoi Bay, Lake Champlain</td>
+                            <td>KP096395</td>
+                            <td>MC-LR, YR, LY, LW, LF</td>
+                            <td>Mixed MC-LR, YR, LY, LW, LF 50 mg/L</td>
+                            <td>Mixed MC-LR, YR, LY, LW, LF 100%/(16h)</td>
+                            <td>Ultra High-Performance Liquid Chromatography-Tandem Mass Spectrometry (UHPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Maghsoudi2016]">[Maghsoudi2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingosinicella sp.</i> JEZ-8L</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Missisquoi Bay, Lake Champlain</td>
+                            <td>KY406734</td>
+                            <td>MC-LR</td>
+                            <td>10 mg/L</td>
+                            <td>MC-LR 92%(7d),100%(14d)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Najera2017]">[Najera2017]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> a7</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KU954525</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 20 mg/L</td>
+                            <td>MC-LR 3.33 mg/(L·h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>
+                                Liquid Chromatography-Time of Flight Mass Spectrometry (LC-TOF-MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Zhang2017]">[Zhang2017]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> IM-1</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KX085478</td>
+                            <td>MC-LR,RR,YR</td>
+                            <td>Mixed MC-LR,RR,YR 1 mg/L</td>
+                            <td>Mixed MC-LR,RR,YR 90%/(6h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>
+                                Time of Flight Mass Spectrometry (TOF-MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Lezcano2016]">[Lezcano2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingopyxis sp.</i> IM-2
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KX085479</td>
+                            <td>MC-LR</td>
+                            <td>Mixed MC-LR,RR,YR 1 mg/L</td>
+                            <td>MC-LR 97.03 µg MC L-1 h-1 in 1/4 R2A medium and 25.35 µg MC L-1 h-1 in MSM medium</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Lezcano2016]">[Lezcano2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingopyxis sp.</i> IM-3
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KX085480</td>
+                            <td>MC-LR</td>
+                            <td>Mixed MC-LR,RR,YR 1 mg/L</td>
+                            <td>MC-LR 75.23 µg MC L-1 h-1 in 1/4 R2A medium and 20.45 µg MC L-1 h-1 in MSM medium</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Lezcano2016]">[Lezcano2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> m6</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MF535105</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/L-50 µg/L</td>
+                            <td>MC-LR 100%/(4h)</td>
+                            <td>Ultra-Performance Liquid Chromatography Tandem Mass
+                                Spectrometry(UPLC-MS/MS)<br>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Ding2018]">[Ding2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> X20</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Dianchi Lake, China</td>
+                            <td>KM365437</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 mg/L</td>
+                            <td>MC-LR 100%/(10h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>60<a href="#[Qin2019]">[Qin2019]</a></td>
+                        </tr>
+                        <tr>
+                            <!--以上重新检查-->
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> YF1</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KY491642</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 10,15 mg/L</td>
+                            <td>MC-LR 80%/(1.5h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Wu2020]">[Wu2020]</a>,
+                                <a href="#[Yang2020]">[Yang2020]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> N5</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MN661394</td>
+                            <td>MC-RR,LR,YR,LA</td>
+                            <td>MC-RR 5 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-LR 5 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 5 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-LA 5 mg/L
+                            </td>
+                            <td>MC-RR 0.58 mg/(L·h)<br>
+                                <hr class="custom-hr">
+                                MC-LR 0.34 mg/(L·h)<br>
+                                <hr class="custom-hr">
+                                MC-YR 0.18 mg/(L·h)<br>
+                                <hr class="custom-hr">
+                                MC-LA 0.14 mg/(L·h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>
+                                Liquid Chromatography-Mass Spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>62<a href="#[Hu2021]">[Hu2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> THE1
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MK503844
+                            </td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>62<a href="#[Hu2021]">[Hu2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingopyxis sp.</i> TH2
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MK503845
+                            </td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>62<a href="#[Hu2021]">[Hu2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> TH3
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MK503846
+                            </td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>62<a href="#[Hu2021]">[Hu2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> TH9
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MK503847
+                            </td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td>62<a href="#[Hu2021]">[Hu2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingopyxis sp.</i> HW</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MN661394</td>
+                            <td>[D-Asp3]MC-LR</td>
+                            <td>7.50 mg/L</td>
+                            <td>[D-Asp3]MC-LR 97.87% (5min), 100% (15min)<br>(MlrA enzyme (extracted from recombinant
+                                Escherichia coli))</td>
+                            <td>High-Performance Liquid Chromatography with Photodiode Array Detection(HPLC-PDA)<br>
+                                Ultra-Performance Liquid Chromatography-Tandem Mass Spectrometry(UPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Wang2021]">[Wang2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Stenotrophomonas sp.</i> EMS</th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>GU224277</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 0.7 µg/mL<br>
+                                <hr class="custom-hr">
+                                MC-RR 1.7 µg/mL
+                            </td>
+                            <td>MC-LR 100%/(18h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(15h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Chen2010]">[Chen2010]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Klebsiella sp.</i> strain YFC1.1<br>(<i>Klebsiella sp.</i> YFMCD1-1)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MF996503</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1,2,3,4,5 µg/ml</td>
+                            <td>MC-LR 0.125,0.25,0.375,0.4,0.5 µg/ml/hr</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Yang2018]">[Yang2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Stenotrophomonas sp.</i> strain YFC1.2<br>(<i>Stenotrophomonas sp.</i> YFMCD1-2)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MF996504</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1,2,3,4,5 µg/ml</td>
+                            <td>MC-LR 0.125,0.25,0.375,0.4,0.5 µg/ml/hr</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Yang2018]">[Yang2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Rhizobium sp.</i> TH</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KX371892</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 8.3 mg/L</td>
+                            <td>MC-LR 0.18 h⁻¹ to 0.29 h⁻¹</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Zhu2016]">[Zhu2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Kurthia gibsonii</i> strain A1</th>
+                            <td>Firmicutes</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KU977286</td>
+                            <td>MC-LR</td>
+                            <td>0.96 mg/L</td>
+                            <td>MC-LR 59.9% (7d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay(ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[GU2016]">[GU2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Catellibacterium terrae</i> strain A2
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KU977287</td>
+                            <td>MC-LR</td>
+                            <td>0.96 mg/L</td>
+                            <td>MC-LR 62.5% (7d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay(ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[GU2016]">[GU2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acinetobacter lwoffii</i> strain A6
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KU977288</td>
+                            <td>MC-LR</td>
+                            <td>0.96 mg/L</td>
+                            <td>MC-LR 57.8% (7d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay(ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[GU2016]">[GU2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus cereus</i> strain Q1
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KU977293</td>
+                            <td>MC-LR</td>
+                            <td>0.96 mg/L</td>
+                            <td>MC-LR 64% (7d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay(ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[GU2016]">[GU2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Brevundimonas diminuta</i> strain Q3</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KU685402</td>
+                            <td>MC-LR</td>
+                            <td>0.96 mg/L</td>
+                            <td>MC-LR 61.5% (7d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay(ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[GU2016]">[GU2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingorhabdus sp.</i> MG-15</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>A monoxenic culture of Monas guttula.</td>
+                            <td>LC729876</td>
+                            <td>MC-LR,RR,YR</td>
+                            <td>MC-LR 1000 μg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 1000 μg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 1000 μg/L
+                            </td>
+                            <td>MC-LR 4.06 ± 0.15 * 10<sup>-4</sup> pg microcystin·cell<sup>-1</sup>·h<sup>-1</sup><br>
+                                <hr class="custom-hr">
+                                MC-RR 12.2 ± 0.83 * 10<sup>-4</sup> pg microcystin·cell<sup>-1</sup>·h<sup>-1</sup><br>
+                                <hr class="custom-hr">
+                                MC-YR 4.06 ± 1.07 * 10<sup>-4</sup> pg microcystin·cell<sup>-1</sup>·h<sup>-1</sup>
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Fujimoto2007]">[Fujimoto2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Sphingorhabdus</i> sp. MG-22</th>
+                            <td>Alphaproteobacteria</td>
+                            <td>A monoxenic culture of Monas guttula.</td>
+                            <td>LC729877</td>
+                            <td>MC-RR,YR,LR</td>
+                            <td>MC-LR 1000 μg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 1000 μg/L<br>
+                                <hr class="custom-hr">
+                                MC-YR 1000 μg/L
+                            </td>
+                            <td>MC-LR 2.60 ± 0.24 * 10<sup>-4</sup> pg microcystin·cell<sup>-1</sup>·h<sup>-1</sup><br>
+                                <hr class="custom-hr">
+                                MC-RR 5.58 ± 0.43 * 10<sup>-4</sup> pg microcystin·cell<sup>-1</sup>·h<sup>-1</sup><br>
+                                <hr class="custom-hr">
+                                MC-YR 3.27 ± 0.67 * 10<sup>-4</sup> pg microcystin·cell<sup>-1</sup>·h<sup>-1</sup>
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Fujimoto2007]">[Fujimoto2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Paucibacter toxinivorans</i> strain 15B<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2B15<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2B17<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2B3<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain S1030<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain G44<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain F39<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain F36<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 7A<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2C23<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2C20T<br>
+                                <hr class="custom-hr">
+                                <i>Paucibacter toxinivorans</i> strain 2B5<br>
+                                <hr class="custom-hr">
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Lake Tuusulanjärvi,Finland</td>
+                            <td>AY515379<br>AY515380<br>AY515381<br>AY515382<br>AY515383<br>AY515384<br>AY515385<br>AY515386<br>AY515387<br>AY515388<br>AY515389<br>AY515390<br>AY515391
+                            </td>
+                            <td>MC-LR,YR</td>
+                            <td>800-4300 µg/L</td>
+                            <td>(The strains S1030, F36, 2C20T, 2, and 2C23 were used to test their degradation ability)<br>
+                                Mixture of microcystins -LR and -YR, with maximum rates of 4-16 mg l<sup>-1</sup>
+                                h<sup>-1</sup> (2-30 fg cell<sup>-1</sup> h<sup>-1</sup>).</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>
+                                Protein Phosphatase Inhibition Assay (PPIA)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Rapala2005]">[Rapala2005]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Paucibacter sp.</i> IM-4
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>-</td>
+                            <td>MC-LR,RR,YR</td>
+                            <td>Mixed MC-LR,RR,YR 1 mg/L</td>
+                            <td>Mixed MC-LR,RR,YR 100%/(120h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lezcano2016]">[Lezcano2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Paucibacter sp.</i> CH
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Chaohu Lake, China</td>
+                            <td>KM365439</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 11.6 µg/mL</td>
+                            <td>MC-LR 100%/(10h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[YOU2014]">[YOU2014]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Paucibacter toxinivorans</i> (2C20)
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>DSMZ-German Collection of Microorganisms and Cell Cultures</td>
+                            <td>-</td>
+                            <td>MC-LR,RR,LF,YR,DM-LR</td>
+                            <td>MC-LR 10 µg/mL<br>
+                                <hr class="custom-hr">DM-LR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-RR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LF 10 µg/mL<br>
+                                <hr class="custom-hr">MC-YR 10 µg/mL
+                            </td>
+                            <td>MC-LR 85%/(7d)<br>
+                                <hr class="custom-hr">DM-LR 99.3%/(7d)<br>
+                                <hr class="custom-hr">MC-RR 90%/(7d)<br>
+                                <hr class="custom-hr">MC-LF 100%/(7d)<br>
+                                <hr class="custom-hr">MC-YR 99%/(7d)
+                            </td>
+                            <td>Ultra-Performance Liquid Chromatography-Quadrupole Time of Flight Mass Spectrometry
+                                (UPLC-QTOF-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Santos2021]">[Santos2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row"><i>Bordetella sp.</i> MCYF11<br><i>(Bordetella sp.</i> MC-LTH1)</th>
+                            <td>Betaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KC734882</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 11 mg/mL<br>
+                                <hr class="custom-hr">MC-RR 5 mg/mL<br>
+                            </td>
+                            <td>MC-LR 0.31 mg/L/h<br>
+                                <hr class="custom-hr">MC-RR 0.17 mg/L/h<br>
+                            </td>
+                            <td>High-Performance Liquid Chromatography-Time of Flight Mass Spectrometry (HPLC-TOF-MS)
+                            </td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Yang2013]">[Yang2013]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus sp.</i> (in: firmicutes) strain EL4920
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OQ658599</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 99% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingobium sp.</i> strain LB1120
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OQ658600</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 99% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingobium yanoikuyae</i> strain LT1220_1
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OR365595</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 99% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Priestia filamentosa</i> strain LT1220_11
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OR365596</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 97% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Rhodococcus qingshengii</i> strain LT1220_17
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OR365597</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 96% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Sphingomonas radiodurans</i> strain LT1220_21
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OR365598</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 97% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Lysinibacillus sphaericus</i> strain LT1220_31
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Takerkoust Reservoir,Morocco</td>
+                            <td>OR365599</td>
+                            <td>MC-LR</td>
+                            <td>3064 ± 48(μg L<sup>-1</sup>)</td>
+                            <td>MC-LR 98% (7d)</td>
+                            <td>High-performance liquid chromatography-tandem mass spectrometry (HPLC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mugani2024]">[Mugani2024]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus subtilis</i> (TL1)
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Extreme and polluted environments<br>(oil refinery effluents, tannery dumpsite soils)
+                            </td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus subtilis</i> (TL2)
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Extreme and polluted environments<br>(oil refinery effluents, tannery dumpsite soils)
+                            </td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Lysinibacillus boronitolerans</i> strain OESP8<br>(<i>Lysinibacillus
+                                    boronitolerans</i> (TL8))
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Extreme and polluted environments<br>(oil refinery effluents, tannery dumpsite soils)
+                            </td>
+                            <td>MT367194</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus thuringiensis</i> strain BO2<br>(<i>Bacillus thuringiensis</i> (TL12))
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Extreme and polluted environments<br>(oil refinery effluents, tannery dumpsite soils)
+                            </td>
+                            <td>MT367196</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acinetobacter sp.</i> DUT-2
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Car wash effluents, Salt pans and Hot springs</td>
+                            <td>CP014651</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acinetobacter junii</i> strain KMDH2
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Car wash effluents, Salt pans and Hot springs</td>
+                            <td>KU844044</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Salinivibrio sp.</i> YH4
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Car wash effluents, Salt pans and Hot springs</td>
+                            <td>KR870826</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas protegens</i>
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Car wash effluents, Salt pans and Hot springs</td>
+                            <td>LN995720</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> B105-16
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Car wash effluents, Salt pans and Hot springs</td>
+                            <td>KJ191026</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Plantibacter sp.</i> PDD-56b-14
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Car wash effluents, Salt pans and Hot springs</td>
+                            <td>KR922102</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lukhele2023]">[Lukhele2023]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Rhodococcus sp.</i> C1<br>
+                                <hr class="custom-hr">
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>River Carron</td>
+                            <td>FN392688</td>
+                            <td>MC-LR,LF,LY,LW,RR</td>
+                            <td>MC-LR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LF 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LY 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LW 10 µg/mL<br>
+                                <hr class="custom-hr">MC-RR 10 µg/mL
+                            </td>
+                            <td>MC-LR 50%/(9d)<br>
+                                <hr class="custom-hr">MC-LF 50%/(8d)<br>
+                                <hr class="custom-hr">MC-LY 50%/(5d)<br>
+                                <hr class="custom-hr">MC-LW 50%/(6d)<br>
+                                <hr class="custom-hr">MC-RR 50%/(10d)
+                            </td>
+                            <td>High-performance liquid chromatography-mass spectrometry (HPLC-MS)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Rhodococcus sp.</i> C3
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>River Carron</td>
+                            <td>FN392689</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 35%/(2d),96%/(3d)</td>
+                            <td>Liquid chromatography-mass spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> C6
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>River Carron</td>
+                            <td>FN392690</td>
+                            <td>MC-LR,LF,LY,LW,RR</td>
+                            <td>MC-LR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LF 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LY 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LW 10 µg/mL<br>
+                                <hr class="custom-hr">MC-RR 10 µg/mL
+                            </td>
+                            <td>MC-LR 50%/(9d)<br>
+                                <hr class="custom-hr">MC-LF 50%/(8d)<br>
+                                <hr class="custom-hr">MC-LY 50%/(5d)<br>
+                                <hr class="custom-hr">MC-LW 50%/(8d)<br>
+                                <hr class="custom-hr">MC-RR 50%/(>10d)
+                            </td>
+                            <td>High-performance liquid chromatography-mass spectrometry (HPLC-MS)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> F10
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Forfar Loch</td>
+                            <td>FN392691</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 28% (2d), 99% (3d)</td>
+                            <td>Liquid chromatography-mass spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Brevibacterium sp.</i> F3
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Forfar Loch</td>
+                            <td>FN392692</td>
+                            <td>MC-LR,LF,LY,LW,RR</td>
+                            <td>MC-LR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LF 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LY 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LW 10 µg/mL<br>
+                                <hr class="custom-hr">MC-RR 10 µg/mL
+                            </td>
+                            <td>MC-LR 50%/(9d)<br>
+                                <hr class="custom-hr">MC-LF 50%/(7d)<br>
+                                <hr class="custom-hr">MC-LY 50%/(6d)<br>
+                                <hr class="custom-hr">MC-LW 50%/(9d)<br>
+                                <hr class="custom-hr">MC-RR 50%/(>10d)
+                            </td>
+                            <td>High-performance liquid chromatography-mass spectrometry (HPLC-MS)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> F7
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Forfar Loch</td>
+                            <td>FN392693</td>
+                            <td>MC-LR,LF,LY,LW,RR</td>
+                            <td>MC-LR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LF 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LY 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LW 10 µg/mL<br>
+                                <hr class="custom-hr">MC-RR 10 µg/mL
+                            </td>
+                            <td>MC-LR 50%/(9d)<br>
+                                <hr class="custom-hr">MC-LF 50%/(6d)<br>
+                                <hr class="custom-hr">MC-LY 50%/(6d)<br>
+                                <hr class="custom-hr">MC-LW 50%/(7d)<br>
+                                <hr class="custom-hr">MC-RR 50%/(>10d)
+                            </td>
+                            <td>High-performance liquid chromatography-mass spectrometry (HPLC-MS)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> R1
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Loch Rescobie</td>
+                            <td>FN392694</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 34% (2d), 100% (3d)</td>
+                            <td>Liquid chromatography-mass spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> R4
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Loch Rescobie</td>
+                            <td>FN392695</td>
+                            <td>MC-LR,LF,LY,LW,RR</td>
+                            <td>MC-LR 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LF 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LY 10 µg/mL<br>
+                                <hr class="custom-hr">MC-LW 10 µg/mL<br>
+                                <hr class="custom-hr">MC-RR 10 µg/mL
+                            </td>
+                            <td>MC-LR 50%/(9d)<br>
+                                <hr class="custom-hr">MC-LF 50%/(7d)<br>
+                                <hr class="custom-hr">MC-LY 50%/(7d)<br>
+                                <hr class="custom-hr">MC-LW 50%/(6d)<br>
+                                <hr class="custom-hr">MC-RR 50%/(>10d)
+                            </td>
+                            <td>High-performance liquid chromatography-mass spectrometry (HPLC-MS)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> R6
+
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Loch Rescobie</td>
+                            <td>FN392696</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 83% (2d), 100% (3d)</td>
+                            <td>Liquid chromatography-mass spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> R9
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Loch Rescobie</td>
+                            <td>FN392697</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 82% (2d), 100% (3d)</td>
+                            <td>Liquid chromatography-mass spectrometry (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Manage2009]">[Manage2009]</a>,
+                                <a href="#[Lawton2011]">[Lawton2011]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas sp.</i> An18<br>(<i>Pseudomonas sp.</i> WC-4)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>AJ551156</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 171.84 μg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 207.57 μg/L
+                            </td>
+                            <td>MC-LR 98.41%/(18d)<br>
+                                <hr class="custom-hr">
+                                MC-RR 96.25%/(18d)
+                            </td>
+                            <td>Ultra-performance liquid chromatography-electrospray ionization tandem mass spectrometry
+                                (UPLC-ESI-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Li2014]">[Li2014]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acinetobacter sp.</i> dcm5A<br>(<i>Acinetobacter sp.</i> WC-5)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>AF430124</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 171.84 μg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 207.57 μg/L
+                            </td>
+                            <td>MC-LR 92.95%/(18d)<br>
+                                <hr class="custom-hr">
+                                MC-RR 92.73%/(18d)
+                            </td>
+                            <td>Ultra-performance liquid chromatography-electrospray ionization tandem mass spectrometry
+                                (UPLC-ESI-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Li2014]">[Li2014]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acinetobacter sp.</i> CMDB-2
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KX928708</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 6.4 µg/L</td>
+                            <td>MC-LR 91%/(14h)</td>
+                            <td>Ultra-Performance Liquid Chromatography-Electrospray Ionization Tandem Mass Spectrometry
+                                (UPLC-ESI-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Li2016]">[Li2016]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acinetobacter guillouiae</i> strain A2
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KM926342</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Yi2015]">[Yi2015]</a>,</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas aeruginosa </i> strain DMxS
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Patos Lagoon estuary, Brazil</td>
+                            <td>HQ890467</td>
+                            <td>[D-Leu1]MC-LR</td>
+                            <td>[D-Leu1]MC-LR 1 µg/L</td>
+                            <td>[D-Leu1]MC-LR 40%/(3d), 100%/(>19d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lemes2015]">[Lemes2015]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus sp.</i> AMRI-03
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Saudi Eutrophic Lake, Arabia</td>
+                            <td>GU294753</td>
+                            <td>MC-RR</td>
+                            <td>MC-RR 10 mg/L</td>
+                            <td>MC-RR 18%/(3d), 100%/(7d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Alamri2010]">[Alamri2010]</a>,</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus flexus </i>strain SSZ01
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Saudi Tendaha Lake, Arabia</td>
+                            <td>GU112451</td>
+                            <td>MC-RR</td>
+                            <td>MC-RR 10 mg/L</td>
+                            <td>MC-RR 29%/(1d), 100%/(4d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Alamri2012]">[Alamri2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus subtilis</i> strain JSEM1<br><i>(Bacillus sp.</i> strain EMB)
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Taihu Lake, China</td>
+                            <td>FJ526332</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 2.15 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 2.99 mg/L
+                            </td>
+                            <td>MC-LR 100%/(24h)<br>
+                                <hr class="custom-hr">
+                                MC-LR 100%/(24h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Hu2012]">[Hu2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus cereus</i> strain JZ-2013<br>(<i>B. nanhaiencis </i>strain JZ-2013)
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Chaohu Lake, China</td>
+                            <td>KF841622</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 15 mg/L</td>
+                            <td>MC-LR 80%/(9d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Zhang2015]">[Zhang2015]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Stenotrophomonas acidaminiphila</i> strain YF-S2<br>(<i>Stenotrophomonas
+                                    acidaminiphila</i> strain MC-LTH2)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>KF305533</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 5.0,12.1,21.2 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 8.2,20.7,39.2 mg/L
+                            </td>
+                            <td>MC-LR 3.0 mg/L·d<br>
+                                <hr class="custom-hr">
+                                MC-RR 5.6 mg/L·d
+                            </td>
+                            <td>High-Performance Liquid Chromatography-Time of Flight Mass Spectrometry (HPLC-TOF-MS)
+                            </td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Yang2014]">[Yang2014]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacterium</i> J10<br>(<i>Methylobacillus sp.</i> J10)
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>FJ418599</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 12 mg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 15 mg/L
+                            </td>
+                            <td>MC-LR 100%/(17h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(17h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Hu2009]">[Hu2009]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Lactobacillus rhamnosus</i> strain GG
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Human gastrointestinal tract</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 100 µg/L</td>
+                            <td>MC-LR 49.3%/(24h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Electrospray Ionization-Mass
+                                Spectrometry (ESI-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Nybom2007]">[Nybom2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Lactobacillus rhamnosus</i> strain LC-705
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Human gastrointestinal tract</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 100 µg/L</td>
+                            <td>MC-LR 50.3%/(24h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Electrospray Ionization-Mass
+                                Spectrometry (ESI-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Nybom2007]">[Nybom2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Biﬁdobacterium longum</i> 46
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Human gastrointestinal tract</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 100 µg/L</td>
+                            <td>MC-LR 47.0%/(24h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Electrospray Ionization-Mass
+                                Spectrometry (ESI-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Nybom2007]">[Nybom2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Biﬁdobacterium lactis</i> 420<br>
+                                <hr class="custom-hr">
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Human gastrointestinal tract</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 100 µg/L</td>
+                            <td>MC-LR 47.7%/(24h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Electrospray Ionization-Mass
+                                Spectrometry (ESI-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Nybom2007]">[Nybom2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Biﬁdobacterium lactis</i> Bb12
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Human gastrointestinal tract</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 100 µg/L</td>
+                            <td>MC-LR 58.1%/(24h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Electrospray Ionization-Mass
+                                Spectrometry (ESI-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Nybom2007]">[Nybom2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Burkholderia sp.</i> UPC-BI05
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Patos Lagoon, Brazil</td>
+                            <td>FJ418599</td>
+                            <td>MC-LR,[D-Leu1]MC-LR</td>
+                            <td>MC-LR 0.77 mg/L (estuarine region)<br>
+                                <hr class="custom-hr">
+                                [D-Leu1]MC-LR 0.89 mg/L (estuarine region)<br>
+                                <hr class="custom-hr">
+                                MC-LR 0.75 mg/L (coastal region)<br>
+                                <hr class="custom-hr">
+                                [D-Leu1]MC-LR 0.02 mg/L (coastal region)
+                            </td>
+                            <td>MC-LR 0.08 ml<sup>-1</sup>d<sup>-1</sup>(estuarine region)<br>
+                                <hr class="custom-hr">
+                                [D-Leu1]MC-LR 0.05 ml<sup>-1</sup>d<sup>-1</sup>(estuarine region)<br>
+                                <hr class="custom-hr">
+                                MC-LR 0.08 ml<sup>-1</sup>d<sup>-1</sup>(coastal region)<br>
+                                <hr class="custom-hr">
+                                [D-Leu1]MC-LR 0.0008 ml<sup>-1</sup>d<sup>-1</sup>(coastal region)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Enzyme-Linked Immunosorbent Assay
+                                (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Lemes2007]">[Lemes2007]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Stenotrophomonas maltophilia</i> strain 4B4
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Beira Lake, Sri Lanka</td>
+                            <td>KM435266</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 100%/(10d)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>yes</td>
+                            <td>-</td>
+                            <td><a href="#[Idroos2017]">[Idroos2017]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas sp.</i> strain R12<br>
+                                <hr class="custom-hr">
+                                <i>Pseudomonas sp.</i> s42
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Korea</td>
+                            <td>MZ407771<br>HM196823</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Lee2018]">[Lee2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas sp.</i> strain LEw-1033
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Lake Erie, USA</td>
+                            <td>KX185385</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL</td>
+                            <td>MC-LR 0.03 µg/mL/h( average MC-LR consumption rate for the six
+                                isolates)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2018]">[Krishnan2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Brevibacillus parabrevis</i> strain LEw-1238
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Lake Erie, USA</td>
+                            <td>KX185386</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL</td>
+                            <td>MC-LR 0.03 µg/mL/h( average MC-LR consumption rate for the six
+                                isolates)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2018]">[Krishnan2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus thuringiensis</i> strain LEw-2010
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Lake Erie, USA</td>
+                            <td>KX185387</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL</td>
+                            <td>MC-LR 0.03 µg/mL/h( average MC-LR consumption rate for the six
+                                isolates)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2018]">[Krishnan2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas sp.</i> strain LEw-2166
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Lake Erie, USA</td>
+                            <td>KX185392</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL</td>
+                            <td>MC-LR 0.03 µg/mL/h( average MC-LR consumption rate for the six
+                                isolates)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2018]">[Krishnan2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Stenotrophomonas maltophilia</i> strain LEw-1278
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Lake Erie, USA</td>
+                            <td>KX185397</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL</td>
+                            <td>MC-LR 0.03 µg/mL/h( average MC-LR consumption rate for the six
+                                isolates)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2018]">[Krishnan2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Acidovorax facilis</i> strain LEw-2
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Lake Erie, USA</td>
+                            <td>KX753361</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL</td>
+                            <td>MC-LR 0.03 µg/mL/h( average MC-LR consumption rate for the six
+                                isolates)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2018]">[Krishnan2018]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Novosphingobium sp.</i> ERW19
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>JABAIC000000000</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 100 µg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 100 µg/L
+                            </td>
+                            <td>MC-LR 100%/(12h)<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(12h)
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Triple Quadrupole Tandem Mass
+                                Spectrometry (LC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Zeng2021]">[Zeng2021]</a>,<a href="#[Zeng2020]">[Zeng2020]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Novosphingobium sp.</i> ERN07
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>JABAID000000000</td>
+                            <td>MC-LR,RR</td>
+                            <td>MC-LR 100 µg/L<br>
+                                <hr class="custom-hr">
+                                MC-RR 100 µg/L
+                            </td>
+                            <td>MC-LR 100%/(18h(Including a 6-hour lag phase))<br>
+                                <hr class="custom-hr">
+                                MC-RR 100%/(18h(Including a 6-hour lag phase))
+                            </td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Triple Quadrupole Tandem Mass
+                                Spectrometry (LC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Zeng2020]">[Zeng2020]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Rhizobium strain</i> AQ_MP
+                            </th>
+                            <td>Alphaproteobacteria</td>
+                            <td>Ambazari Lake, India</td>
+                            <td>JACJVI010000000</td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>unknown</td>
+                            <td>mlr</td>
+                            <td><a href="#[Pal2021]">[Pal2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Ralstonia solanacearum</i>
+                            </th>
+                            <td>Betaproteobacteria</td>
+                            <td>Dianchi Lake, China</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 28.1 mg/L</td>
+                            <td>MC-LR 9.4 mg/L/d</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Liquid Chromatography-Mass Spectrometry
+                                (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Zhang2011]">[Zhang2011]</a>,</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Morganella morganii</i> (LAAFP-C25216)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Mead Lake and Los Angeles Aqueduct Filtration Plant (LAAFP), USA</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 20 µg/L</td>
+                            <td>MC-LR 4.75 µg/L/d</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Enzyme-Linked Immunosorbent Assay
+                                (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Eleuterio2010]">[Eleuterio2010]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas sp.</i> (Lake Mead-C25459)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Mead Lake and Los Angeles Aqueduct Filtration Plant (LAAFP), USA</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 20 µg/L</td>
+                            <td>MC-LR 4.73 µg/L/d</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Enzyme-Linked Immunosorbent Assay
+                                (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Eleuterio2010]">[Eleuterio2010]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Morganella morganii</i> (Sphingomonas-C25358)
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Mead Lake and Los Angeles Aqueduct Filtration Plant (LAAFP), USA</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 20 µg/L</td>
+                            <td>MC-LR 4.67 µg/L/d</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Enzyme-Linked Immunosorbent Assay
+                                (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Eleuterio2010]">[Eleuterio2010]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas aeruginosa</i> UCBPP-PA14
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Korea</td>
+                            <td>-</td>
+                            <td>MC-LR,YR,RR,LW</td>
+                            <td>Mixed MC-LR,YR,RR,LW 33.2 µg/L,348.5 µg/L</td>
+                            <td>MC concentration dropped from 33.2 µg/L to 0.5 µg/L in 30 days<br>
+                                MC concentration dropped from 348.5 µg/L to 52.4 µg/L in 30 days</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Kang2012]">[Kang2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas putida</i> KCCM 10464
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Korea</td>
+                            <td>-</td>
+                            <td>MC-LR,YR,RR,LW</td>
+                            <td>Mixed MC-LR,YR,RR,LW 33.2 µg/L,348.5 µg/L</td>
+                            <td>MC concentration dropped from 33.2 µg/L to 3.2 µg/L in 30 days<br>
+                                MC concentration dropped from 348.5 µg/L to 229.7 µg/L in 30 days</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Kang2012]">[Kang2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Pseudomonas sp.</i> LEw-2029
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Lake Erie, USA</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 5 µg/mL</td>
+                            <td>MC-LR 0.12 µg/mL/h</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)<br>Liquid Chromatography-Mass Spectrometry
+                                (LC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Krishnan2020]">[Krishnan2020]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Achromobacter xylosoxidans</i> strain LG1
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Rio de la Plata River, Argentina</td>
+                            <td>MF959519</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 200 µg/L</td>
+                            <td>MC-LR 79.5%/(7d)</td>
+                            <td>High-Performance Liquid Chromatography-Mass Spectrometry (HPLC-MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[CrettazMinaglia2020]">[CrettazMinaglia2020]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Aeromonas veronii w-s-03</i>
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Sulejów Reservoir, Poland</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 10 µg/mL</td>
+                            <td>MC-LR 48%/(14d)</td>
+                            <td>High-Performance Liquid Chromatography with Diode Array Detection (HPLC-DAD)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mankiewicz-Boczek2015]">[Mankiewicz-Boczek2015]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Enterobacter sp.</i> strain YF3
+                            </th>
+                            <td>Gammaproteobacteria</td>
+                            <td>Taihu Lake, China</td>
+                            <td>MT020107</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 µg/mL,3 µg/mL,5 µg/mL</td>
+                            <td>MC-LR 0.34 µg/mL/day(Under the condition of an initial concentration of 5 µg/mL)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Yang2014]">[Yang2014]</a>,</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Lysinibacillus boronitolerans </i> CQ5
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Taihu Lake, China</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 14.12 µg/L</td>
+                            <td>MC-LR 88.88%/(244h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)<br>Enzyme-Linked Immunosorbent Assay
+                                (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Shen2019]">[Shen2019]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> 443
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Antarctica</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 2 ppb</td>
+                            <td>MC-LR 24.87%</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[SosaBenegas2021]">[SosaBenegas2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Arthrobacter sp.</i> 423
+                            </th>
+                            <td>Firmicutes</td>
+                            <td>Antarctica</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 2 ppb</td>
+                            <td>MC-LR 15.92%</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[SosaBenegas2021]">[SosaBenegas2021]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Bacillus sp. </i> strain AK3
+                            </th>
+                            <td>Actinobacteria</td>
+                            <td>Ang Kaew Reservoir,Thailand</td>
+                            <td>MW493119</td>
+                            <td>MC-RR</td>
+                            <td>MC-RR 22 µg/mL</td>
+                            <td>MC-RR 100%/(3d)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Alamri2010]">[Alamri2010]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Trichaptum abietinum</i> 1302BG
+                            </th>
+                            <td>Fungi</td>
+                            <td>Hangzhou, China</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>-</td>
+                            <td>MC-LR 100%/(12h)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Jia2012]">[Jia2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Schizophyllum commune</i>
+                            </th>
+                            <td>Fungi</td>
+                            <td>China</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1 mg/L,15 mg/L</td>
+                            <td>MC-LR 100%/(2d),100%/(7d)</td>
+                            <td>High-Performance Liquid Chromatography (HPLC)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Zhang2012]">[Zhang2012]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Trichoderma citrinoviride</i> kkuf-0955
+                            </th>
+                            <td>Fungi</td>
+                            <td>Saudi, Arabia</td>
+                            <td>-</td>
+                            <td>MCs</td>
+                            <td>-</td>
+                            <td>MCs 100%/(5d)</td>
+                            <td>Enzyme-Linked Immunosorbent Assay (ELISA)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Mohamed2014]">[Mohamed2014]</a></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" id="RKS88700.1"></td>
+                            <th scope="row">
+                                <i>Mucor hiemalis</i> EH5
+                            </th>
+                            <td>Fungi</td>
+                            <td>Irnsing Spring, Bavaria, Germany</td>
+                            <td>-</td>
+                            <td>MC-LR</td>
+                            <td>MC-LR 1000 µg/L</td>
+                            <td>MC-LR Absorbed 0.58 mg per gram of dry mycelial biomass within 48 hours</td>
+                            <td>Triple Quadrupole Tandem Mass Spectrometry (LC-MS/MS)</td>
+                            <td>unknown</td>
+                            <td>-</td>
+                            <td><a href="#[Balsano2015]">[Balsano2015]</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div id="reference-container" class="pt-5"></div>
+        </div>
+    </div>
+    <!-- 模态框 -->
+    <div class="modal fade" id="referenceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">References</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalContent" style="font-size: 14px;">
+                    <!-- 这里显示JSON内容 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="p-5 text-center ">
+		<div class="container ">
+			<p class="FooterText">
+				Copyright©2023 ZhangLab at University of Science and Technology Beijing.All rights reserved.</p>
+		</div>
+	</footer>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        /*      document.addEventListener("DOMContentLoaded", () => {
+         // 查找所有表格中的行 `<tr>`
+        const rows = document.querySelectorAll("tr");
+     
+         rows.forEach((row) => {
+             // 获取每一行的最后一个 `<td>`
+             const lastTd = row.querySelector("td:last-child");
+     
+             // 如果最后一个 `<td>` 存在且包含内容
+             if (lastTd && lastTd.textContent.trim() !== "") {
+                 // 使用正则表达式匹配逗号分隔的文献引用数字，并添加 `<a>` 标签
+                 lastTd.innerHTML = lastTd.textContent.replace(/(\d+)/g, (match) => {
+                     return `<a href="javascript:void(0)" onclick="showReference(this)" style="color:green">[${match}]</a>`;
+                 });
+             }
+         });
+     }); */
+
+        var slidingPanel = document.getElementById('slidingPanel');
+        var closePanelBtn = document.getElementById('closePanelBtn');
+
+        // 获取表头的引用
+        var degradationRateHeader = document.getElementById('degradationRateHeader');
+
+        // 点击表头时，显示滑动面板
+        degradationRateHeader.addEventListener('click', function () {
+            slidingPanel.classList.add('open');
+        });
+
+        // 点击关闭按钮时，隐藏滑动面板
+        closePanelBtn.addEventListener('click', function () {
+            slidingPanel.classList.remove('open');
+        });
+
+        // 如果您希望点击页面其他区域也能关闭滑动面板，可以添加以下代码
+        document.addEventListener('click', function (event) {
+            if (!slidingPanel.contains(event.target) && event.target !== degradationRateHeader) {
+                slidingPanel.classList.remove('open');
+            }
+        });
+
+        /*    let references = {}; // 定义一个空对象存储引用
+    
+            // 使用 fetch 获取 JSON 文件内容
+            fetch('/asset/json/reference.json')
+                .then(response => response.json())
+                .then(data => {
+                    references = data; // 将文件中的JSON数据存储到 references 变量
+                });
+    
+            // 点击文献编号时显示对应引用的详细信息
+            function showReference(element) {
+                const text = element.innerText;
+                const number = text.match(/\[(\d+)\]/)[1];
+    
+                // 在 references 数组中查找匹配的引用
+                const reference = references.find(ref => ref.number === number);
+    
+                if (reference) {
+                    let content = `<b>${reference.citation}</b>
+                           ${reference.authors}. ${reference.title}. ${reference.journal}, ${reference.year}
+                           <a href="${reference.doi.link}" class="doi-link" style="text-decoration: none; color: rgb(0, 99, 30);" target="_blank">DOI: ${reference.doi.text}</a>`;
+                    document.getElementById('modalContent').innerHTML = content;
+                    let modal = new bootstrap.Modal(document.getElementById('referenceModal'));
+                    modal.show();
+                } else {
+                    console.error(`Reference number [${number}] not found.`);
+                }
+            }  */
+
+        let references = {}; // 定义一个空对象存储引用
+
+        // 使用 fetch 获取 JSON 文件内容
+        fetch('./asset/json/reference.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                references = data; // 将文件中的JSON数据存储到 references 变量
+                generateReferences(references); // 调用生成引用列表的函数
+            });
+
+
+        // 生成引用列表的函数
+        function generateReferences(references) {
+            const container = document.getElementById('reference-container'); // Reference list container
+            const list = document.createElement('ul'); // Create an unordered list
+
+            // Iterate over each reference in the JSON data
+            references.forEach(reference => {
+                const listItem = document.createElement('li');
+
+                // Remove square brackets to create a valid ID
+                const referenceId = reference.citation;
+                listItem.id = referenceId;
+
+                // Populate the list item with reference details
+                listItem.innerHTML = `
+            <b>${reference.citation}</b>
+            ${reference.authors}. ${reference.title}. ${reference.journal}, ${reference.year}.
+            <a href="${reference.doi.link}" class="doi-link" target="_blank" rel="noopener noreferrer">
+                DOI: ${reference.doi.text}
+            </a>
+        `;
+
+                list.appendChild(listItem); // Add the list item to the list
+            });
+
+            container.appendChild(list); // Insert the list into the container
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var selectAllCheckbox = document.getElementById("selectAllCheckbox");
+            var rowCheckboxes = document.querySelectorAll(".row-checkbox");
+            var selectedCount = document.getElementById("selectedCount");
+            var generateXlsxBtn = document.getElementById("generateCSVBtn");
+            var searchInput = document.getElementById('searchInput');
+
+            // 更新选中行数显示
+            function updateSelectedCount() {
+                var count = 0;
+                var checkboxes = document.querySelectorAll(".row-checkbox");
+
+                checkboxes.forEach(function (checkbox) {
+                    var row = checkbox.closest("tr");
+                    if (checkbox.checked && row.style.display !== 'none') { // 仅计算选中的可见行
+                        count++;
+                    }
+                });
+
+                selectedCount.innerText = 'Selected rows: ' + count;
+            }
+
+
+            // 全选/取消全选功能
+            selectAllCheckbox.addEventListener("change", function () {
+                rowCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                updateSelectedCount();
+            });
+
+            // 更新选中计数
+            rowCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener("change", updateSelectedCount);
+            });
+
+            // 下载按钮点击事件
+            generateXlsxBtn.addEventListener("click", function () {
+                generateCSV();
+            });
+
+            // 搜索功能
+            searchInput.addEventListener('keyup', function () {
+                var searchText = this.value.toLowerCase();
+                document.querySelectorAll('#table_div tbody tr').forEach(function (row) {
+                    var rowText = row.innerText.toLowerCase();
+                    row.style.display = rowText.includes(searchText) ? '' : 'none';
+                });
+            });
+
+            var classAffiliatedHeader = document.querySelector("#table_div th.sortable");
+
+            if (classAffiliatedHeader) {
+                classAffiliatedHeader.addEventListener('click', function () {
+                    // 获取该列的索引
+                    var columnIndex = Array.from(classAffiliatedHeader.parentNode.children).indexOf(classAffiliatedHeader);
+
+                    // 调用排序函数
+                    cycleStrainClassification(columnIndex);
+                });
+            }
+
+            // 收集所有唯一的菌株分类
+            var uniqueClassifications = [];
+            var classificationIndex = 0; // 当前分类索引
+
+            function collectUniqueClassifications() {
+                var classificationsSet = new Set();
+                var table = document.querySelector("#table_div table");
+                var tbody = table.tBodies[0];
+                var rows = Array.from(tbody.rows);
+
+                rows.forEach(function (row) {
+                    var classificationCell = row.cells[2]; // 第3列是菌株分类
+                    if (classificationCell) {
+                        var classification = classificationCell.textContent.trim();
+                        classificationsSet.add(classification);
+                    }
+                });
+
+                uniqueClassifications = Array.from(classificationsSet);
+            }
+
+            // 初次加载时收集分类
+            collectUniqueClassifications();
+
+            function cycleStrainClassification(columnIndex) {
+                var table = document.querySelector("#table_div table");
+                var tbody = table.tBodies[0];
+                var rows = Array.from(tbody.rows);
+
+                // 如果分类列表为空，重新收集
+                if (uniqueClassifications.length === 0) {
+                    collectUniqueClassifications();
+                }
+
+                // 获取当前要置顶的分类
+                var currentClassification = uniqueClassifications[classificationIndex];
+
+                // 按照是否匹配当前分类进行排序
+                rows.sort(function (a, b) {
+                    var cellA = a.cells[columnIndex];
+                    var cellB = b.cells[columnIndex];
+
+                    var textA = cellA ? cellA.textContent.trim() : '';
+                    var textB = cellB ? cellB.textContent.trim() : '';
+
+                    // 如果文本匹配当前分类，置顶
+                    if (textA === currentClassification && textB !== currentClassification) {
+                        return -1;
+                    } else if (textA !== currentClassification && textB === currentClassification) {
+                        return 1;
+                    } else {
+                        return 0; // 保持原有顺序
+                    }
+                });
+
+                // 清空表格主体
+                while (tbody.firstChild) {
+                    tbody.removeChild(tbody.firstChild);
+                }
+
+                // 重新附加排序后的行
+                rows.forEach(function (row) {
+                    tbody.appendChild(row);
+                });
+
+                // 更新分类索引，循环回到起点
+                classificationIndex = (classificationIndex + 1) % uniqueClassifications.length;
+            }
+
+            function sortTableByColumn(columnIndex) {
+                var table = document.querySelector("#table_div table");
+                var tbody = table.tBodies[0];
+                var rows = Array.from(tbody.rows);
+                var header = headers[columnIndex];
+
+                // 获取当前排序顺序，默认升序
+                var sortOrder = header.getAttribute('data-sort-order') || 'asc';
+
+                // 对行进行排序
+                rows.sort(function (a, b) {
+                    var cellA = a.cells[columnIndex];
+                    var cellB = b.cells[columnIndex];
+
+                    // 检查单元格是否存在
+                    if (!cellA || !cellB) {
+                        return 0;
+                    }
+
+                    var textA = cellA.textContent.trim().toLowerCase();
+                    var textB = cellB.textContent.trim().toLowerCase();
+
+                    if (textA < textB) {
+                        return sortOrder === 'asc' ? -1 : 1;
+                    }
+                    if (textA > textB) {
+                        return sortOrder === 'asc' ? 1 : -1;
+                    }
+                    return 0;
+                });
+
+                // 清空表格主体
+                while (tbody.firstChild) {
+                    tbody.removeChild(tbody.firstChild);
+                }
+
+                // 重新附加排序后的行
+                rows.forEach(function (row) {
+                    tbody.appendChild(row);
+                });
+
+                // 切换排序顺序
+                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                header.setAttribute('data-sort-order', sortOrder);
+            }
+
+            function generateCSV() {
+                var selectedRows = [];
+                var checkboxes = document.querySelectorAll(".row-checkbox:checked");
+
+                // 包含表头
+                var headersText = Array.from(document.querySelectorAll('#table_div thead th')).slice(1).map(function (th) {
+                    return '"' + th.textContent.trim() + '"'; // 使用双引号包围表头
+                });
+                selectedRows.push(headersText);
+
+                // 获取可见且选中的行的数据
+                checkboxes.forEach(function (checkbox) {
+                    var row = checkbox.closest("tr");
+                    if (row.style.display !== 'none') { // 仅包括可见行
+                        var rowData = Array.from(row.children).slice(1).map(function (td) { // 排除第一列
+                            return '"' + td.textContent.trim().replace(/"/g, '""') + '"'; // 使用双引号包围并转义内部双引号
+                        });
+                        selectedRows.push(rowData);
+                    }
+                });
+
+                // 生成并下载CSV文件
+                if (selectedRows.length > 1) {
+                    var csvContent = "data:text/csv;charset=utf-8,\uFEFF" + selectedRows.map(e => e.join(",")).join("\n");
+
+                    var encodedUri = encodeURI(csvContent);
+                    var link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "selected_rows.csv");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link); // 删除临时链接
+                } else {
+                    alert("No rows selected!");
+                }
+            }
+        });
+
+    </script>
+
+    <script src="./js/universal.js"></script>
+</body>
+
+</html>

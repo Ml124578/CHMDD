@@ -1,0 +1,309 @@
+[
+    {
+        "UniProt_id": "A0A2D2AIQ8",
+        "N": "N222",
+        "H1": "H218",
+        "H2": "H163",
+        "W1": "W159",
+        "W2": "W134",
+        "E": "E130",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1S6Q370",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0AAD1FZE3",
+        "N": "N250",
+        "H1": "H246",
+        "H2": "H191",
+        "W1": "W187",
+        "W2": "W162",
+        "E": "E158",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "Q766Y3",
+        "N": "N229",
+        "H1": "H225",
+        "H2": "H170",
+        "W1": "W166",
+        "W2": "W141",
+        "E": "E137",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1J0F4T8",
+        "N": "N229",
+        "H1": "H225",
+        "H2": "H170",
+        "W1": "W166",
+        "W2": "W141",
+        "E": "E137",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1J0F4T9",
+        "N": "N229",
+        "H1": "H225",
+        "H2": "H170",
+        "W1": "W166",
+        "W2": "W141",
+        "E": "E137",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "Q45UX5",
+        "N": "N223",
+        "H1": "H219",
+        "H2": "H164",
+        "W1": "W160",
+        "W2": "W135",
+        "E": "E131",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A3S9VMN7",
+        "N": "N225",
+        "H1": "H221",
+        "H2": "H166",
+        "W1": "W162",
+        "W2": "W137",
+        "E": "E133",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1X9PX84",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "E0A2V9",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": [
+          {
+              "position": "E172",
+              "description": "Experimentally verified. Mutation E172A leads to complete loss of activity, indicating its role in activating water molecule for nucleophilic attack.",
+              "reference": "[Xu2019]"
+            },
+            {
+              "position": "W176",
+              "description": "Experimentally verified. Mutation W176A significantly reduces activity, suggesting its importance in contacting the carboxylate side chain of E172.",
+              "reference": "[Xu2019]"
+            },
+            {
+              "position": "W201",
+              "description": "Experimentally verified. Mutation W201A results in reduced reaction rate, supporting its role in accelerating the reaction.",
+              "reference": "[Xu2019]"
+            },
+            {
+              "position": "H205",
+              "description": "Experimentally verified. Mutation H205A leads to complete loss of activity, indicating its role in water activation for nucleophilic attack.",
+              "reference": "[Xu2019]"
+            },
+            {
+              "position": "H260",
+              "description": "Experimentally verified. Mutation H260A abolishes activity, confirming its role in forming the oxyanion hole.",
+              "reference": "[Xu2019]"
+            },
+            {
+              "position": "N264",
+              "description": "Experimentally verified. Mutation N264A results in significant decrease in activity, suggesting its function in stabilizing transition states.",
+              "reference": "[Xu2019]"
+            },
+            {
+              "position": "E265",
+              "description": "Experimentally verified. Mutation E265A leads to complete loss of activity, indicating its importance in Zn²⁺ coordination.",
+              "reference": "[Xu2019]"
+            }
+            
+        ]
+    },
+    {
+        "UniProt_id": "A0A1D8QSQ3",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "D2XNQ7",
+        "N": "N227",
+        "H1": "H223",
+        "H2": "H168",
+        "W1": "W164",
+        "W2": "W139",
+        "E": "E135",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "H9CW51",
+        "N": "N213",
+        "H1": "H209",
+        "H2": "H154",
+        "W1": "W150",
+        "W2": "W125",
+        "E": "E121",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A8E5D7S0",
+        "N": "N216",
+        "H1": "H212",
+        "H2": "H157",
+        "W1": "W153",
+        "W2": "W128",
+        "E": "E124",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A4P8XS97",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "D0FYG2",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A8E5D8X3",
+        "N": "N229",
+        "H1": "H225",
+        "H2": "H170",
+        "W1": "W166",
+        "W2": "W141",
+        "E": "E137",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A8E5D743",
+        "N": "N215",
+        "H1": "H211",
+        "H2": "H156",
+        "W1": "W152",
+        "W2": "W127",
+        "E": "E123",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A8E5D8C8",
+        "N": "N229",
+        "H1": "H225",
+        "H2": "H170",
+        "W1": "W166",
+        "W2": "W141",
+        "E": "E137",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A8E5D777",
+        "N": "N212",
+        "H1": "H208",
+        "H2": "H153",
+        "W1": "W149",
+        "W2": "W124",
+        "E": "E120",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "Q93CA8",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A7X8RZB8",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "F5B7X8",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1W7MAT4",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "Q766Y4",
+        "N": "N229",
+        "H1": "H225",
+        "H2": "H170",
+        "W1": "W166",
+        "W2": "W141",
+        "E": "E137",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A7X8S509",
+        "N": "N264",
+        "H1": "H260",
+        "H2": "H205",
+        "W1": "W201",
+        "W2": "W176",
+        "E": "E172",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "G8H3J3",
+        "N": "N214",
+        "H1": "H210",
+        "H2": "H155",
+        "W1": "W151",
+        "W2": "W126",
+        "E": "E122",
+        "key_residues": []
+    }
+]

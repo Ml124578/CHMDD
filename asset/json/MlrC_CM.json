@@ -1,0 +1,204 @@
+[
+  {
+      "UniProt_id": "Q93CA6",
+      "E1": "E39",
+      "E2": "E70",
+      "D": "D167",
+      "H1": "H169",
+      "H2": "H191",
+      "key_residues": [
+      {
+        "position": "E39",
+        "description": "Experimentally verified. Mutation E39A leads to loss of activity.",
+        "reference": "[Guo2023]"
+      },
+      {
+        "position": "E70",
+        "description": "Experimentally verified. Mutation E70A leads to reduced activity.",
+        "reference": "[Guo2023]"
+      },
+      {
+        "position": "H169",
+        "description": "Experimentally verified. Mutation H169A leads to complete loss of activity.",
+        "reference": "[Guo2023]"
+      }
+    ]
+  },
+  {
+      "UniProt_id": "F5B7X7",
+      "E1": "E39",
+      "E2": "E70",
+      "D": "D167",
+      "H1": "H169",
+      "H2": "H191",
+      "key_residues": [
+      {
+        "position": "E39",
+        "description": "Experimentally verified. Mutation E39A leads to complete loss of activity, suggesting its role in coordinating metal ions within the catalytic site.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "H133",
+        "description": "Experimentally verified. Mutation H133A causes complete loss of activity, indicating its involvement in the catalytic mechanism as part of the metal ion binding site.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "D167",
+        "description": "Experimentally verified. Mutation D167A results in complete loss of activity, highlighting its crucial role in substrate binding and stabilization.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "H169",
+        "description": "Experimentally verified. Mutation H169A leads to complete loss of activity, confirming its involvement in proton transfer during the catalytic process.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "H191",
+        "description": "Experimentally verified. Mutation H191A results in loss of activity, supporting its role in coordinating the catalytic site as part of a metal-binding triad.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "D332",
+        "description": "Experimentally verified. Mutation D332A leads to complete loss of activity, indicating its function as a key catalytic residue crucial for metal ion coordination.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "F260",
+        "description": "Experimentally verified. Mutation F260A reduces the degradation rate of MC-LR, implying its role in substrate positioning rather than direct catalysis.",
+        "reference": "[Wang2020]"
+      },
+      {
+        "position": "K464",
+        "description": "Experimentally verified. Mutation K464A results in a slower degradation rate, suggesting its involvement in maintaining the structural integrity of the active site.",
+        "reference": "[Wang2020]"
+      }
+      
+    ]
+  },
+  {
+      "UniProt_id": "A0A7X8S400",
+      "E1": "E65",
+      "E2": "E96",
+      "D": "D193",
+      "H1": "H195",
+      "H2": "H217",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0A7X8S0U5",
+      "E1": "E65",
+      "E2": "E96",
+      "D": "D193",
+      "H1": "H195",
+      "H2": "H217",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0A1W7MAV8",
+      "E1": "E39",
+      "E2": "E70",
+      "D": "D167",
+      "H1": "H169",
+      "H2": "H191",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "D0FYG4",
+      "E1": "E56",
+      "E2": "E87",
+      "D": "D184",
+      "H1": "H186",
+      "H2": "H208",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0A4P8XUZ9",
+      "E1": "E56",
+      "E2": "E87",
+      "D": "D184",
+      "H1": "H186",
+      "H2": "H208",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0A1D8QSQ1",
+      "E1": "E56",
+      "E2": "E87",
+      "D": "D184",
+      "H1": "H186",
+      "H2": "H208",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "M4T5Q3",
+      "E1": "E56",
+      "E2": "E87",
+      "D": "D184",
+      "H1": "H186",
+      "H2": "H208",
+      "key_residues": [
+        {
+            "position": "E56",
+            "description": "Experimentally verified. Mutation E56A leads to complete loss of activity due to disruption of Zn²⁺ binding and failure to activate water molecule for nucleophilic attack.",
+            "reference": "[Zou2022]"
+          },
+          {
+            "position": "H150",
+            "description": "Experimentally verified. Mutation H150A significantly reduces activity, indicating its crucial role in Zn²⁺ coordination.",
+            "reference": "[Zou2022]"
+          },
+          {
+            "position": "D184",
+            "description": "Experimentally verified. Mutation D184A leads to complete loss of activity, likely due to destabilization of the Zn²⁺ binding environment.",
+            "reference": "[Zou2022]"
+          },
+          {
+            "position": "H186",
+            "description": "Experimentally verified. Mutation H186A results in over 90% reduction in activity, highlighting its importance in Zn²⁺ coordination.",
+            "reference": "[Zou2022]"
+          },
+          {
+            "position": "H208",
+            "description": "Experimentally verified. Mutation H208A causes approximately 85% reduction in activity, suggesting its critical role in maintaining the active site structure.",
+            "reference": "[Zou2022]"
+          }
+          
+    ]
+  },
+  {
+      "UniProt_id": "A0A1X9PWM8",
+      "E1": "E56",
+      "E2": "E87",
+      "D": "D184",
+      "H1": "H186",
+      "H2": "H208",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0A3S9VMP3",
+      "E1": "E7",
+      "E2": "E38",
+      "D": "D135",
+      "H1": "H137",
+      "H2": "H159",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0A1S6Q372",
+      "E1": "E58",
+      "E2": "E89",
+      "D": "D186",
+      "H1": "H188",
+      "H2": "H210",
+      "key_residues": []
+  },
+  {
+      "UniProt_id": "A0AAD1D301",
+      "E1": "E26",
+      "E2": "E57",
+      "D": "D154",
+      "H1": "H156",
+      "H2": "H178",
+      "key_residues": []
+  }
+]

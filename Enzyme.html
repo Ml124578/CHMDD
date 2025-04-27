@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CHMDD</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/popper.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/sequncen.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="./icon-sgpa.png">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/ngl.js"></script>
+    <script src="./js/mmtf.js"></script>
+    <link rel="stylesheet" href="./css/EPT.css">
+    <script src="./js/PPP.js"></script>
+</head>
+
+<body point="" id="all_display">
+    <nav class="navbar navbar-expand-xxl navbar-dark" style="background: var(--green-001);">
+        <div class="container">
+            <div class="m-1">
+                <a href="./index.html">
+                    <img src="./asset/icon/chmdd.png" alt="null" style="height: 6.5vh;">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Strain.html">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Hepatotoxins.html">Hepatotoxins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Predict.html">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./help.html">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./contacts.html">Contacts</a>
+                    </li>
+                   <!--<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section id="searchBox" class=" search_fixed border">
+
+        <div class="container index_search">
+            <div class="row">
+                <div class="col-lg-5 col-5 p-3 Strains">
+                    <label for="enzyme-select" class="form-label">Strains:</label>
+                    <select id="enzyme-select" class="form-select" onchange="populateRelatedEnzymes()"></select>
+
+                </div>
+                <div class="col-lg-5 col-5 p-3">
+                    <label for="related-enzyme-select" class="form-label">Degradative enzymes:</label>
+                    <select id="related-enzyme-select" class="form-select"></select>
+                </div>
+                <div class="col-lg-2 col-2 text-center pt-5">
+                    <button type="button" class="btn btn-success" id="search-button"
+                        style="background: var(--green-003);" onclick="searchGene()">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container container-fluid pt-2" id="all_display">
+            <div class="row">
+
+                <div class="col-2 d-none d-md-block ul_list">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item " data-target="#informationCard">Information</li>
+                        <li class="list-group-item " data-target="#catalyticmechanismCard">Catalytic mechanism</li>
+                        <li class="list-group-item " data-target="#sequenceCard">Sequence</li>
+                        <li class="list-group-item " data-target="#structureCard">Structure</li>
+                        <li class="list-group-item " data-target="#referenceCard">Reference</li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-10 result">
+                    <!-- Information======================================================================================================================== -->
+                    <div class="Information" id="informationCard">
+                        <div class="card shadow bg-body ">
+                            <div class="card-header">
+                                <h3 class="head_font">Information</h3>
+                            </div>
+                            <div class="row" id="IF_display">
+                                <div class="col">
+                                    <div class="px-2 py-2 d-flex">
+                                        <div class="card-title px-2">UniProt Accession </div>
+                                        <div class="card-text px-2" id="UniProtId" style="font-weight:bold;"></div>
+                                    </div>
+                                    <div class="px-2 pb-2 d-flex">
+                                        <div class="card-title px-2">NCBI Accession </div>
+                                        <div class="card-text px-2" id="NCBI_Accession" style="font-weight:bold;"></div>
+                                    </div>
+                                    <div class="px-2 pb-2 d-flex">
+                                        <div class="card-title px-2">Protein </div>
+                                        <div class="card-text px-2" id="Protein" style="font-weight:bold;"></div>
+                                    </div>
+                                    <div class="px-2 pb-2 d-flex">
+                                        <div class="card-title px-2">Source Organism </div>
+                                        <div class="card-text px-2" id="sourceOrganism" style="font-weight:bold;"></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="px-2 py-2 d-flex">
+                                        <div class="card-title px-2">Gene </div>
+                                        <div class="card-text px-2" id="Gene" style="font-weight:bold;"></div>
+                                    </div>
+                                    <div class="px-2 pb-2 d-flex">
+                                        <div class="card-title px-2">Amino acids </div>
+                                        <div class="card-text px-2" id="Amino_acids" style="font-weight:bold;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Catalytic mechanism======================================================================================================================== -->
+                    <div class="Catalytic mechanism pt-2" id="catalyticmechanismCard">
+                        <div class="card shadow bg-body ">
+                            <div class="card-header">
+                                <h3 class="head_font">Catalytic mechanism</h3>
+                            </div>
+                            <div class="card-body row"
+                                style="position: relative; width: 100%; height: auto;  font-family: 'Lato', sans-serif;">
+                                <div id="Catalytic_mechanism_display" class="col-12"></div>
+                                <div id="key_residues_display" class="col-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sequence======================================================================================================================== -->
+                    <div class="Sequence pt-2" id="sequenceCard">
+                        <div class="card shadow bg-body">
+                            <div class="card-header">
+                                <h3 class="head_font">Sequence</h3>
+                            </div>
+                            <div class="card-body row">
+                                <div class="col px-4">
+                                    <h5 style="color: #515354; font-family: 'Lato', sans-serif;"><b>Sequence</b></h5>
+                                    <br>
+                                </div>
+                                <div class="px-4" style="display: flex;">
+                                    <button class="button_group" id="copySeqButton" type="button">Copy Sequence</button>
+                                    <div class="dropdown_P_H">
+                                        <button id="highlightButton" class="dropbtn_P_H button_group">Select Highlight ▼</button>
+                                        <div id="highlightOptions" class="dropdown_P_H-content">
+                                            <label><input type="checkbox" class="highlightCheckbox" data-value="acidic"> Acidic</label>
+                                            <label><input type="checkbox" class="highlightCheckbox" data-value="basic"> Basic</label>
+                                            <label><input type="checkbox" class="highlightCheckbox" data-value="polarUncharged"> Polar Uncharged</label>
+                                            <label><input type="checkbox" class="highlightCheckbox" data-value="hydrophobic"> Hydrophobic</label>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div>
+                                <div id="seq_display_by-10" class="card-text px-3 pt-3"></div>
+                                <div id="psp_display" class=" px-4 pt-3" style="font-family: Helvetica;color: #515354;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Structure======================================================================================================================== -->
+                    <div class="Structure pt-2" id="structureCard">
+                        <div class="card shadow bg-body ">
+                            <div class="card-header">
+                                <h3 class="head_font">Structure</h3>
+                                <ul class="nav nav-tabs card-header-tabs nav_3d">
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-target="str_View"
+                                            style="font-family: 'Times New Roman', Times, serif ;font-size: 14px;color:#1a7249;">Structure
+                                            View</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-target="lig_View"
+                                            style="font-family: 'Times New Roman', Times, serif ;font-size: 14px;color:#1a7249;">Protein-Ligand
+                                            Interaction View</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body_3d card-body" id="str_View">
+                                <div class="container 3d_viewContainer">
+                                    <div class="row ">
+                                        <div class="col-md-8">
+                                            <div class="">
+
+                                                <div id="viewport" style="width:100%; height:80vh;" class="border">
+                                                </div>
+
+                                                <div id="stageHeader" class="lh-sm fw-light"
+                                                    style="font-family: 'Times New Roman', Times, serif ;"> Note: Use
+                                                    your mouse to drag, rotate, and zoom in and
+                                                    out of the structure. Mouse-over to identify atoms and bonds. See <a
+                                                        href="./help.html#NGL_3D_Vierwer">help</a> for more details.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="box_001" class="col-md-4"
+                                            style="font-family: Helvetica Neue,Helvetica,Arial,sans-serif; font-size: 14px;">
+                                            <section id="0_section">
+                                                <div class="p-1">
+                                                    <label for="controls_0">Toggle Protein and Ligand Style</label>
+                                                    <div id="controls_0">
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="toggleProteinStyle()">Protein</button>
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="toggleLigandStyle()">Ligand</button>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <section id="1_section">
+                                                <div class="p-1">
+                                                    <label for="controls_1">Display Style for protein</label>
+                                                    <div id="controls_1">
+                                                        <div class="">
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('cartoon')">Cartoon</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('ball+stick')">Ball &
+                                                                Stick</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('line')">Wireframe</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('surface')">Surface</button>
+                                                        </div>
+                                                        <div class="pt-1">
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('ribbon')">Ribbon</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('label')">Label</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('spacefill')">Spacefill</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('rope')">Rope</button>
+                                                        </div>
+                                                        <div class="pt-1">
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('tube')">Tube</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('point')">Point</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('backbone')">Backbone</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectProteinStyle('licorice')">Licorice</button>
+                                                        </div>
+                                                        <label for="controls_2" class="pt-1">Display Style for
+                                                            ligand</label>
+                                                        <div id="controls_2">
+
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectLigandStyle('ball+stick')">Ball &
+                                                                Stick</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectLigandStyle('licorice')">Licorice</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectLigandStyle('line')">Wireframe</button>
+                                                            <button class="btn btn-outline-secondary btn-sm"
+                                                                onclick="selectLigandStyle('label')">Label</button>
+                                                            <div class="pt-1">
+                                                                <button class="btn btn-outline-secondary btn-sm"
+                                                                    onclick="selectLigandStyle('spacefill')">Spacefill</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </section>
+
+                                            <section id="2_section">
+                                                <div class="p-1">
+                                                    <div class="form-group">
+                                                        <label for="proteinSchemeSelect">Protein Color</label>
+                                                        <select class="form-select" id="proteinSchemeSelect"
+                                                            onchange="selectProteinColorScheme(this.value)">
+                                                            <option value="residueindex">Color by Rainbow</option>
+                                                            <option value="sstruc">Color by Secondary Structure</option>
+                                                            <option value="element">Color by Element/CPK</option>
+                                                            <option value="chainname">Color by Chain</option>
+                                                            <option value="bfactor">Color by B-Factor</option>
+                                                            <option value="resname">Color by Residue</option>
+                                                            <option value="hydrophobicity">Color by Hydrophobicity
+                                                            </option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                                <div class="p-1">
+                                                    <div class="form-group">
+                                                        <label for="ligandSchemeSelect">Ligand Color</label>
+                                                        <select class="form-select" id="ligandSchemeSelect"
+                                                            onchange="selectLigandColorScheme(this.value)">
+                                                            <option value="element">By Element/CPK</option>
+                                                            <option value="bfactor">By B-Factor</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </section>
+
+                                            <section id="3_section">
+                                                <div class="form-group">
+                                                    <label for="Protein_Opacity">Protein Opacity</label>
+                                                    <div class="input-group">
+                                                        <input type="range" class="form-range" id="Protein_Opacity"
+                                                            min="0" max="1" step="0.01" value="1"
+                                                            oninput="setProteinOpacity(this.value)">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Ligand_Opacity">Ligand Opacity</label>
+                                                    <div id="input-group">
+                                                        <input type="range" class="form-range" id="Ligand_Opacity"
+                                                            min="0" max="1" step="0.01" value="1"
+                                                            oninput="setLigandOpacity(this.value)">
+                                                    </div>
+                                                </div>
+                                            </section>
+
+                                            <section id="4_section" class="pt-1">
+                                                <div class="d-flex" style="justify-content: center;">General Display
+                                                    Options</div>
+                                                <hr style="margin: 0;">
+                                                <div class="p-1">
+                                                    <label for="background_color">Background Color</label>
+                                                    <div id="background_color">
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="setBlackBackground()">Black</button>
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="setWhiteBackground()">White</button>
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="setGrayBackground()">Gray</button>
+                                                    </div>
+                                                </div>
+                                                <div id="1th_line_button" class="p-1">
+                                                    <a href="./asset/PDB/xxzx.pdb" id="1th_line_dl1" download
+                                                        style="text-decoration:none">
+                                                        <button type="button"
+                                                            class="btn btn-outline-secondary btn-sm">Download
+                                                        </button>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="openScreenshotOptions()">Screenshot</button>
+                                                    <div id="screenshotOptions" class="modal">
+                                                        <div class="modal-content">
+                                                            <span class="close-button_screenshot"
+                                                                onclick="closeScreenshotOptions()">&times;</span>
+                                                            <p>Choose screenshot options:</p>
+                                                            <label><input type="checkbox" id="transparentBackground">
+                                                                Transparent Background</label><br>
+                                                            <label><input type="checkbox" id="trimEdges"> Trim White
+                                                                Edges</label><br>
+                                                            <label>Resolution Multiplier: <input type="number"
+                                                                    id="resolutionMultiplier" min="1" max="10"
+                                                                    value="2">(min=1,max=10)</label><br>
+                                                            <button onclick="takeScreenshot()"
+                                                                class="confirm_button_screenshot">Confirm</button>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="toggleFullscreen()">Full Screen</button>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="toggleSpin()">Spin</button>
+
+                                                </div>
+                                                <div id="2th_line_button" class="p-1 d-flex "
+                                                    style="justify-content: space-between;">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="resetView()">Center</button>
+                                                    <div>
+                                                        <label for="focusRange" style="color: #6c757d;">Focus:</label>
+                                                        <input type="range" class="form-range" id="focusRange" min="0"
+                                                            max="99" step="1" value="0" oninput="focusView(this.value)">
+                                                    </div>
+                                                </div>
+
+                                            </section>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body_3d card-body" id="lig_View" style="display: none;">
+                                <div class="container 3d_viewContainer">
+                                    <div class="row ">
+                                        <div class="col-md-8">
+                                            <div>
+                                                <div id="viewport_ligand" style="width:100%; height:80vh;"
+                                                    class="border">
+                                                </div>
+                                                <div id="stageHeader_1" class="lh-sm fw-light"
+                                                    style="font-family: 'Times New Roman', Times, serif ;"> Note: Use
+                                                    your mouse to drag, rotate, and zoom in and
+                                                    out of the structure. Mouse-over to identify atoms and bonds.See <a
+                                                        href="./help.html#NGL_3D_Vierwer">help</a> for more details.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="box_002" class="col-md-4"
+                                            style="font-family: Helvetica Neue,Helvetica,Arial,sans-serif; font-size: 14px;">
+                                            <section id="0_section">
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="toggleHydrogenBond()" id="checkbox-hydrogenBond"
+                                                        checked>
+                                                    <label class="form-check-label" for="checkbox-hydrogenBond">
+                                                        Hydrogen Bonds (blue)
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="toggleHalogenBond()" id="checkbox-halogenBond"
+                                                        checked>
+                                                    <label class="form-check-label" for="checkbox-halogenBond">
+                                                        Halogen Bonds (turquoise)
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="toggleHydrophobic()" id="checkbox-hydrophobic"
+                                                        checked>
+                                                    <label class="form-check-label" for="checkbox-hydrophobic">
+                                                        Hydrophobic Contacts (grey)
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="togglePiInteraction()" id="checkbox-piInteraction"
+                                                        checked>
+                                                    <label class="form-check-label" for="checkbox-piInteraction">
+                                                        Pi Interactions (orange, green)
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="toggleMetalCoordination()"
+                                                        id="checkbox-metalCoordination" checked>
+                                                    <label class="form-check-label" for="checkbox-metalCoordination">
+                                                        Metal Interactions (purple)
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="toggleionicInteraction()"
+                                                        id="checkbox-ionicInteraction" checked>
+                                                    <label class="form-check-label" for="checkbox-ionicInteraction">
+                                                        Ionic interaction (yellow)
+                                                    </label>
+                                                </div>
+
+                                            </section>
+
+                                            <section id="1_section">
+                                                <div>
+                                                    <input class="form-check-input" type="checkbox"
+                                                        onchange="toggleLabels()" id="checkbox-label" checked>
+                                                    <label class="form-check-label" for="checkbox-label">
+                                                        Label
+                                                    </label>
+                                                </div>
+                                            </section>
+                                            <section id="2_section" class="py-3">
+                                                <div style="display:flex;justify-content: center;">Pocket Controls</div>
+                                                <hr style="margin:0;">
+                                                <!-- 不透明度控制 -->
+                                                <div class="p-1">
+                                                    <label for="pocketOpacity">Opacity:</label>
+                                                    <div style="display: flex;">
+                                                        <input type="range" class="form-range" id="pocketOpacity"
+                                                            min="0" max="1" step="0.1" value="0"
+                                                            oninput="changePocketOpacity(this.value)">
+                                                        <span id="pocketOpacityValue">0</span>
+                                                    </div>
+                                                </div>
+                                                <!-- 近裁剪控制 -->
+                                                <div class="p-1">
+                                                    <label for="pocketNearClipping">Near Clipping:</label>
+                                                    <div style="display: flex;">
+                                                        <input type="range" class="form-range" id="pocketNearClipping"
+                                                            min="0" max="100" step="1" value="0"
+                                                            oninput="changePocketNearClipping(this.value)">
+                                                        <span id="pocketNearClippingValue">0</span>
+                                                    </div>
+                                                </div>
+                                                <!-- 半径裁剪控制 -->
+                                                <div class="p-1">
+                                                    <label for="pocketRadiusClipping">Radius Clipping:</label>
+                                                    <div style="display: flex;">
+                                                        <input type="range" class="form-range" id="pocketRadiusClipping"
+                                                            min="1" max="22" step="1" value="10"
+                                                            oninput="changePocketRadiusClipping(this.value)">
+                                                        <span id="pocketRadiusClippingValue">10</span>
+                                                    </div>
+                                                </div>
+                                                <div class="p-1">
+                                                    <label for="surfaceTypeSelect">Surface Type:</label>
+                                                    <select class="form-select" id="surfaceTypeSelect"
+                                                        onchange="changeSurfaceType()">
+                                                        <option value="av">AV</option>
+                                                        <option value="sas">SAS</option>
+                                                        <option value="ms">MS</option>
+                                                        <option value="vws">VWS</option>
+                                                        <!-- Add more options as needed -->
+                                                    </select>
+
+                                                </div>
+                                                <div class="p-1">
+                                                    <label for="colorSelect">Surface Color:</label>
+                                                    <select class="form-select" id="colorSelect"
+                                                        onchange="changeSurfaceColor()">
+                                                        <option value="Hydrophobicity">Hydrophobicity</option>
+                                                        <option value="element">Element</option>
+                                                    </select>
+                                                </div>
+                                            </section>
+                                            <section id="3_section" class="pt-1">
+                                                <div class="d-flex" style="justify-content: center;">General Display
+                                                    Options</div>
+                                                <hr style="margin: 0;">
+                                                <div class="p-1">
+                                                    <label for="background_color">Background Color</label>
+                                                    <div id="background_color">
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="setBlackBackground_1()">Black</button>
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="setWhiteBackground_1()">White</button>
+                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                            onclick="setGrayBackground_1()">Gray</button>
+                                                    </div>
+                                                </div>
+                                                <div id="1th_line_button" class="p-1">
+                                                    <a href="./asset/PDB/xxzx.pdb" id="1th_line_dl2" download
+                                                        style="text-decoration:none">
+                                                        <button type="button"
+                                                            class="btn btn-outline-secondary btn-sm">Download
+                                                        </button>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="openScreenshotOptions_1()">Screenshot</button>
+                                                    <div id="screenshotOptions_1" class="modal">
+                                                        <div class="modal-content">
+                                                            <span class="close-button_screenshot"
+                                                                onclick="closeScreenshotOptions_1()">&times;</span>
+                                                            <p>Choose screenshot options:</p>
+                                                            <label><input type="checkbox" id="transparentBackground_1">
+                                                                Transparent Background</label><br>
+                                                            <label><input type="checkbox" id="trimEdges_1"> Trim White
+                                                                Edges</label><br>
+                                                            <label>Resolution Multiplier: <input type="number"
+                                                                    id="resolutionMultiplier_1" min="1" max="10"
+                                                                    value="2">(min=1,max=10)</label><br>
+                                                            <button onclick="takeScreenshot_1()"
+                                                                class="confirm_button_screenshot">Confirm</button>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="toggleFullscreen_1()">Full Screen</button>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="toggleSpin_1()">Spin</button>
+
+                                                </div>
+                                                <div id="2th_line_button" class="p-1 d-flex "
+                                                    style="justify-content: space-between;">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="resetView_1()">Center</button>
+                                                    <div>
+                                                        <label for="focusRange" style="color: #6c757d;">Focus:</label>
+                                                        <input type="range" class="form-range" id="focusRange" min="0"
+                                                            max="99" step="1" value="0"
+                                                            oninput="focusView_1(this.value)">
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- reference======================================================================================================================== -->
+                    <div class="Reference pt-2" id="referenceCard">
+                        <div class="card shadow bg-body ">
+                            <div class="card-header">
+                                <h3 class="head_font">Reference</h3>
+                            </div>
+                            <div class="card-body"
+                                style="position: relative; width: 100%; height: auto;font-size: 14px;  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;"
+                                id="reference-container">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer class="p-5 mt-5 text-center ">
+        <div class="container ">
+            <p class="FooterText">
+				Copyright©2023 ZhangLab at University of Science and Technology Beijing.All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var queryParams = new URLSearchParams(window.location.search);
+            var point = queryParams.get('point');
+
+            if (point) {
+                document.body.setAttribute('point', point);
+            }
+        });
+    </script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/EPT.js"></script>
+</body>
+
+</html>

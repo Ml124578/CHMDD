@@ -1,0 +1,656 @@
+.highlight {
+    background-color: yellow;
+}
+
+body {
+    background-color: rgb(244, 255, 248);
+    padding-top: 60px;
+}
+
+#mainbox {
+    background-color: rgb(244, 255, 248);
+    font-family: 'Times New Roman', Times, serif;
+    width: 60%;
+    /* 设置最大宽度为800px，你可以根据需要调整 */
+    margin: 0 auto;
+    /* 使其居中 */
+}
+
+#mainbox>*:not(h1) {
+    font-size: 18px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #388c45;
+    color: white;
+    cursor: pointer;
+    position: relative;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+    background-color: #c5e6cd;
+}
+
+#alignment-result {
+    position: relative;
+    display: flex;
+    border: 2px solid #000000;
+    flex-direction: column;
+    /* 垂直排布 */
+    align-items: center;
+    /* 内容居中 */
+}
+
+#results {
+    position: relative;
+    border: 2px solid #000000;
+    text-align: center;
+    /* 将内容居中 */
+    padding: 10px;
+    /* 添加内边距 */
+}
+
+.result-item {
+    display: flex;
+    /* 使用flex布局 */
+    justify-content: center;
+    /* 居中对齐 */
+    align-items: center;
+    /* 垂直居中对齐 */
+}
+
+.result-item>div {
+    margin: 0 10px;
+    /* 添加水平内边距 */
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+
+    #results th,
+    #results td {
+        font-size: 10px;
+        /* 缩小字体 */
+        padding: 5px;
+        /* 缩小单元格间距 */
+    }
+}
+
+#loadingIcon1,
+#loadingIcon2 {
+    display: none;
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #006e3b;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite;
+    /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Add media queries in your style section */
+@media (max-width: 600px) {
+    #alignment-result pre {
+        font-size: 8px;
+    }
+
+    #score {
+        font-size: 8px;
+    }
+
+    #mainbox {
+        width: 100%;
+    }
+
+    .amino-acid {
+        display: inline-block;
+        width: 5.5px;
+        height: 5.5px;
+        text-align: center;
+        line-height: 5.5px;
+        margin: 0.35px;
+        font-size: 5.5px;
+        font-weight: bold;
+    }
+
+    /* 行号样式 */
+    .index {
+        width: 10px;
+        text-align: right;
+        font-weight: bold;
+        font-size: 4.5px;
+    }
+
+    .legend {
+        margin-top: 4.5px;
+        margin-bottom: 4.5px;
+        display: flex;
+        gap: 4.5px;
+        font-size: 4.5px;
+        white-space: nowrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .legend-color {
+        width: 4.5px;
+        height: 4.5px;
+        margin-right: 2.5px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 770px) {
+    #alignment-result pre {
+        font-size: 12px;
+    }
+
+    #score {
+        font-size: 12px;
+    }
+
+    #mainbox {
+        width: 100%;
+    }
+
+    .amino-acid {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        text-align: center;
+        line-height: 7px;
+        margin: 0.5px;
+        font-size: 7px;
+        font-weight: bold;
+    }
+
+    /* 行号样式 */
+    .index {
+        width: 15px;
+        text-align: right;
+        font-weight: bold;
+        font-size: 6px;
+    }
+
+    .legend {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        gap: 5px;
+        font-size: 5px;
+        white-space: nowrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .legend-color {
+        width: 5px;
+        height: 5px;
+        margin-right: 3px;
+    }
+}
+
+@media (min-width: 770px) and (max-width: 992px) {
+    #alignment-result pre {
+        font-size: 16px;
+    }
+
+    #score {
+        font-size: 16px;
+    }
+
+    #mainbox {
+        width: 100%;
+    }
+
+    .amino-acid {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        text-align: center;
+        line-height: 8px;
+        margin: 0.5px;
+        font-size: 8px;
+        font-weight: bold;
+    }
+
+    /* 行号样式 */
+    .index {
+        width: 15px;
+        text-align: right;
+        font-weight: bold;
+        font-size: 7px;
+    }
+
+    .legend {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        display: flex;
+        gap: 6px;
+        font-size: 6px;
+        white-space: nowrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .legend-color {
+        width: 6px;
+        height: 6px;
+        margin-right: 3px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    #alignment-result pre {
+        font-size: 16px;
+    }
+
+    #score {
+        font-size: 16px;
+    }
+
+    #mainbox {
+        width: 100%;
+    }
+
+    .amino-acid {
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        text-align: center;
+        line-height: 13px;
+        margin: 0.8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    /* 行号样式 */
+    .index {
+        width: 20px;
+        text-align: right;
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    .legend {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 10px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .legend-color {
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+    }
+}
+
+@media (min-width: 1201px) {
+    #alignment-result pre {
+        font-size: 18px;
+    }
+
+    #score {
+        font-size: 18px;
+    }
+
+    #mainbox {
+        width: 70%;
+    }
+
+    .amino-acid {
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+        text-align: center;
+        line-height: 19px;
+        margin: 1px;
+        font-size: 19px;
+        font-weight: bold;
+    }
+
+    /* 行号样式 */
+    .index {
+        width: 30px;
+        text-align: right;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .legend {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: flex;
+        gap: 15px;
+        font-size: 15px;
+        white-space: nowrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .legend-color {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+    }
+}
+
+#score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#catalytic-mechanism {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.highlight-square {
+    width: 12px;
+    height: 12px;
+    background-color: yellow;
+    border: 1px solid black;
+}
+
+.button_PSP {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+}
+
+/* 父容器，等比缩放 */
+.sequence-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: nowrap;
+    /* 不换行 */
+    transform-origin: top left;
+    transform: scale(1);
+    /* 初始缩放比例为 1 */
+    width: auto;
+    height: auto;
+}
+
+/* 序列行 */
+.sequence-row {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    /* 不换行 */
+}
+
+/* 氨基酸样式，使用视口单位实现等比缩放 */
+/* 氨基酸分类样式 */
+.hydrophobic-strong {
+    background-color: #1E90FF;
+    color: white;
+}
+
+.hydrophobic-medium {
+    background-color: #90EE90;
+    color: white;
+}
+
+.hydrophilic-medium {
+    background-color: #FFA500;
+    color: black;
+}
+
+.hydrophilic-strong {
+    background-color: #FF6347;
+    color: white;
+}
+
+.algorithm-parameters-container {
+    margin: 20px 0px 0px 0px;
+    background-color: #c5e6cd;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.counter_box {
+
+    background-color: #c5e6cd !important;
+}
+
+.toggle-button {
+    width: 100%;
+    /* 按钮宽度与容器一致 */
+    background-color: #388c45;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-button span.symbol {
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.matrix-selector-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+    background-color: #c5e6cd;
+    padding: 10px 15px;
+    transition: none;
+}
+
+
+.btn-outline-secondary {
+    border-color: #388c45;
+    color: #388c45;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #388c45;
+    color: #fff;
+}
+
+/* 自定义输入框边框颜色 */
+.input-group .form-control {
+    border-color: #388c45;
+}
+
+.input-group .form-control:focus {
+    border-color: #2e7a3f;
+    box-shadow: none;
+}
+
+/* 可选：调整图标大小 */
+.btn-outline-secondary .fas {
+    font-size: 16px;
+}
+
+/* 保持 Matrix 选择器的选择框样式不变 */
+.matrix-selector-container select {
+    width: 180px;
+    height: 35px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 2px solid #388c45;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 保持下拉箭头的图标样式 */
+.matrix-selector-container i.fas.fa-chevron-down {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #333;
+}
+
+
+/* 计数器容器样式 */
+.counter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* 单个计数器样式 */
+.counter {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    /* 背景颜色 */
+    border: 2px solid #388c45;
+    /* 边框颜色 */
+    border-radius: 8px;
+    /* 圆角 */
+    padding: 5px 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 阴影效果 */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* 鼠标悬停时的效果 */
+.counter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 按钮样式 */
+.counter button {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    background-color: #388c45;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 按钮悬停和按下时的效果 */
+.counter button:hover {
+    background-color: #2e7a3f;
+}
+
+.counter button:active {
+    transform: scale(0.95);
+}
+
+/* 输入框样式 */
+.counter input {
+    width: 70px;
+    height: 35px;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    background-color: #fff;
+    outline: none;
+    margin: 0 10px;
+    font-weight: bold;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+/* 输入框聚焦时的效果 */
+.counter input:focus {
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 标签样式 */
+.counter-container span {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+.counter_box {
+    background-color: #c5e6cd;
+}

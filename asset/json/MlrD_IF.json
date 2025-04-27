@@ -1,0 +1,100 @@
+{
+    "IF": [
+        {
+            "id": "BAL02997",
+            "UniProt_id": "G3XEW9",
+            "Protein": "MlrD",
+            "Source_Organism": "Sphingopyxis sp. C-1",
+            "Gene": "mlrD",
+            "Amino_acids": "423"
+        },
+        {
+            "id": "QCT05772",
+            "UniProt_id": "A0A4P8XT56",
+            "Protein": "MlrD",
+            "Source_Organism": "Sphingopyxis sp. X20",
+            "Gene": "mlrD",
+            "Amino_acids": "423"
+        },
+        {
+            "id": "AEC46647",
+            "UniProt_id": "F5B7X9",
+            "Protein": "MlrD",
+            "Source_Organism": "Novosphingobium sp. THN1",
+            "Gene": "mlrD",
+            "Amino_acids": "423"
+        },
+        {
+            "id": "AAL10289",
+            "UniProt_id": "Q93CA5",
+            "Protein": "MlrD",
+            "Source_Organism": "Sphingomonas sp. ACM-3962",
+            "Gene": "mlrD",
+            "Amino_acids": "422"
+        },
+        {
+            "id": "NLR41059",
+            "UniProt_id": "A0A7X8RXP8",
+            "Protein": "Peptide MFS transporter",
+            "Source_Organism": "Novosphingobium sp. ERW19",
+            "Gene": "mlrD",
+            "Amino_acids": "408"
+        },
+        {
+            "id": "BBE32456",
+            "UniProt_id": "A0AAD1FZG3",
+            "Protein": "Oligo peptide transporter-MlrD",
+            "Source_Organism": "Sphingomonas sp. B9",
+            "Gene": "mlrD",
+            "Amino_acids": "403"
+        },
+        {
+            "id": "ARO92194",
+            "UniProt_id": "A0A1X9PWM4",
+            "Protein": "Microcystin degrading enzyme MlrD",
+            "Source_Organism": "Sphingopyxis sp. YMCD",
+            "Gene": "mlrD",
+            "Amino_acids": "333"
+        },
+        {
+            "id": "AZS27825",
+            "UniProt_id": "A0A3S9VMP8",
+            "Protein": "Microcystin degrading protein",
+            "Source_Organism": "Sphingopyxis sp. m6",
+            "Gene": "mlrD",
+            "Amino_acids": "333"
+        },
+        {
+            "id": "AQV08235",
+            "UniProt_id": "A0A1S6Q379",
+            "Protein": "MlrD",
+            "Source_Organism": "Rhizobium sp. TH",
+            "Gene": "mlrD",
+            "Amino_acids": "425"
+        },
+        {
+            "id": "GAO55859",
+            "UniProt_id": "A0A1W7MF25",
+            "Protein": "Di-/tripeptide transporter, MlrD",
+            "Source_Organism": "Novosphingobium sp. MD-1",
+            "Gene": "mlrD",
+            "Amino_acids": "423"
+        },
+        {
+            "id": "NLR70810",
+            "UniProt_id": "A0A7X8S7L9",
+            "Protein": "Peptide MFS transporter",
+            "Source_Organism": "Novosphingobium sp. ERN07",
+            "Gene": "mlrD",
+            "Amino_acids": "408"
+        },
+        {
+            "id": "AOW44970",
+            "UniProt_id": "A0A1D8QSR6",
+            "Protein": "Microcystin degrading enzyme MlrD",
+            "Source_Organism": "Sphingopyxis sp. MB-E",
+            "Gene": "mlrD",
+            "Amino_acids": "423"
+        }
+    ]
+}

@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SGPA</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/popper.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/sequncen.css">
+    <link type="image/png" sizes="96x96" rel="icon" href="./icon-sgpa.png">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/ngl.js"></script>
+    <script src="./js/mmtf.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/tex-mml-chtml.js"></script>
+</head>
+<style>
+    .result {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    p {
+        margin-bottom: 5px;
+    }
+
+    img:not(#nav-img) {
+        margin-bottom: 10px;
+    }
+
+
+    .ul_list_help {
+        position: sticky;
+        height: 100%;
+        overflow-y: auto;
+        /* 使左侧列表区域可以滚动 */
+        top: 90px;
+        /* 为了避免被导航栏遮挡，设置top为导航栏高度 */
+    }
+
+    nav.navbar {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .result {
+        margin-top: 60px;
+    }
+
+    a {
+        text-decoration: none;
+        color: rgb(0, 99, 30);
+    }
+
+    :target {
+        scroll-margin-top: 90px;
+    }
+
+    #color-element div {
+        width: 45px;
+        height: 45px;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+    }
+
+    #color-element span {
+        padding: 10px;
+        font-size: 30px;
+        font-family: sans-serif;
+    }
+
+    #color-residue-aa div {
+        width: 55px;
+        height: 35px;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+    }
+
+    #color-residue-aa span {
+        padding: 10px;
+        font-size: 20px;
+        font-family: sans-serif;
+        text-shadow: -2px 0 lightgrey, 0 2px lightgrey, 2px 0 lightgrey, 0 -2px lightgrey;
+    }
+
+    #color-residue-nt div {
+        width: 65px;
+        height: 35px;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+    }
+
+    #color-residue-nt span {
+        padding: 10px;
+        font-size: 20px;
+        font-family: sans-serif;
+    }
+
+    #color-sstruc div {
+        width: 135px;
+        height: 35px;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+    }
+
+    #color-sstruc span {
+        padding: 10px;
+        font-size: 20px;
+        font-family: sans-serif;
+        text-shadow: -2px 0 lightgrey, 0 2px lightgrey, 2px 0 lightgrey, 0 -2px lightgrey;
+    }
+
+    #color-interaction hr {
+        border-top: 5px dashed #8c8b8b;
+        width: 100px;
+        margin-right: 7px;
+        opacity: 1;
+    }
+
+    h6,
+    h4,
+    h5 {
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" style="background: var(--green-001);">
+        <div class="container">
+            <div class="m-1">
+                <a href="./index.html">
+                    <img src="./asset/icon/chmdd.png" alt="..." style="height: 6.5vh;" id="nav-img">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="./index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Strain.html">Strain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Hepatotoxins.html">Hepatotoxins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Predict.html">Predict</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./contacts.html">Contacts</a>
+                    </li>
+                    <!--<li class="nav-item">
+						<a class="nav-link" href="https://Ml124578.github.io">ZhangLab</a>
+					</li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-3 d-none d-md-block ul_list_help">
+                    <ul class="list-group-flush" style="list-style-type: none;">
+                        <li><a href="#NGL_3D_Vierwer">NGL (3D Viewer)</a></li>
+                        <ul style="list-style-type: circle; font-size: 1.9vh;">
+                            <li><a href="#General_Display_Options">General Display Optionst</a></li>
+                            <li><a href="#Mouse_Controls">Mouse Controls</a></li>
+                            <li><a href="#Structure_View">Structure View</a>
+                                <ul style="list-style-type: circle; font-size: 1.8vh;">
+                                    <li><a href="#Color_schemes">Color schemes</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#Protein-Ligand_Interaction_View">Protein-Ligand Interaction View</a>
+                                <ul style="list-style-type: circle; font-size: 1.8vh;">
+                                    <li><a href="#Interaction_Types_Definition_and_Calculation_Parameters">Interaction
+                                            Types Definition and Calculation Parameters</a></li>
+                                    <li><a href="#Clipping Planes">Clipping Planes
+                                        </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#reference_ngl">Reference</a></li>
+                        </ul>
+                        <li><a href="#sequence_alignment">Predict</a>
+                            <ul style="list-style-type: circle; font-size: 1.9vh;">
+                                <li><a href="#abstract">Abstract</a></li>
+                                <li><a href="#SeqAlign_Guide">Predict User Guide</a>
+                                    <ul style="list-style-type: circle; font-size: 1.8vh;">
+                                        <li><a href="#Enter_Query_Sequence">Enter Query Sequence</a></li>
+                                        <li><a href="#physicochemical_property_prediction">physicochemical property
+                                                prediction</a></li>
+                                        <li><a href="#Scoring_parameters">Scoring parameters</a></li>
+                                        <li><a href="#Select_alignment_template">Select alignment template</a></li>
+                                        <li><a href="#Predict_seqalign">Predict</a></li>
+                                        <li><a href="#reference_seqalign">Reference</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+
+                </div>
+
+                <div class="col-12 col-md-9 result">
+                    <div class="3D_view pt-3" style="font-size: 14px;" id="">
+                        <h4 id="NGL_3D_Vierwer">NGL (3D Viewer)</h4>
+                        <p>The NGL 3D View option from the CHMDD structure section utilizes the WebGL-based NGL Viewer
+                            <sup><a href="#Rose2015">[Rose2015]</a></sup>, <sup><a
+                                    href="#Rose2016">[Rose2016]</a></sup>, to display PDB structures in
+                            three-dimensions.
+                        </p>
+                        <p>Various general display options are available from the main window and two types of views are
+                            available:<br><a href="#Structure_View"
+                                style="color: blue; text-decoration:underline;">Structure View</a><br><a
+                                href="#Protein-Ligand_Interaction_View"
+                                style="color: blue;text-decoration:underline;">Protein-Ligand Interaction View</a></p>
+                        <br>
+                        <h5 id="General_Display_Options">General Display Options</h5>
+                        <p>Various display options are available from the 'General Display Options' area.</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Download PDB: Download the protein-ligand complex structure file in PDB format</li>
+                            <li>Spin: Start or stop spinning the structure along the y-axis</li>
+                            <li>Fullscreen: Activate or disable fullscreen mode</li>
+                            <li>Center: Reset molecule position</li>
+                            <li>Background: Choose black,white or gray background color</li>
+                            <li>Focus: Move clipping planes closer to or away from the center of rotation</li>
+                            <li>Screenshot: Including three customizable options:
+                                <ul style="list-style-type:circle;">
+                                    <li>Transparent Background: Choose whether the screenshot background is transparent
+                                    </li>
+                                    <li>Trim White Edges: Select whether to trim the white edges of the image</li>
+                                    <li>Resolution Multiplier: Choose the resolution multiplier for the screenshot (from
+                                        1 to 5 times)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <img src="./asset/help_img/General Display Options.png" class="img-fluid border" alt="...">
+                        <img src="./asset/help_img/screenshot.png" class="img-fluid border" alt="...">
+                        <br>
+                        <h5 id="Mouse_Controls">Mouse Controls</h5>
+                        <p>Rotate the view around the center of the canvas</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Left-mouse drag</li>
+                            <li>One-finger drag</li>
+                        </ul>
+                        <p>Translate the view and move the center of rotation</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Right-mouse drag</li>
+                            <li>Two-finger drag</li>
+                            <li>Ctrl left-mouse drag</li>
+                        </ul>
+                        <p>Zoom the view in and out</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Scroll-wheel</li>
+                            <li>Two-finger pinch</li>
+                            <li>Shift left-mouse drag</li>
+                        </ul>
+                        <p>Show information (tooltips) about the object close to the mouse cursor or finger tap such as
+                            atoms or bonds</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Mouse hover</li>
+                            <li>Finger tap</li>
+                        </ul>
+                        <p>Move the clipping/focus planes in and out</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Shift scroll-wheel</li>
+                        </ul>
+                        <p>Increase/decrease the isolevel value of the selected electron density map</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Ctrl scroll-wheel</li>
+                        </ul>
+                        <p>Combination "Move the clipping/focus planes in and out" and "Zoom the view in and out"</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Middle-mouse drag</li>
+                            <li>Shift-ctrl scroll-wheel</li>
+                        </ul>
+                        <p>Distance, angle, dihedral measurements: To begin a measurement, use the right-mouse button
+                            (or
+                            the left-mouse button and the Control key/Control key and mouse click) to select 1, 2, 3 or
+                            4
+                            atoms. Complete the measurement by selecting the final atom twice. Depending on how many
+                            atoms
+                            are selected, the distance (2 atoms), the angle (3 atoms) or the dihedral angle (4 atoms) is
+                            measured and displayed. Deselect all atoms with a right-click in empty space. To remove a
+                            measurement,
+                            re-select all involved atoms and then the last atom twice in a row.</p>
+                        <br>
+                        <h5 id="Structure_View">Structure View</h5>
+                        <img src="./asset/help_img/str_viewer.png" class="img-fluid border" alt="...">
+                        <p>Various display options are available from the Structure View tab of the 3D view page:</p>
+                        <ul style="list-style-type: disc;">
+                            <li>Toggle Protein and Ligand Style: Show or hide the protein or ligand structure</li>
+                            <li>Display Style for protein: View the protein structure in different representation styles
+                                (Cartoon, Ball & Stick, Wireframe, Surface, Ribbon, Label, Spacefill/CPK, Rope, Tube,
+                                Point and Backbone)</li>
+                            <li>Display Style for ligand: View the protein structure in different representation styles
+                                (Ball & Stick, Wireframe, Label, Spacefill/CPK,)</li>
+                            <li>Protein Color: Color the protein structure using different color schemes (Color by
+                                Rainbow, Secondary Structure, Elemen/CPK, Chain, Residue and
+                                Hydrophobicity)</li>
+                            <li>Ligand Color: Color the ligand structure using different color schemes (Color by
+                                Element, Temperature Factor and Hydrophobicity)</li>
+                            <li>Protein Opacity: Control the opacity of the protein in the 3D structure view</li>
+                            <li>Ligand Opacity: Control the opacity of the protein in the 3D structure view</li>
+                        </ul>
+                        <h5 id="Color_schemes">Color schemes</h5>
+                        <div
+                            style="width: 300px;height: 45px;background: linear-gradient(to right, #313695 0%, #4575b4 10%, #74add1 20%, #abd9e9 30%, #e0f3f8 40%, #ffffbf 50%, #fee090 60%, #fdae61 70%, #f46d43 80%, #d73027 90%, #a50026 100%); ">
+                            <div style="padding:10px; font-size: 20px; font-family: sans-serif"><span
+                                    style="float:left">N-terminus</span><span style="float:right">C-terminus</span>
+                            </div>
+                        </div>
+                        <small>Rainbow - blue is the C-terminus and red is the N-terminus</small>
+                        <br><br>
+                        <div
+                            style="width: 300px;height: 45px;background: linear-gradient(to left, #313695 0%, #4575b4 10%, #74add1 20%, #abd9e9 30%, #e0f3f8 40%, #ffffbf 50%, #fee090 60%, #fdae61 70%, #f46d43 80%, #d73027 90%, #a50026 100%); ">
+                            <div style="padding:10px; font-size: 20px; font-family: sans-serif"><span
+                                    style="float:left">First chain</span><span style="float:right">Last chain</span>
+                            </div>
+                        </div>
+                        <small>By Chain - colored by chain</small>
+                        <br><br>
+                        <div
+                            style="width: 300px;height: 45px;background: linear-gradient(to left, #fff7ec 0%, #fee8c8 12.5%, #fdd49e 25%, #fdbb84 37.5%, #fc8d59 50%, #ef6548 62.5%, #d7301f 75%, #b30000 87.5%, #7f0000 100%);">
+                            <div style="padding:10px; font-size: 20px; font-family: sans-serif"><span
+                                    style="float:left">High B-factor</span><span style="float:right">Low
+                                    B-factor</span>
+                            </div>
+                        </div>
+                        <small>By B-factor - colored from red (highest B-factors in the structure) to tan (lowest
+                            B-factor in the structure)</small>
+                        <br><br>
+                        <div
+                            style="width: 300px;height: 45px;background: linear-gradient(to right, #a50026 0%, #d73027 10%, #f46d43 20%, #fdae61 30%, #fee08b 40%, #ffffbf 50%, #d9ef8b 60%, #a6d96a 70%, #66bd63 80%, #1a9850 90%, #006837 100%);">
+                            <div style="padding:10px; font-size: 20px; font-family: sans-serif"><span
+                                    style="float:left">Hydrophilic</span><span style="float:right">Hydrophobic</span>
+                            </div>
+                        </div>
+                        <small>By Hydrophobicity -- colored from red (hydrophilic) to green (hydrophobic)</small>
+                        <br><br>
+                        <div id="color-element">
+                            <div style="background-color: #FFFFFF"><span>H</span></div>
+                            <div style="background-color: #909090"><span>C</span></div>
+                            <div style="background-color: #3050F8"><span>N</span></div>
+                            <div style="background-color: #FF0D0D"><span>O</span></div>
+                            <div style="background-color: #90E050"><span>F</span></div>
+                            <div style="background-color: #FF8000"><span>P</span></div>
+                            <div style="background-color: #FFFF30"><span>S</span></div>
+                        </div>
+                        <small>By Element/CPK</small>
+                        <br><br>
+                        <div id="color-residue-aa">
+                            <div style="background-color: #8CFF8C"><span>Ala</span></div>
+                            <div style="background-color: #00007C"><span>Arg</span></div>
+                            <div style="background-color: #FF7C70"><span>Asn</span></div>
+                            <div style="background-color: #A00042"><span>Asp</span></div>
+                            <div style="background-color: #FFFF70"><span>Cys</span></div>
+                            <div style="background-color: #FF4C4C"><span>Gln</span></div>
+                            <div style="background-color: #660000"><span>Glu</span></div>
+                            <div style="background-color: #FFFFFF"><span>Gly</span></div>
+                            <div style="background-color: #7070FF"><span>His</span></div>
+                            <div style="background-color: #004C00"><span>Ile</span></div>
+                            <div style="background-color: #455E45"><span>Leu</span></div>
+                            <div style="background-color: #4747B8"><span>Lys</span></div>
+                            <div style="background-color: #B8A042"><span>Met</span></div>
+                            <div style="background-color: #534C52"><span>Phe</span></div>
+                            <div style="background-color: #525252"><span>Pro</span></div>
+                            <div style="background-color: #FF7042"><span>Ser</span></div>
+                            <div style="background-color: #B84C00"><span>Thr</span></div>
+                            <div style="background-color: #4F4600"><span>Trp</span></div>
+                            <div style="background-color: #8C704C"><span>Tyr</span></div>
+                            <div style="background-color: #FF8CFF"><span>Val</span></div>
+                        </div>
+                        <small>By Residue - Amino acids</small>
+                        <br><br>
+                        <div id="color-sstruc">
+                            <div style="background-color: #FF0080"><span>alpha-helix</span></div>
+                            <div style="background-color: #FFC800"><span>beta strand</span></div>
+                            <div style="background-color: #ffffff"><span>coil</span></div>
+                        </div>
+                        <small>By Secondary Structure</small>
+                        <br><br>
+                        <h5 id="Protein-Ligand_Interaction_View">Protein-Ligand Interaction View</h5>
+                        <img src="./asset/help_img/lig_viewer.png" class="img-fluid border" alt="...">
+                        <p>Protein-Ligand Interaction View offers various ligand-related display options:</p>
+                        <ul>
+                            <li>Interactions: Show or hide various interactions (Hydrophobic Contacts, Hydrogen
+                                Bonds,
+                                Halogen Bonds, Metal Interactions, Pi Interactions)</li>
+                            <table id="color-interaction">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <hr style="border-color: #2B83BA">
+                                        </td>
+                                        <td>hydrogen bonds</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <hr style="border-color: #808080">
+                                        </td>
+                                        <td>hydrophobic contacts</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <hr style="border-color: #40FFBF">
+                                        </td>
+                                        <td>halogen bonds</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <hr style="border-color: #8C4099">
+                                        </td>
+                                        <td>metal interactions</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <hr style="border-color: #FF8000">
+                                        </td>
+                                        <td>cation-pi interactions</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <hr style="border-color: #8CB366">
+                                        </td>
+                                        <td>pi-stacking interactions</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <li>Label: Display or hide labels for the ligand and neighboring residues</li>
+                            <li>Opacity: Change the opacity of the ligand binding pocket.</li>
+                            <li>Near Clipping: Adjust the clipping plane for the ligand binding pocket.</li>
+                            <li>Radius Clipping: Change the radius of the clipping sphere around the ligand binding pocket.</li>
+                            <li>Surface Type: including four types (High quality molecular surface, Solvent
+                                accessible surface, Molecular surface,Van der Waals surface)</li>
+                            <li>Surface Color: including three colors (Hydrophobicity, Element)</li>
+                        </ul><br>
+                        <h5 id="Interaction_Types_Definition_and_Calculation_Parameters">Interaction Types
+                            Definition and Calculation Parameters</h5>
+                        <a class="content-anchor" id="hydrogen-bonds"></a>
+                        <h6>Hydrogen Bonds</h6>
+                        <p>Hydrogen bonds <sup><a href="#Stickle1992">[Stickle1992]</a>,
+                                <a href="#Zhou2008">[Zhou2008]</a></sup> are
+                            calculated according to the following parameters between donor and acceptor atoms.</p>
+                        <p>Note that hydrogens are not required for the generation of hydrogen bonds, and indeed are
+                            ignored if present. While the aim is to find all potential hydrogen bonds a
+                            comprehensive global analysis to find the optimal hydrogen bonding network is not
+                            performed as this would require a global analysis of protonation states.</p>
+                        <p>Donor atoms: In general all nitrogen, oxygen, and sulfur atoms that have a hydrogen count
+                            greater 1 according to our valence model can be considered donors (for carbon as a donor
+                            see the heading Weak Hydrogen Bonds). Any nitrogen in a His ring may also be a donor.
+                        </p>
+                        <p>Acceptor atoms: All oxygen atoms are considered to be acceptors. Nitrogen atoms are
+                            considered to be acceptors when the charge is less than 1 and at least one lone pair is
+                            not conjugated according to our valence model. Aminoacids (table-based, in addition to
+                            the general rule). Any nitrogen atom in a ring in His (to work around the ambiguity of
+                            where the charge is). Sulfur atoms are considered to be acceptors if the formal charge
+                            is -1 or if they are present in Cys or Met.</p>
+                        <p>The maximum donor to acceptor distance is generally 3.5 Å and 4.1 Å for bonding with
+                            sulfur atoms. Angles are checked according to the following guidelines:</p>
+                        <ul style="list-style-type:disc;">
+                            <li>Maximum 45 degree deviation from optimal (90 degree) acceptor angle (AA-A-D)</li>
+                            <li>Maximum 45 degree deviation from optimal (90 for sp2, 60 for sp3) donor angle
+                                (DA-D-A)</li>
+                            <li>Maximum 90 degree deviation from optimal (0 degree) acceptor plane angle (A-D to
+                                A-AA-AA’ or AAA instead of AA’)</li>
+                            <li>Maximum 30 degree deviation from optimal (0 degree) donor plane angle (D-A to
+                                D-DA-DA’ or DAA instead of DA’)</li>
+                        </ul>
+                        <div style="height: 20px;"></div>
+                        <div style="width:40%">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="./asset/help_img/hbond-graph.png" data-toggle="lightbox"
+                                                data-title="Legend: Donor (D), Hydrogen (H), Donor-Antecedent (DA), Donor-Antecedent-Antecedent (DAA), Acceptor (A), Acceptor-Antecedent (AA), Acceptor-Antecedent-Antecedent (AAA). "><img
+                                                    class="img-responsive" src="./asset/help_img/hbond-graph.png"
+                                                    alt="Legend: Donor (D), Hydrogen (H), Donor-Antecedent (DA), Donor-Antecedent-Antecedent (DAA), Acceptor (A), Acceptor-Antecedent (AA), Acceptor-Antecedent-Antecedent (AAA). ">
+                                            </a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="content-img-caption" style="width:385px;">Legend: Donor (D),
+                                            Hydrogen (H), Donor-Antecedent (DA), Donor-Antecedent-Antecedent (DAA),
+                                            Acceptor (A), Acceptor-Antecedent (AA), Acceptor-Antecedent-Antecedent
+                                            (AAA). </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="height: 20px;"></div><a class="content-anchor" id="halogen-bonds"></a>
+                        <h6>Halogen Bonds</h6>
+                        <p>Halogen bonds <sup><a href="#Auffinger2004">[Auffinger2004]</a></sup>
+                            are calculated according to the following parameters: Donors can be X-C, where X is Cl,
+                            Br, I or At but not F (no sigma-hole). Acceptors can be Y-{O|N|S} where Y is C, P, N, or
+                            S. The maximum Halogen bond distance is 3.5 Å. The maximum angle deviation is 30 degrees
+                            optimal in which the C-X···O angle ≈180° (consistent with a strong directional
+                            polarization of the halogen) and the X···O-Y angle ≈120°.</p>
+                        <a class="content-anchor" id="hydrophobic-contacts"></a>
+
+                        <h5>Hydrophobic Contacts</h5>
+                        <p>Hydrophobic contacts <sup><a href="#Freitas2017">[Freitas2017]</a></sup>
+                            are calculated according to the following parameters: Contacts are made between carbons
+                            that are connected only to carbon or hydrogen, the default maximum hydrophobic distance
+                            is 4.0 Å, for atoms that interact with several atoms in the same residue, only the one
+                            with the closest distance is kept, and hydrophobic contacts between pi-stacked aromatic
+                            rings are removed.</p>
+                        <a class="content-anchor" id="metal-interactions"></a>
+                        <h6>Metal Interactions</h6>
+                        <p>Metal Interaction types are defined as dative bonds and ionic/ionic-type interactions
+                            between metal classes and potential metal binding partners.</p>
+                        <a class="content-anchor" id="potential-metal-binding-partners"></a>
+                        <h7>Potential metal binding partners</h7>
+                        <p>Nucleobases</p>
+                        <ul style="list-style-type:disc;">
+                            <li>Sugar oxygens (atom names O2’, O3’, O4’): dative, ionic</li>
+                            <li>Selected base nitrogens (N3, N4, N7): dative</li>
+                            <li>Selected base oxygens (O2, O4, O6): dative, ionic</li>
+                        </ul>
+                        <div style="height: 20px;"></div>
+                        <p>Aminoacids</p>
+                        <ul style="list-style-type:disc;">
+                            <li>Oxygen in backbone: dative, ionic</li>
+                            <li>Oxygen in Asp, Glu, Ser, Thr, Tyr, Asn, Gln sidechain: dative, ionic</li>
+                            <li>Sulfur in Cys sidechain: dative, ionic</li>
+                            <li>Nitrogen in His sidechain: dative</li>
+                        </ul>
+                        <div style="height: 20px;"></div>
+                        <p>Halogens</p>
+                        <ul style="list-style-type:disc;">
+                            <li>Dative, ionic
+                            </li>
+                        </ul>
+                        <div style="height: 20px;"></div>
+                        <p>Functional groups from ligands</p>
+                        <ul style="list-style-type:disc;">
+                            <li>O, N, S, Halogens: dative</li>
+                            <li>O, S, Halogens: ionic</li>
+                        </ul>
+                        <div style="height: 20px;"></div><a class="content-anchor" id="metals-classes"></a>
+                        <h6>Metals classes</h6>
+                        <p>Alkali &amp; Alkaline earth Li, Na, K, Rb, Cs, Mg, Ca, Sr, Ba and other Al,Ga,In,Tl, Sc,
+                            Sn, Pb, Bi, Sb, Hg</p>
+                        <ul style="list-style-type:disc;">
+                            <li>ionic-type
+                            </li>
+                        </ul>
+                        <div style="height: 20px;"></div>
+                        <p>Transition metals</p>
+                        <ul style="list-style-type:disc;">
+                            <li>dative, ionic</li>
+                            <li>metal-metal</li>
+                        </ul>
+                        <div style="height: 20px;"></div><a class="content-anchor" id="pi-interactions"></a>
+                        <h5>Pi Interactions</h5>
+                        <a class="content-anchor" id="cation-pi"></a>
+                        <h6>Cation-Pi</h6>
+                        <p>Cation-Pi interactions <sup><a href="#Gallivan1999">[Gallivan1999]</a></sup>
+                            are defined as a contact between a positive charge center (see heading "Charge centers"
+                            below) and aromatic ring (see heading "Pi-Stacking" below) in wihch the maximum distance
+                            between ring and charge center is 6 Å and the maximum offset of ring and charge center
+                            is 1.5 Å.</p>
+                        <a class="content-anchor" id="pi-stacking"></a>
+                        <h6>Pi-stacking</h6>
+                        <p>Pi-stacking interactions <sup><a href="#McGaughey1998">[McGaughey1998]</a></sup>
+                            are the parallel or T-shaped stacking of aromatic rings. The aromaticity of a ring is
+                            deduced from flags of its member atoms (when available) or by checking if the ring is
+                            planar and contains only B, C, N, O, Si, P, S, Ge, As, Sn, Sb, Bi atoms. These
+                            interactions are included when the maximum distance between ring centers is 5.5 Å. The
+                            maximum offset of ring centers is 2.0 Å (about the radius of benzene plus 0.5 Å), the
+                            maximum deviation from optimal angle (0 for parallel, 90 for t-shaped) is 30 degree.</p>
+                        <a class="content-anchor" id="charge-centers"></a>
+                        <h6>Charge centers</h6>
+                        <p>Positive charge centers can be: nitrogen sidechain atoms in Arg, His, Lys; atoms in
+                            Guanidine, Acetamidine groups; atoms with a positive charge according to our valence
+                            model. Negative charge centers can be: oxygen sidechain atoms in Glu, Asp; atoms in
+                            Sulfonic Acid, Phosphate (including DNA/RNA), Sulfate or Carboxylate; atoms with a
+                            negative charge according to our valence. Hydrogen bonds between atoms in the charge
+                            groups are not shown.</p>
+                        <a class="content-anchor" id="electron-density-maps"></a>
+                        <h5 id="Clipping Planes">Clipping Planes </h5>
+                        <h6>Near Clipping</h6>
+                        <ul style="list-style-type:disc;">
+                            <li><strong>Purpose:</strong> Limits the minimum visible distance of objects from the
+                                viewer.</li>
+                            <li><strong>Use Case:</strong> Avoid rendering objects that are too close to the camera,
+                                preventing visual glitches or performance issues.</li>
+                        </ul>
+                        <h6>Radius Clipping</h6>
+                        <ul style="list-style-type:disc;">
+                            <li><strong>Purpose:</strong> Restricts the rendering of objects beyond a set radius from a
+                                defined point.</li>
+                            <li><strong>Use Case:</strong> Focus on a specific region, such as a binding pocket, by
+                                excluding objects outside a certain distance.</li>
+                        </ul>
+                        <br>
+                        <h5 id="reference_ngl">Reference</h5>
+                        <ul style="list-style-type:disc;">
+                            <li><span id="Auffinger2004"><b>[Auffinger2004]</b> P Auffinger, FA Hays, E Westhof, and PS
+                                    Ho. Halogen bonds in biological molecules. PNAS, 2004. <a
+                                        href="http://dx.doi.org/10.1073/pnas.0407607101" target="_blank"
+                                        rel="noopener">doi:10.1073/pnas.0407607101</a></span></li>
+                            <li><span id="Freitas2017"><b>[Freitas2017]</b> RF de Freitas and M Schapira. A systematic
+                                    analysis of atomic protein–ligand interactions in the PDB. Med Chem Commun, 2017. <a
+                                        href="https://doi.org/10.1039/C7MD00381A" target="_blank"
+                                        rel="noopener">doi:10.1039/C7MD00381A</a></span></li>
+                            <li><span id="Gallivan1999"><b>[Gallivan1999]</b> JP Gallivan and DA Dougherty. Cation-π
+                                    interactions in structural biology. PNAS, 1999. <a
+                                        href="http://dx.doi.org/10.1073/pnas.96.17.9459" target="_blank"
+                                        rel="noopener">doi:10.1073/pnas.96.17.9459</a></span></li>
+                            <li><span id="McGaughey1998"><b>[McGaughey1998]</b> GB McGaughey, M Gagné and AK Rappé.
+                                    π-Stacking Interactions - ALIVE AND WELL IN PROTEINS. JBC, 1998. <a
+                                        href="http://dx.doi.org/10.1074/jbc.273.25.15458" target="_blank"
+                                        rel="noopener">doi:10.1074/jbc.273.25.15458</a></span></li>
+
+                            <li id="Rose2015"><b>[Rose2015]</b> AS Rose and PW Hildebrand. NGL Viewer: a web application
+                                for molecular visualization. Nucl Acids Res, 2015. <a
+                                    href="https://doi.org/10.1093/nar/gkv402" target="_blank"
+                                    rel="noopener">doi:10.1093/nar/gkv402</a></li>
+                            <li><span id="Rose2016"><b>[Rose2016]</b> AS Rose, AR Bradley, Y Valasatava, JM Duarte, A
+                                    Prlić and PW Rose. Web-based molecular graphics for large complexes. ACM Proceedings
+                                    of the 21st International Conference on Web3D Technology, 2016. <a
+                                        href="http://dx.doi.org/10.1145/2945292.2945324" target="_blank"
+                                        rel="noopener">doi:10.1145/2945292.2945324</a></span></li>
+                            <li><span id="Stickle1992"><b>[Stickle1992]</b> DF Stickle, LG Presta, KA Dill, GD Rose.
+                                    Hydrogen bonding in globular proteins. JMB, 1992. <a
+                                        href="http://dx.doi.org/10.1016/0022-2836(92)91058-W" target="_blank"
+                                        rel="noopener">doi:10.1016/0022-2836(92)91058-W</a></span></li>
+                            <li><span id="Zhou2008"><b>[Zhou2008]</b> P Zhou, F Tian, F Lv, Z Shang. Geometric
+                                    characteristics of hydrogen bonds involving sulfur atoms in proteins. Proteins,
+                                    2008. <a href="http://dx.doi.org/10.1002/prot.22327" target="_blank"
+                                        rel="noopener">doi:10.1002/prot.22327</a></span></li>
+                            <li><span id="Rose2018"><b>[Rose2018]</b> AS Rose, AR Bradley, Y Valasatava, JM Duarte, A
+                                    Prlić and PW Rose. NGL viewer: web-based molecular graphics for large complexes.
+                                    Bioinformatics, 2018. <a href="http://dx.doi.org/10.1093/bioinformatics/bty419"
+                                        target="_blank" rel="noopener">doi:10.1093/bioinformatics/bty419</a></span></li>
+                        </ul>
+
+                    </div>
+                    <div class="sequence" style="font-size: 14px;" id="sequence_alignment">
+                        <h4>Predict</h4>
+                        <h5 id="abstract">Abstract</h5>
+                        <p style="text-align: justify;text-indent: 30px;">This sequence alignment tool provides an
+                            intuitive and user-friendly interface for comparing
+                            user-provided protein sequences against a predefined set of template sequences derived from
+                            enzymes
+                            involved in the degradation of cyanobacterial hepatotoxins. The core of the tool utilizes
+                            the <b>Needleman-Wunsch</b><sup><a
+                                    href="#NeedlemanWunsch1970">[NeedlemanWunsch1970]</a></sup>
+                            algorithm with <b>affine gap penalties</b><sup><a href="#Gotoh1982">[Gotoh1982]</a></sup>,
+                            implemented in JavaScript, to perform global
+                            sequence alignments. It
+                            employs dynamic programming to iteratively construct scoring matrices, enabling the
+                            calculation of optimal
+                            alignment paths based on the highest global similarity. Additionally, the tool features <b>a
+                                physicochemical
+                                property prediction module</b> that analyzes primary sequences to compute molecular
+                            weight, isoelectric point,
+                            amino acid composition, and other essential properties. These integrated functionalities
+                            allow researchers
+                            to effectively identify and evaluate similarities and differences between sequences, thereby
+                            advancing the
+                            understanding of the biodegradation mechanisms of cyanotoxins.
+                        </p>
+                        <h5 id="SeqAlign_Guide">SeqAlign User Guide</h5>
+                        <h6 id="Enter_Query_Sequence">Enter Query Sequence</h6>
+                        <ul style="list-style-type: disc;">
+                            <li>you can enter your query in the following formats: <b>Raw Sequence, FASTA Format, NCBI
+                                    Accession Number</b></li>
+                            <li>In the "<b>Choose Input Type</b>" dropdown menu, select "<b>Sequence</b>" to display the
+                                corresponding Sequence input panel below. Within this panel, users have the option to
+                                enter their protein sequence either as a <b>Raw Sequence</b> or in <b>FASTA Format</b>.
+                                Please note
+                                that the tool accepts only a <b>single sequence</b> per submission.</li>
+                            <img src="./asset/help_img/enter.png" class="img-fluid" alt="...">
+                            <img src="./asset/help_img/enter_seq.png" class="img-fluid" alt="...">
+                            <li>In the "<b>Choose Input Type</b>" dropdown menu, select "<b>NCBI Accession Number</b>"
+                                to display the
+                                corresponding NCBI Accession Number input panel below. Within this panel, users may
+                                enter a single NCBI Accession Number<sup><a
+                                        href="#E-utilities">[E-utilities]</a></sup>.. Please ensure that
+                                only <b>one accession number</b> is provided per submission.
+                            </li>
+                            <img src="./asset/help_img/enter1.png" class="img-fluid" alt="...">
+                            <img src="./asset/help_img/enter_ncbi.png" class="img-fluid" alt="...">
+                        </ul>
+                        <h6 id="physicochemical_property_prediction">physicochemical property prediction</h6>
+                        <ul style="list-style-type: disc;">
+                            <li>After entering the sequence, click the "<b>Physicochemical Property Prediction</b>"
+                                button to
+                                generate predictions of the input protein's physicochemical properties.</li>
+                            <img src="./asset/help_img/PPP.png" class="img-fluid" alt="..."><br>
+                            <img src="./asset/help_img/PPP_content.png" class="img-fluid" alt="...">
+                            <li>The Physicochemical Property Prediction tool calculates various key properties of the
+                                input protein sequence, including :
+                                <ul style="list-style-type: disc;">
+                                    <li><b>Number of Amino Acids: </b>the total count of amino acid residues in the
+                                        input protein sequence</li>
+                                    <li><b>Grand Average of Hydropathicity (GRAVY):</b> The GRAVY score represents the
+                                        overall hydrophobicity of the protein. Utilizing the Kyte-Doolittle<sup><a
+                                                href="#Kyte-Doolittle1982">[Kyte-Doolittle1982]</a></sup> hydropathy
+                                        index, GRAVY is calculated as the average hydropathy value of all amino acids in
+                                        the sequence。
+                                    </li>
+                                    <li><b>Molecular Weight (Mw):</b> The molecular weight is calculated by adding the
+                                        individual weights of all the amino acids present in the sequence and
+                                        subtracting
+                                        the water molecules that
+                                        are formed from the peptide bonds.</li>
+                                    <li><b>Theoretical Isoelectric Point (Theoretical pI):</b> The theoretical
+                                        isoelectric point (pI) is defined as the pH at which the protein's net charge is
+                                        zero. pK values and the methods are taken from <sup><a
+                                                href="#Bjellqvist1993">[Bjellqvist1993]</a></sup><sup><a
+                                                href="#Bjellqvist1994">[Bjellqvist1994]</a></sup>. The pH is determined
+                                        using
+                                        a
+                                        bisection iterative method, which progressively adjusts the pH until the
+                                        protein's net charge reaches zero, thereby accurately establishing its
+                                        isoelectric point.</li>
+                                    <p>
+                                        \[
+                                        \text{Net Charge} = \sum \left( \frac{n}{10^{(pH - pKa)} + 1} \right) - \sum
+                                        \left( \frac{n}{10^{(pKa - pH)} + 1} \right)
+                                        \]<br><span style="font-family: MJXZERO, MJXTEX-I;;">n</span> represents the
+                                        number of each charged amino acid residue
+                                    </p>
+                                    <li><b>Instability Index:</b> According to the method proposed by Guruprasad et al.
+                                        <sup><a href="#Guruprasad1990">[Guruprasad1990]</a></sup>., the instability
+                                        index is calculated from the instability score of all
+                                        dipeptides in the sequence:<p>
+                                            \[
+                                            \text{Instability Index} = \frac{\text{Sequence Length} \times
+                                            10}{\text{Total Dipeptide Instability Score}}
+                                            \]
+                                        </p>
+                                        Proteins with an instability index below 40 are
+                                        considered stable, while those above 40 are deemed unstable.
+                                    </li>
+                                    <li><b>Aliphatic Index: </b>Reference to empirical parameters proposed by
+                                        Ikai<sup><a href="#Ikai1980">[Ikai1980]</a></sup>.
+                                        <p>
+                                            \[
+                                            \text{AI} = X_{\text{Ala}} + 2.9 \times X_{\text{Val}} + 3.9 \times
+                                            (X_{\text{Ile}} + X_{\text{Leu}})
+                                            \]
+                                        </p>
+                                        XAla​,XVal​,XIle​,and XLeu​ represent the percentage of alanine, valine,
+                                        isoleucine, and leucine residues in the sequence, respectively.<br>
+                                        The coefficients 2.9 and 3.9 are empirically derived to account for the
+                                        contribution of valine, isoleucine, and leucine to the protein's thermal
+                                        stability.
+                                    </li>
+                                    <li><b>Formula: </b>According to the atomic composition of each amino acid in the
+                                        sequence, the molecular formula of the protein is obtained by accumulating.</li>
+                                    <li><b>Extinction coefficients: </b>According to the method of Gill and von Hippel
+                                        <sup><a href="#Gill1989">Gill1989</a></sup>, the extinction coefficient of the
+                                        protein at 280 nm
+                                        wavelength was
+                                        calculated.<p>
+                                            <b>Reduced Extinction Coefficient:</b>
+                                            \[
+                                            \text{Extinction Coefficient (Reduced)} = n_{\text{Trp}} \times 5500 + n_{\text{Tyr}} \times 1490
+                                            \]
+                                        </p>
+
+                                        <p>
+                                            <b>Oxidized Extinction Coefficient:</b>
+                                            \[
+                                            \text{Extinction Coefficient (Oxidized)} = \text{Extinction Coefficient (Reduced)} + \left( \frac{n_{\text{Cys}}}{2} \right) \times 125
+                                            \]
+                                        </p>
+                                        <span style="font-family: MJXZERO, MJXTEX-I;">nTrp, nTyr, nCys</span> are the
+                                        number of tryptophan, tyrosine, and cysteine residues, respectively.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h6 id="Scoring_parameters">Scoring parameters</h6>
+                        <p>Users can select the scoring matrix and penalty score values through the Scoring parameters
+                            panel.The initial default is BLOSUM62, Open Penalty:10, Extend Penalty:0.5.</p>
+                        <ul>
+                            <li>
+                                <b>Matrix: </b>Includes BLOSUM45, BLOSUM62, BLOSUM80, PAM30, PAM70, PAM250
+                            </li>
+                            <li>
+                                <b>Gap Costs: </b>
+                                <ul>
+                                    <li>Open Penalty selectable range of [0,20].</li>
+                                    <li>Extend Penalty selectable range of [0.10]</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <img src="./asset/help_img/scoring_parameters.png" class="img-fluid" alt="...">
+                        <h6 id="Select_alignment_template">Select alignment template</h6>
+                        <p>After clicking the <strong>"submit button"</strong>, the system will automatically compare the input sequence
+                            with all the template sequences in the database and provide the following results: <b>Name,
+                                Species, Type, Score, Identity, and Coverage</b>. The user can then select one sequence
+                            for the
+                            subsequent prediction.</p>
+                        <img src="./asset/help_img/select_temp.png" class="img-fluid" alt="...">
+                        <h6 id="Predict_seqalign">Predict</h6>
+                        <p>Click the <strong>"Predict" button</strong> to display the prediction results.</p>
+                        <ul style="list-style-type: disc;">
+                            <li><strong>Name:</strong> For queries entered in FASTA Format and NCBI Accession Number, their
+                                sequence names will be displayed here.</li>
+                            <li><strong>Length:</strong> The length of the input query sequence.
+                            </li>
+                            <li><strong>Score:</strong> The highest score obtained from the best global alignment of sequences computed
+                                using the Needleman-Wunsch algorithm with Affine Gap penalties.
+                            </li>
+                            <li><strong>Identity:</strong> Identity is derived by dividing the count of matched amino acids by the total
+                                alignment length, then expressing the
+                                result as a percentage.</li>
+                            <li><strong>Coverage:</strong> Coverage refers to the extent of matching overlap between two sequences,
+                                calculated by dividing the shorter sequence by the longer one,
+                                and then expressing the result as a percentage.</li>
+                            <li><strong>Predict active sites:</strong> The active sites of the input sequence will be predicted using
+                                sequence alignment methods, based on the known active sites of the template.</li>
+                            <li><strong>Alignment result:</strong> The sequence alignment results are presented in a one-to-one
+                                correspondence, with 60 amino acids per line. Matching positions are denoted by "|",
+                                while gaps are represented by "-". The active sites of both the template and input
+                                sequences are highlighted in yellow.</li>
+                            <li><strong>Catalytic Mechanism:</strong> The predicted catalytic mechanism diagram of the input sequence,
+                                along with a detailed description of the catalytic mechanism, is presented.</li>
+                            <li><strong>Download:</strong> The complete alignment results can be downloaded by clicking the "Download"
+                                button.It's recommended not to open the file directly with Notepad; using tools like
+                                Notepad++ will provide a more organized view.</li>
+                        </ul>
+                        <img src="./asset/help_img/Result.png" class="img-fluid" alt="...">
+                        <h6 id="reference_seqalign">Reference</h6>
+                        <ul style="list-style-type:disc;">
+                            <li><span id="NeedlemanWunsch1970"><b>[NeedlemanWunsch1970]</b>Needleman, S. B., & Wunsch,
+                                    C. D. A general method applicable to the search for similarities in the
+                                    amino acid sequence of two proteins. Journal of Molecular Biology. 2016.
+                                    <a href="https://doi.org/10.1016/0022-2836(70)90057-4" target="_blank"
+                                        rel="noopener">doi:10.1016/0022-2836(70)90057-4</a></span></li>
+
+                            <li><span id="Gotoh1982"><b>[Gotoh1982]</b>Gotoh, O. An improved algorithm for
+                                    matching biological sequences. Journal of Molecular Biology. 1982. <a
+                                        href="https://doi.org/10.1016/0022-2836(82)90398-9" target="_blank"
+                                        rel="noopener">doi:10.1016/0022-2836(82)90398-9</a></span></li>
+
+                            <li><span id="E-utilities"><b>[E-utilities]</b>Entrez Programming Utilities Help. National
+                                    Center for Biotechnology Information. <a
+                                        href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank"
+                                        rel="noopener">www.ncbi.nlm.nih.gov/books/NBK25501</a></span></li>
+                            <li><span id="Kyte-Doolittle1982"><b>[Kyte-Doolittle1982]</b>Kyte J, Doolittle R F. A simple
+                                    method for
+                                    displaying the hydropathic character of a protein. Journal of molecular biology.
+                                    1982. <a href="https://doi.org/10.1016/0022-2836(82)90515-0" target="_blank"
+                                        rel="noopener">doi:10.1016/0022-2836(82)90515-0</a></span>
+                            </li>
+                            <li><span id="Bjellqvist1993"><b>[Bjellqvist1993]</b> Bjellqvist, B., Hughes, G.J.,
+                                    Pasquali, Ch., Paquet, N., Ravier, F., Sanchez, J.-Ch., Frutiger, S. & Hochstrasser,
+                                    D.F. The focusing positions of polypeptides in immobilized pH gradients can be
+                                    predicted from their amino acid sequences. Electrophoresis. 1993.
+                                    <a href="https://doi.org/10.1002/elps.11501401163" target="_blank"
+                                        rel="noopener">doi:10.1002/elps.11501401163</a></span></li>
+
+                            <li><span id="Bjellqvist1994"><b>[Bjellqvist1994]</b> Bjellqvist, B., Basse, B., Olsen, E.,
+                                    and Celis, J.E. Reference points for comparisons of two-dimensional maps of proteins
+                                    from different human cell types defined in a pH scale where isoelectric points
+                                    correlate with polypeptide compositions. Electrophoresis. 1994.<a
+                                        href="https://doi.org/10.1002/elps.1150150171" target="_blank"
+                                        rel="noopener">doi:10.1002/elps.1150150171</a></span>
+                            </li>
+                            <li><span id="Guruprasad1990"><b>[Guruprasad1990]</b> Guruprasad, K., Reddy, B.V.B., Pandit,
+                                    M.W. Correlation between stability of a protein and its dipeptide composition: a
+                                    novel approach for predicting in vivo stability of a protein from its primary
+                                    sequence. Protein Engineering. 1990.<a
+                                        href="https://doi.org/10.1093/protein/4.2.155" target="_blank"
+                                        rel="noopener">doi:10.1093/protein/4.2.155</a></span>
+                            </li>
+                            <li><span id="Ikai1980"><b>[Ikai1980]</b> Ikai, A. Thermostability and aliphatic
+                                    index of globular proteins. The Journal of Biochemistry. 1980.<a
+                                        href="https://doi.org/10.1093/oxfordjournals.jbchem.a133168" target="_blank"
+                                        rel="noopener">doi:10.1093/oxfordjournals.jbchem.a133168</a></span>
+                            </li>
+                            <li><span id="Gill1989"><b>[Gill1989]</b> Gill, S. C., & Von Hippel, P. H.
+                                    Calculation of protein extinction coefficients from amino acid sequence data.
+                                    Analytical biochemistry. 1989.<a href="https://doi.org/10.1016/0003-2697(89)90602-7"
+                                        target="_blank" rel="noopener">doi:10.1016/0003-2697(89)90602-7</a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-5 mt-5 text-center ">
+        <div class="container ">
+            <p class="FooterText">
+				Copyright©2023 ZhangLab at University of Science and Technology Beijing.All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

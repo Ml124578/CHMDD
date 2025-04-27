@@ -1,0 +1,165 @@
+[
+    {
+        "UniProt_id": "A0A141R8A3",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0AAD1FZ10",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1W7MBK5",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A7X8S5T1",
+        "S": "S62",
+        "K": "K65",
+        "Y": "Y156",
+        "N1": "N158",
+        "D1": "D230",
+        "H3": "H292",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A7X8NVI4",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A4V1G4S8",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "D0FYG3",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A1X9PWL1",
+        "S": "S64",
+        "K": "K67",
+        "Y": "Y158",
+        "N1": "N160",
+        "D1": "D232",
+        "H3": "H294",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "M4NG93",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": [
+        {
+            "position": "S77",
+            "description": "Experimentally verified. Mutation S77A leads to complete loss of activity due to disruption of nucleophilic attack on the peptide bond.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "K80",
+            "description": "Experimentally verified. Mutation K80A results in complete loss of activity, indicating its crucial role in substrate stabilization.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "Y171",
+            "description": "Experimentally verified. Mutation Y171A leads to complete loss of activity, suggesting its importance in positioning H307 for proton transfer.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "N173",
+            "description": "Experimentally verified. Mutation N173A results in complete loss of activity, indicating its involvement in forming the oxyanion hole for intermediate stabilization.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "D245",
+            "description": "Experimentally verified. Mutation D245A significantly reduces activity, implicating its role in substrate recognition and stabilization.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "H307",
+            "description": "Experimentally verified. Mutation H307A causes complete loss of activity, confirming its function as a general base catalyst in the acylation and deacylation steps.",
+            "reference": "[Teng2024]"
+          },
+          {
+            "position": "S77",
+            "description": "Experimentally verified. Mutation S77A leads to complete loss of activity, indicating its role as a nucleophilic site crucial for catalysis.",
+            "reference": "[Teng2023]"
+          },
+          {
+            "position": "K80",
+            "description": "Experimentally verified. Mutation K80A results in significant reduction of activity, suggesting its importance in stabilizing the substrate during catalysis.",
+            "reference": "[Teng2023]"
+          },
+          {
+            "position": "H195",
+            "description": "Experimentally verified. Mutation H195A causes loss of activity, confirming its involvement in proton transfer during the catalytic process.",
+            "reference": "[Teng2023]"
+          },
+          {
+            "position": "D246",
+            "description": "Experimentally verified. Mutation D246A leads to a drastic decrease in activity, indicating its role in coordinating with metal ions in the active site.",
+            "reference": "[Teng2023]"
+          }
+          
+          
+    ]
+    },
+    {
+        "UniProt_id": "A0A1D8QSQ4",
+        "S": "S77",
+        "K": "K80",
+        "Y": "Y171",
+        "N1": "N173",
+        "D1": "D245",
+        "H3": "H307",
+        "key_residues": []
+    },
+    {
+        "UniProt_id": "A0A3S9VMP2",
+        "S": "S35",
+        "K": "K38",
+        "Y": "Y129",
+        "N1": "N131",
+        "D1": "D203",
+        "H3": "H265",
+        "key_residues": []
+    }
+]

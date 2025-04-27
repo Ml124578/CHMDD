@@ -1,0 +1,1352 @@
+[
+  {
+    "strain": "Sphingomonas sp. ACM-3962",
+    "enzyme": "MlrC",
+    "number": "",
+    "citation": "[Guo2023]",
+    "authors": "Xiaoliang Guo, Qinqin Jiang, Zengru Li, Cai Cheng, Yu Feng, Yanlin He, Lingzi Zuo, Wei Ding, Delin Zhang, Lingling Feng",
+    "title": "Crystal structural analysis and characterization for MlrC enzyme of Sphingomonas sp. ACM-3962 involved in linearized microcystin degradation",
+    "journal": "Chemosphere",
+    "year": 2023,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.chemosphere.2023.137866",
+      "text": "10.1016/j.chemosphere.2023.137866"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. ACM-3962",
+    "enzyme": "",
+    "number": "1",
+    "citation": "[Dziga2016]",
+    "authors": "Dariusz Dziga, Gabriela Zielinska, Benedykt Wladyka, Oliwia Bochenska, Anna Maksylewicz, Wojciech Strzalka, Jussi Meriluoto",
+    "title": "Characterization of Enzymatic Activity of MlrB and MlrC Proteins Involved in Bacterial Degradation of Cyanotoxins Microcystins",
+    "journal": "toxins",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins8030076",
+      "text": "10.3390/toxins8030076"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. ACM-3962",
+    "enzyme": "",
+    "number": "3",
+    "citation": "[Dziga2012]",
+    "authors": "Dariusz Dziga, Marcin Wasylewski, Adam Szetela, Oliwia Bochenska, Benedykt Wladyka",
+    "title": "Verification of the Role of MlrC in Microcystin Biodegradation by Studies Using a Heterologously Expressed Enzyme",
+    "journal": "Chemical Research in Toxicology",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1021/tx300174e",
+      "text": "10.1021/tx300174e"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. ACM-3962",
+    "enzyme": "",
+    "number": "42",
+    "citation": "[Jones1994]",
+    "authors": "Gary J. Jones, David G. Bourne, Robert L. Blakeley, Horst Doelle",
+    "title": "Degradation of the Cyanobacterial Hepatotoxin Microcystin by Aquatic Bacteria",
+    "journal": "Natural Toxins",
+    "year": 1994,
+    "doi": {
+      "link": "https://doi.org/10.1002/nt.2620020412",
+      "text": "10.1002/nt.2620020412"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. ACM-3962",
+    "enzyme": "",
+    "number": "43",
+    "citation": "[Bourne1996]",
+    "authors": "David G. Bourne, Gary J. Jones, Robert L. Blakeley, Alun Jones, Andrew P. Negri, Peter Riddles",
+    "title": "Enzymatic Pathway for the Bacterial Degradation of the Cyanobacterial Cyclic Peptide Toxin Microcystin LR",
+    "journal": "Applied and Environmental Microbiology",
+    "year": 1996,
+    "doi": {
+      "link": "https://doi.org/10.1128/aem.62.11.4086-4094.1996",
+      "text": "10.1128/aem.62.11.4086-4094.1996"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. Y2",
+    "enzyme": "",
+    "number": "44",
+    "citation": "[Park2001]",
+    "authors": "Ho-Dong Park, Youhei Sasaki, Tomoko Maruyama, Eiji Yanagisawa, Akira Hiraishi, Kenji Kato",
+    "title": "Degradation of the Cyanobacterial Hepatotoxin Microcystin by a New Bacterium Isolated from a Hypertrophic Lake",
+    "journal": "Environmental Toxicology",
+    "year": 2001,
+    "doi": {
+      "link": "https://doi.org/10.1002/tox.1041",
+      "text": "10.1002/tox.1041"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. MDB2/MDB3",
+    "enzyme": "",
+    "number": "19",
+    "citation": "[Maruyama2006]",
+    "authors": "Tomoko Maruyama, Ho-Dong Park, Kazuhiko Ozawa, Yoshinori Tanaka, Tatsuo Sumino, Koei Hamana, Akira Hiraishi, Kenji Kato",
+    "title": "Sphingosinicella microcystinivorans gen. nov., sp. nov., a microcystin-degrading bacterium",
+    "journal": "International Journal of Systematic and Evolutionary Microbiology",
+    "year": 2006,
+    "doi": {
+      "link": "https://doi.org/10.1099/ijs.0.63789-0",
+      "text": "10.1099/ijs.0.63789-0"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. MD-1",
+    "enzyme": "",
+    "number": "28",
+    "citation": "[Okano2020]",
+    "authors": "Kunihiro Okano, Kazuya Shimizu, Takeshi Saito, Hideaki Maseda, Motoo Utsumi, Tomoaki Itayama, Norio Sugiura",
+    "title": "Draft Genome Sequence of the Microcystin-Degrading Bacterium Novosphingobium sp. Strain MD-1",
+    "journal": "Microbiology Resource Announcements",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1128/MRA.01413-19",
+      "text": "10.1128/MRA.01413-19"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. MD-1",
+    "enzyme": "",
+    "number": "45",
+    "citation": "[Saitou2003]",
+    "authors": "Takeshi Saitou, Norio Sugiura, Tomoaki Itayama, Yuhei Inamori, Masatoshi Matsumura",
+    "title": "Degradation characteristics of microcystins by isolated bacteria from Lake Kasumigaura",
+    "journal": "Journal of Water Supply: Research and Technology—AQUA",
+    "year": 2003,
+    "doi": {
+      "link": "https://doi.org/10.2166/aqua.2003.0002",
+      "text": "10.2166/aqua.2003.0002"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. MD-1",
+    "enzyme": "",
+    "number": "46",
+    "citation": "[Saito2003]",
+    "authors": "Takeshi Saito, Kunihiro Okano, Ho-Dong Park, Tomoaki Itayama, Yuhei Inamori, Brett A. Neilan, Brendan P. Burns, Norio Sugiura",
+    "title": "Detection and sequencing of the microcystin LR-degrading gene, mlrA, from new bacteria isolated from Japanese lakes",
+    "journal": "FEMS Microbiology Letters",
+    "year": 2003,
+    "doi": {
+      "link": "https://doi.org/10.1016/S0378-1097(03)00847-4",
+      "text": "10.1016/S0378-1097(03)00847-4"
+    }
+  },
+  {
+    "strain": "Sphingosinicella sp. B-9",
+    "enzyme": "",
+    "number": "20",
+    "citation": "[Miyachi2015]",
+    "authors": "Atsushi Miyachi, Fumio Kondo, Miki Kurita, Kiyomi Tsuji, Ken-ichi Harada",
+    "title": "Microbial degradation of linear peptides by strain B-9 of Sphingosinicella and its application in peptide quantification using liquid chromatography-mass spectrometry",
+    "journal": "Journal of Bioscience and Bioengineering",
+    "year": 2015,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.jbiosc.2014.10.029",
+      "text": "10.1016/j.jbiosc.2014.10.029"
+    }
+  },
+  {
+    "strain": "Sphingosinicella sp. B-9",
+    "enzyme": "",
+    "number": "29",
+    "citation": "[Jin2018]",
+    "authors": "Haiyan Jin, Yoshiko Hiraoka, Yurie Okuma, Elisabete Hiromi Hashimoto, Miki Kurita, Andrea Roxanne J. Anas, Hitoshi Uemura, Kiyomi Tsuji, Ken-Ichi Harada",
+    "title": "Microbial Degradation of Amino Acid-Containing Compounds Using the Microcystin-Degrading Bacterial Strain B-9",
+    "journal": "Marine Drugs",
+    "year": 2018,
+    "doi": {
+      "link": "https://doi.org/10.3390/md16020050",
+      "text": "10.3390/md16020050"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. B-9",
+    "enzyme": "",
+    "number": "47",
+    "citation": "[Imanishi2005]",
+    "authors": "Susumu Imanishi, Hajime Kato, Masayoshi Mizuno, Kiyomi Tsuji, Ken-ichi Harada",
+    "title": "Bacterial Degradation of Microcystins and Nodularin",
+    "journal": "Chemical Research in Toxicology",
+    "year": 2005,
+    "doi": {
+      "link": "https://doi.org/10.1021/tx049677g",
+      "text": "10.1021/tx049677g"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. B-9",
+    "enzyme": "",
+    "number": "48",
+    "citation": "[Harada2004]",
+    "authors": "Ken-ichi Harada, Susumu Imanishi, Hajime Kato, Masayoshi Mizuno, Emiko Ito, Kiyomi Tsuji",
+    "title": "Isolation of Adda from microcystin-LR by microbial degradation",
+    "journal": "Toxicon",
+    "year": 2004,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.toxicon.2004.04.003",
+      "text": "10.1016/j.toxicon.2004.04.003"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. B-9",
+    "enzyme": "",
+    "number": "79",
+    "citation": "[Tsuji2006]",
+    "authors": "Kiyomi Tsuji, Miki Asakawa, Yojiro Anzai, Tatsuo Sumino, Ken-ichi Harada",
+    "title": "Degradation of microcystins using immobilized microorganism isolated in an eutrophic lake",
+    "journal": "Chemosphere",
+    "year": 2006,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.chemosphere.2006.02.018",
+      "text": "10.1016/j.chemosphere.2006.02.018"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. 7CY",
+    "enzyme": "",
+    "number": "49",
+    "citation": "[Ishii2004]",
+    "authors": "Hiroshi Ishii, Miyuki Nishijima, Toshihiko Abe",
+    "title": "Characterization of degradation process of cyanobacterial hepatotoxins by a gram-negative aerobic bacterium",
+    "journal": "Water Research",
+    "year": 2004,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.watres.2004.03.014",
+      "text": "10.1016/j.watres.2004.03.014"
+    }
+  },
+  {
+    "strain": "Sphingosinicella sp.",
+    "enzyme": "",
+    "number": "19",
+    "citation": "[Maruyama2006]",
+    "authors": "Tomoko Maruyama, Ho-Dong Park, Kazuhiko Ozawa, Yoshinori Tanaka, Tatsuo Sumino, Koei Hamana, Akira Hiraishi, Kenji Kato",
+    "title": "Sphingosinicella microcystinivorans gen. nov., sp. nov., a microcystin-degrading bacterium",
+    "journal": "International Journal of Systematic and Evolutionary Microbiology",
+    "year": 2006,
+    "doi": {
+      "link": "https://doi.org/10.1099/ijs.0.63789-0",
+      "text": "10.1099/ijs.0.63789-0"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. CBA4",
+    "enzyme": "",
+    "number": "50",
+    "citation": "[Amé2006]",
+    "authors": "Amé María Valeria, Echenique José Ricardo, Pflugmacher Stephan, Wunderlin Daniel Alberto",
+    "title": "Degradation of Microcystin-RR by Sphingomonas sp. CBA4 isolated from San Roque reservoir (Córdoba – Argentina)",
+    "journal": "Biodegradation",
+    "year": 2006,
+    "doi": {
+      "link": "https://doi.org/10.1007/s10532-005-9015-9",
+      "text": "10.1007/s10532-005-9015-9"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. LH21",
+    "enzyme": "",
+    "number": "37",
+    "citation": "[Ho2007]",
+    "authors": "Lionel Ho, Daniel Hoefel, Christopher P. Saint, Gayle Newcombe",
+    "title": "Isolation and identification of a novel microcystin-degrading bacterium from a biological sand filter",
+    "journal": "Water Research",
+    "year": 2007,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.watres.2007.06.057",
+      "text": "10.1016/j.watres.2007.06.057"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. LH21",
+    "enzyme": "",
+    "number": "51",
+    "citation": "[Ho2006]",
+    "authors": "Lionel Ho, Thomas Meyn, Alexandra Keegan, Daniel Hoefel, Justin Brookes, Christopher P. Saint, Gayle Newcombe",
+    "title": "Bacterial degradation of microcystin toxins within a biologically active sand filter",
+    "journal": "Water Research",
+    "year": 2006,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.watres.2005.12.009",
+      "text": "10.1016/j.watres.2005.12.009"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. C-1",
+    "enzyme": "",
+    "number": "4",
+    "citation": "[Shimizu2012]",
+    "authors": "Kazuya Shimizu, Hideaki Maseda, Kunihiro Okano, Takumi Kurashima, Yukio Kawauchi, Qiang Xue, Motoo Utsumi, Zhenya Zhang, Norio Sugiura",
+    "title": "Enzymatic pathway for biodegrading microcystin LR in Sphingopyxis sp. C-1",
+    "journal": "Journal of Bioscience and Bioengineering",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.jbiosc.2012.07.004",
+      "text": "10.1016/j.jbiosc.2012.07.004"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. C-1",
+    "enzyme": "",
+    "number": "41",
+    "citation": "[Liu2024]",
+    "authors": "Tianxiao Liu, Narumi Kurogo, Miwa Kodato, Naoshi Fujimoto, Tomoaki Itayama, Kunihiro Okano, Motoo Utsumi, Zhenya Zhang, Zhongfang Lei, Tian Yuan, Hideaki Maseda, Norio Sugiura, Kazuya Shimizu",
+    "title": "MlrA, an Essential Enzyme for Microcystins and Nodularin on First Step Biodegradation in Microcystin-Degrading Bacteria",
+    "journal": "Chemical Research in Toxicology",
+    "year": 2024,
+    "doi": {
+      "link": "https://doi.org/10.1021/acs.chemrestox.3c00341",
+      "text": "10.1021/acs.chemrestox.3c00341"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. C-1",
+    "enzyme": "",
+    "number": "52",
+    "citation": "[Okano2009]",
+    "authors": "Kunihiro Okano, Kazuya Shimizu, Yukio Kawauchi, Hideaki Maseda, Motoo Utsumi, Zhenya Zhang, Brett A. Neilan, Norio Sugiura",
+    "title": "Characteristics of a Microcystin-Degrading Bacterium under Alkaline Environmental Conditions",
+    "journal": "Journal of Toxicology",
+    "year": 2009,
+    "doi": {
+      "link": "https://doi.org/10.1155/2009/954291",
+      "text": "10.1155/2009/954291"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "MlrC",
+    "number": "7",
+    "citation": "[Zou2022]",
+    "authors": "Qianwen Zou, Junhui Teng, Kunyan Wang, Yiming Huang, Qingbei Hu, Sisi Chen, Qianqian Xu, Haiyang Zhang, Duyuan Fang, Hai Yan",
+    "title": "Purification and Mechanism of Microcystinase MlrC for Catalyzing Linearized Cyanobacterial Hepatotoxins Using Sphingopyxis sp. USTB-05",
+    "journal": "Toxins",
+    "year": 2022,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins14090602",
+      "text": "10.3390/toxins14090602"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "MlrA",
+    "number": "33",
+    "citation": "[Xu2019]",
+    "authors": "Qianqian Xu, Hongfei Ma, Jinhui Fan, Hai Yan, Haiyang Zhang, Chunhua Yin, Xiaolu Liu, Yang Liu, Huasheng Wang",
+    "title": "Cloning and Expression of Genes for Biodegrading Nodularin by Sphingopyxis sp. USTB-05",
+    "journal": "Toxins",
+    "year": 2019,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins11100549",
+      "text": "10.3390/toxins11100549"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "MlrB",
+    "number": "39",
+    "citation": "[Teng2024]",
+    "authors": "Junhui Teng, Qianqian Xu, Haiyang Zhang, Ruipeng Yu, Chao Liu, Meijie Song, Xiaoyu Cao, Xinyue Du, Suxuan Tao, Hai Yan",
+    "title": "Enzymatic mechanism of MlrB for catalyzing linearized microcystins by Sphingopyxis sp. USTB-05",
+    "journal": "Frontiers in Microbiology",
+    "year": 2024,
+    "doi": {
+      "link": "https://doi.org/10.3389/fmicb.2024.1389235",
+      "text": "10.3389/fmicb.2024.1389235"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "MlrB",
+    "number": "40",
+    "citation": "[Teng2023]",
+    "authors": "Junhui Teng, Meijie Song, Qianqian Xu, Qianwen Zou, Haiyang Zhang, Chunhua Yin, Xiaolu Liu, Yang Liu, Hai Yan",
+    "title": "Purification and Activity of the Second Recombinant Enzyme for Biodegrading Linearized Microcystins by Sphingopyxis sp. USTB-05",
+    "journal": "Toxins",
+    "year": 2023,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins15080494",
+      "text": "10.3390/toxins15080494"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "",
+    "number": "53",
+    "citation": "[Wang2010]",
+    "authors": "Junfeng Wang, Pengfei Wu, Jian Chen, Hai Yan",
+    "title": "Biodegradation of Microcystin-RR by a New Isolated Sphingopyxis sp. USTB-05",
+    "journal": "Chinese Journal of Chemical Engineering",
+    "year": 2010,
+    "doi": {
+      "link": "https://doi.org/10.1016/S1004-9541(08)60330-4",
+      "text": "10.1016/S1004-9541(08)60330-4"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "",
+    "number": "54",
+    "citation": "[Feng2016]",
+    "authors": "Nan Feng, Fan Yang, Hai Yan, Chunhua Yin, Xiaolu Liu, Haiyang Zhang, Qianqian Xu, Le Lv, Huasheng Wang",
+    "title": "Pathway for Biodegrading Nodularin (NOD) by Sphingopyxis sp. USTB-05",
+    "journal": "Toxins",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins8050116",
+      "text": "10.3390/toxins8050116"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "",
+    "number": "55",
+    "citation": "[Xu2015]",
+    "authors": "Huimin Xu, Huasheng Wang, Qianqian Xu, Le Lv, Chunhua Yin, Xiaolu Liu, Hongwu Du, Hai Yan",
+    "title": "Pathway for Biodegrading Microcystin-YR by Sphingopyxis sp. USTB-05",
+    "journal": "PLoS ONE",
+    "year": 2015,
+    "doi": {
+      "link": "https://doi.org/10.1371/journal.pone.0124425",
+      "text": "10.1371/journal.pone.0124425"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. USTB-05",
+    "enzyme": "",
+    "number": "102",
+    "citation": "[Xiao2010]",
+    "authors": "Chengbin Xiao, Hai Yan, Junfeng Wang, Wei Wei, Jun Ning, Gang Pan",
+    "title": "Microcystin-LR biodegradation by Sphingopyxis sp. USTB-05",
+    "journal": "Frontiers of Environmental Science & Engineering in China",
+    "year": 2010,
+    "doi": {
+      "link": "https://doi.org/10.1007/s11783-010-0261-7",
+      "text": "10.1007/s11783-010-0261-7"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. THN1",
+    "enzyme": "MlrC",
+    "number": "2",
+    "citation": "[Wang2020]",
+    "authors": "Ruiping Wang, Jieming Li, Ji Li",
+    "title": "Functional and structural analyses for MlrC enzyme of Novosphingobium sp. THN1 in microcystin-biodegradation",
+    "journal": "Chemosphere",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.chemosphere.2020.126906",
+      "text": "10.1016/j.chemosphere.2020.126906"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. THN1",
+    "enzyme": "",
+    "number": "35",
+    "citation": "[Jiang2011]",
+    "authors": "Yongguang Jiang, Jihai Shao, Xingqiang Wu, Yao Xu, Renhui Li",
+    "title": "Active and silent members in the mlr gene cluster of a microcystin-degrading bacterium isolated from Lake Taihu, China",
+    "journal": "FEMS Microbiology Letters",
+    "year": 2011,
+    "doi": {
+      "link": "https://doi.org/10.1111/j.1574-6968.2011.02337.x",
+      "text": "10.1111/j.1574-6968.2011.02337.x"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. THN1",
+    "enzyme": "",
+    "number": "38",
+    "citation": "[Li2014]",
+    "authors": "Jieming Li, Liujing Peng, Ji Li, Yuhui Qiao",
+    "title": "Divergent responses of functional gene expression to various nutrient conditions during microcystin-LR biodegradation by Novosphingobium sp. THN1 strain",
+    "journal": "Bioresource Technology",
+    "year": 2014,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.biortech.2013.12.118",
+      "text": "10.1016/j.biortech.2013.12.118"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. THN1",
+    "enzyme": "",
+    "number": "56",
+    "citation": "[Wang2017]",
+    "authors": "Ruiping Wang, Jieming Li, Yongguang Jiang, Zhijiang Lu, Renhui Li, Ji Li",
+    "title": "Heterologous expression of mlrA gene originated from Novosphingobium sp. THN1 to degrade microcystin-RR and identify the first step involved in degradation pathway",
+    "journal": "Chemosphere",
+    "year": 2017,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.chemosphere.2017.05.086",
+      "text": "10.1016/j.chemosphere.2017.05.086"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. KKU25s",
+    "enzyme": "",
+    "number": "21",
+    "citation": "[Phujomjai2016]",
+    "authors": "Yupin Phujomjai, Anchana Somdee, Theerasak Somdee",
+    "title": "Biodegradation of microcystin [Dha7]MC-LR by a novel microcystin-degrading bacterium in an internal airlift loop bioreactor",
+    "journal": "Water Science & Technology",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.2166/wst.2015.482",
+      "text": "10.2166/wst.2015.482"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. KKU15",
+    "enzyme": "",
+    "number": "81",
+    "citation": "[Somdee2014]",
+    "authors": "Theerasak Somdee, Jindawan Wibuloutai, Thidarat Somdee, Anchana Somdee",
+    "title": "Biodegradation of the cyanobacterial hepatotoxin [Dha7] microcystin-LR within a biologically active sand filter",
+    "journal": "Water Science & Technology: Water Supply",
+    "year": 2014,
+    "doi": {
+      "link": "https://doi.org/10.2166/ws.2014.024",
+      "text": "10.2166/ws.2014.024"
+    }
+  },
+  {
+    "strain": "Blastomonas fulva T2",
+    "enzyme": "",
+    "number": "23",
+    "citation": "[Jin2022]",
+    "authors": "Long Jin, Chengda Cui, Chengxiao Zhang, So-Ra Ko, Taihua Li, Feng-Jie Jin, Chi-Yong Ahn, Hee-Mock Oh, Hyung-Gwan Lee",
+    "title": "New Multidrug Efflux Systems in a Microcystin-Degrading Bacterium Blastomonas fulva and Its Genomic Feature",
+    "journal": "International Journal of Molecular Sciences",
+    "year": 2022,
+    "doi": {
+      "link": "https://doi.org/10.3390/ijms231810856",
+      "text": "10.3390/ijms231810856"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. TT25",
+    "enzyme": "",
+    "number": "57",
+    "citation": "[Ho2012]",
+    "authors": "Lionel Ho, Tim Tang, Paul T. Monis, Daniel Hoefel",
+    "title": "Biodegradation of multiple cyanobacterial metabolites in drinking water supplies",
+    "journal": "Chemosphere",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.chemosphere.2012.02.020",
+      "text": "10.1016/j.chemosphere.2012.02.020"
+    }
+  },
+  {
+    "strain": "Sphingomonas sp. NV-3",
+    "enzyme": "",
+    "number": "22",
+    "citation": "[Somdee2013]",
+    "authors": "Theerasak Somdee, Michelle Thunders, John Ruck, Isabelle Lys, Margaret Allison, Rachel Page",
+    "title": "Degradation of [Dha7]MC-LR by a Microcystin Degrading Bacterium Isolated from Lake Rotoiti, New Zealand",
+    "journal": "ISRN Microbiology",
+    "year": 2013,
+    "doi": {
+      "link": "https://doi.org/10.1155/2013/596429",
+      "text": "10.1155/2013/596429"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. MB-E",
+    "enzyme": "",
+    "number": "25",
+    "citation": "[Maghsoudi2016]",
+    "authors": "Ehsan Maghsoudi, Nathalie Fortin, Charles Greer, Christine Maynard, Antoine Pagé, Sung Vo Duy, Sébastien Sauvé, Michèle Prévost, Sarah Dorner",
+    "title": "Cyanotoxin degradation activity and mlr gene expression profiles of a Sphingopyxis sp. isolated from Lake Champlain, Canada",
+    "journal": "Environmental Science: Processes & Impacts",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.1039/c6em00001k",
+      "text": "10.1039/c6em00001k"
+    }
+  },
+  {
+    "strain": "Sphingosinicella sp. JEZ-8L",
+    "enzyme": "",
+    "number": "31",
+    "citation": "[Najera2017]",
+    "authors": "Arnoldo Font Nájera, Liliana Elzbieta Serwecińska, Ilona Gągała-Borowska, Tomasz Emil Jurczak, Joanna Dorota Mankiewicz-Boczek",
+    "title": "The characterization of a novel bacterial strain capable of microcystin degradation from the Jeziorsko reservoir, Poland: a preliminary study",
+    "journal": "Biologia",
+    "year": 2017,
+    "doi": {
+      "link": "https://doi.org/10.1515/biolog-2017-0172",
+      "text": "10.1515/biolog-2017-0172"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. a7",
+    "enzyme": "",
+    "number": "8",
+    "citation": "[Zhang2017]",
+    "authors": "Juan Zhang, Qingqing Lu, Qin Ding, Lihong Yin, Yuepu Pu",
+    "title": "A Novel and Native Microcystin-Degrading Bacterium of Sphingopyxis sp. Isolated from Lake Taihu",
+    "journal": "International Journal of Environmental Research and Public Health",
+    "year": 2017,
+    "doi": {
+      "link": "https://doi.org/10.3390/ijerph14101187",
+      "text": "10.3390/ijerph14101187"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. IM-1/2/3",
+    "enzyme": "",
+    "number": "58",
+    "citation": "[Lezcano2016]",
+    "authors": "María Ángeles Lezcano, Jesús Morón-López, Ramsy Agha, Isabel López-Heras, Leonor Nozal, Antonio Quesada, Rehab El-Shehawy",
+    "title": "Presence or Absence of mlr Genes and Nutrient Concentrations Co-Determine the Microcystin Biodegradation Efficiency of a Natural Bacterial Community",
+    "journal": "Toxins",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins8110318",
+      "text": "10.3390/toxins8110318"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. m6",
+    "enzyme": "",
+    "number": "59",
+    "citation": "[Ding2018]",
+    "authors": "Qin Ding, Kaiyan Liu, Kai Xu, Rongli Sun, Juan Zhang, Lihong Yin, Yuepu Pu",
+    "title": "Further Understanding of Degradation Pathways of Microcystin-LR by an Indigenous Sphingopyxis sp. in Environmentally Relevant Pollution Concentrations",
+    "journal": "Toxins",
+    "year": 2018,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins10120536",
+      "text": "10.3390/toxins10120536"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. X20",
+    "enzyme": "",
+    "number": "60",
+    "citation": "[Qin2019]",
+    "authors": "Lian Qin, Xiaoxing Zhang, Xiaoguo Chen, Ke Wang, Yitian Shen, Dan Li",
+    "title": "Isolation of a Novel Microcystin-Degrading Bacterium and the Evolutionary Origin of mlr Gene Cluster",
+    "journal": "Toxins",
+    "year": 2019,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins11050269",
+      "text": "10.3390/toxins11050269"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. YF1",
+    "enzyme": "",
+    "number": "34",
+    "citation": "[Wu2020]",
+    "authors": "Pian Wu, Guiyin Li, Yafei He, Dan Luo, Lei Li, Jian Guo, Ping Ding, Fei Yang",
+    "title": "High-efficient and sustainable biodegradation of microcystin-LR using Sphingopyxis sp. YF1 immobilized Fe3O4@chitosan",
+    "journal": "Colloids and Surfaces B: Biointerfaces",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.colsurfb.2019.110633",
+      "text": "10.1016/j.colsurfb.2019.110633"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. YF1",
+    "enzyme": "",
+    "number": "61",
+    "citation": "[Yang2020]",
+    "authors": "Fei Yang, Feiyu Huang, Hai Feng, Jia Wei, Isaac Yaw Massey, Geyu Liang, Fang Zhang, Lihong Yin, Sam Kacew, Xian Zhang, Yuepu Pu",
+    "title": "A complete route for biodegradation of potentially carcinogenic cyanotoxin microcystin-LR in a novel indigenous bacterium",
+    "journal": "Water Research",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.watres.2020.115638",
+      "text": "10.1016/j.watres.2020.115638"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. N5/THE1/TH2/TH3/TH9",
+    "enzyme": "",
+    "number": "62",
+    "citation": "[Hu2021]",
+    "authors": "Chenlin Hu, Yanxia Zuo, Liang Peng, Nanqin Gan, Lirong Song",
+    "title": "Widespread Distribution and Adaptive Degradation of Microcystin Degrader (mlr-Genotype) in Lake Taihu, China",
+    "journal": "Toxins",
+    "year": 2021,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins13120864",
+      "text": "10.3390/toxins13120864"
+    }
+  },
+  {
+    "strain": "Sphingopyxis sp. HW",
+    "enzyme": "",
+    "number": "63",
+    "citation": "[Wang2021]",
+    "authors": "Suqin Wang, Siyu Yang, Jun Zuo, Chenlin Hu, Lirong Song, Nanqin Gan, Peng Chen",
+    "title": "Simultaneous Removal of the Freshwater Bloom-Forming Cyanobacterium Microcystis and Cyanotoxin Microcystins via Combined Use of Algicidal Bacterial Filtrate and the Microcystin-Degrading Enzymatic Agent, MlrA",
+    "journal": "Microorganisms",
+    "year": 2021,
+    "doi": {
+      "link": "https://doi.org/10.3390/microorganisms9081594",
+      "text": "10.3390/microorganisms9081594"
+    }
+  },
+  {
+    "strain": "Stenotrophomonas sp. EMS",
+    "enzyme": "",
+    "number": "13",
+    "citation": "[Chen2010]",
+    "authors": "Jian Chen, Liang Bin Hu, Wei Zhou, Shao Hua Yan, Jing Dong Yang, Yan Feng Xue, Zhi Qi Shi",
+    "title": "Degradation of Microcystin-LR and RR by a Stenotrophomonas sp. Strain EMS Isolated from Lake Taihu, China",
+    "journal": "International Journal of Molecular Sciences",
+    "year": 2010,
+    "doi": {
+      "link": "https://doi.org/10.3390/ijms11030896",
+      "text": "10.3390/ijms11030896"
+    }
+  },
+  {
+    "strain": "YFMCD1 (bacterial community)",
+    "enzyme": "",
+    "number": "88",
+    "citation": "[Yang2018]",
+    "authors": "Fei Yang, Isaac Yaw Massey, Jian Guo, Shu Yang, Yuepu Pu, Weiming Zeng, Hongzhuan Tan",
+    "title": "Microcystin-LR degradation utilizing a novel effective indigenous bacterial community YFMCD1 from Lake Taihu",
+    "journal": "Journal of Toxicology and Environmental Health, Part A",
+    "year": 2018,
+    "doi": {
+      "link": "https://doi.org/10.1080/15287394.2018.1423803",
+      "text": "10.1080/15287394.2018.1423803"
+    }
+  },
+  {
+    "strain": "Rhizobium sp. TH",
+    "enzyme": "",
+    "number": "64",
+    "citation": "[Zhu2016]",
+    "authors": "Xiaoyun Zhu, Yitian Shen, Xiaoguo Chen, Yue O.O. Hu, Huiyi Xiang, Jia Tao, Yun Ling",
+    "title": "Biodegradation mechanism of microcystin-LR by a novel isolate of Rhizobium sp. TH and the evolutionary origin of the mlrA gene",
+    "journal": "International Biodeterioration & Biodegradation",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.ibiod.2016.07.011",
+      "text": "10.1016/j.ibiod.2016.07.011"
+    }
+  },
+  {
+    "strain": "A1、A2、A6、Q1、Q3",
+    "enzyme": "",
+    "number": "65",
+    "citation": "[GU2016]",
+    "authors": "谷青",
+    "title": "微囊藻毒素降解菌的快速筛选法及有关菌株降毒效能的研究",
+    "journal": "MA thesis",
+    "year": 2016,
+    "doi": {
+      "link": "N/A",
+      "text": "N/A"
+    }
+  },
+  {
+    "strain": "MG-15 and MG-22",
+    "enzyme": "",
+    "number": "66",
+    "citation": "[Fujimoto2007]",
+    "authors": "Naoshi Fujimoto, Naoki Ohno, Kunihiro Tanaka, Itaru Narahara, Akihiro Ohnishi, Masaharu Suzuki, Norio Iwami, Motoyuki Mizuochi, Yuhei Inamori",
+    "title": "Degradation of the Cyanobacterial Hepatotoxin Microcystin by Bacteria Isolated from a Monoxenic Culture of the Flagellate Monas guttula",
+    "journal": "Japanese Journal of Water Treatment Biology",
+    "year": 2007,
+    "doi": {
+      "link": "N/A",
+      "text": "N/A"
+    }
+  },
+  {
+    "strain": "Paucibacter toxinivorans",
+    "enzyme": "",
+    "number": "67",
+    "citation": "[Rapala2005]",
+    "authors": "Jarkko Rapala, Katri A. Berg, Christina Lyra, R. Maarit Niemi, Werner Manz, Sini Suomalainen, Lars Paulin, Kirsti Lahti",
+    "title": "Paucibacter toxinivorans gen. nov., sp. nov., a bacterium that degrades cyclic cyanobacterial hepatotoxins microcystins and nodularin",
+    "journal": "International Journal of Systematic and Evolutionary Microbiology",
+    "year": 2005,
+    "doi": {
+      "link": "https://doi.org/10.1099/ijs.0.63599-0",
+      "text": "10.1099/ijs.0.63599-0"
+    }
+  },
+  {
+    "strain": "Paucibacter sp. CH",
+    "enzyme": "",
+    "number": "26",
+    "citation": "[YOU2014]",
+    "authors": "游狄杰，陈晓国，向荟圯，欧阳潦，杨冰",
+    "title": "微囊藻毒素降解菌Paucibacter sp. CH菌的分离鉴定及其降解特性",
+    "journal": "Environmental Science",
+    "year": 2014,
+    "doi": {
+      "link": "N/A",
+      "text": "N/A"
+    }
+  },
+  {
+    "strain": "Paucibacter toxinivorans (2C20)",
+    "enzyme": "",
+    "number": "86",
+    "citation": "[Santos2021]",
+    "authors": "Allan A. Santos, Sylvia Soldatou, Valeria Freitas de Magalhães, Sandra M. F. O. Azevedo, Dolores Camacho-Muñoz, Linda A. Lawton, Christine Edwards",
+    "title": "Degradation of Multiple Peptides by Microcystin-Degrader Paucibacter toxinivorans (2C20)",
+    "journal": "Toxins",
+    "year": 2021,
+    "doi": {
+      "link": "https://doi.org/10.3390/toxins13040265",
+      "text": "10.3390/toxins13040265"
+    }
+  },
+  {
+    "strain": "Bordetella sp. MC-LTH1",
+    "enzyme": "",
+    "number": "9",
+    "citation": "[Yang2013]",
+    "authors": "Fei Yang, Yuanlong Zhou, Rongli Sun, Haiyan Wei, Yunhui Li, Lihong Yin, Yuepu Pu",
+    "title": "Biodegradation of microcystin-LR and -RR by a novel microcystin-degrading bacterium isolated from Lake Taihu",
+    "journal": "Biodegradation",
+    "year": 2013,
+    "doi": {
+      "link": "https://doi.org/10.1007/s10532-013-9673-y",
+      "text": "10.1007/s10532-013-9673-y"
+    }
+  },
+  {
+    "strain": "Bacterioplankton (from Microcystis bloom in Takerkoust Reservoir)",
+    "enzyme": "",
+    "number": "68",
+    "citation": "[Mugani2024]",
+    "authors": "Richard Mugani, Fatima El Khalloufi, Roseline Prisca Aba, El Mahdi Redouane, Mohammed Haida, Yasser Essadki, Soukaina El Amrani Zerrifi, Abdessamad Hejjaj, Naaila Ouazzani, Joana Azevedo, Alexandre Campos, Hans-Peter Grossart, Vitor Vasconcelos, Brahim Oudra, Laila Mandi",
+    "title": "Innovative approaches for Microcystin removal: Bacterioplankton biodegradation and multi-soil-layering system performance assessment",
+    "journal": "Journal of Cleaner Production",
+    "year": 2024,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.jclepro.2024.142187",
+      "text": "10.1016/j.jclepro.2024.142187"
+    }
+  },
+  {
+    "strain": "Arthrobacter sp., Plantibacter sp., Acinetobacter sp., Salinivibrio sp., Bacillus sp., Lysinibacillus boronitolerans",
+    "enzyme": "",
+    "number": "69",
+    "citation": "[Lukhele2023]",
+    "authors": "Thabile Lukhele, Titus Alfred Makudali Msagati",
+    "title": "Evaluating the microcystin-LR-degrading potential of bacteria growing in extreme and polluted environments",
+    "journal": "Archives of Microbiology",
+    "year": 2023,
+    "doi": {
+      "link": "https://doi.org/10.1007/s00203-023-03554-4",
+      "text": "10.1007/s00203-023-03554-4"
+    }
+  },
+  {
+    "strain": "Arthrobacter spp., Brevibacterium sp., Rhodococcus sp.",
+    "enzyme": "",
+    "number": "11",
+    "citation": "[Manage2009]",
+    "authors": "Pathmalal M. Manage, Christine Edwards, Brajesh K. Singh, Linda A. Lawton",
+    "title": "Isolation and Identification of Novel Microcystin-Degrading Bacteria",
+    "journal": "Applied and Environmental Microbiology",
+    "year": 2009,
+    "doi": {
+      "link": "https://doi.org/10.1128/AEM.01928-09",
+      "text": "10.1128/AEM.01928-09"
+    }
+  },
+  {
+    "strain": "Rhodococcus sp., Arthrobacter sp., Brevibacterium sp., Paucibacter toxinivorans",
+    "enzyme": "",
+    "number": "70",
+    "citation": "[Lawton2011]",
+    "authors": "L. A. Lawton, A. Welgamage, P. M. Manage, C. Edwards",
+    "title": "Novel bacterial strains for the removal of microcystins from drinking water",
+    "journal": "Water Science & Technology",
+    "year": 2011,
+    "doi": {
+      "link": "https://doi.org/10.2166/wst.2011.352",
+      "text": "10.2166/wst.2011.352"
+    }
+  },
+  {
+    "strain": "WC-4 (Pseudomonas sp.), WC-5 (Acinetobacter sp.)",
+    "enzyme": "",
+    "number": "71",
+    "citation": "[Li2014]",
+    "authors": "Hong Li, Gang Pan",
+    "title": "Enhanced and continued degradation of microcystins using microorganisms obtained through natural media",
+    "journal": "Journal of Microbiological Methods",
+    "year": 2014,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.mimet.2013.11.005",
+      "text": "10.1016/j.mimet.2013.11.005"
+    }
+  },
+  {
+    "strain": "Acinetobacter sp. CMDB-2",
+    "enzyme": "",
+    "number": "72",
+    "citation": "[Li2016]",
+    "authors": "Hong Li, Hainan Ai, Li Kang, Xingfu Sun, Qiang He",
+    "title": "Simultaneous Microcystis Algicidal and Microcystin Degrading Capability by a Single Acinetobacter Bacterial Strain",
+    "journal": "Environmental Science & Technology",
+    "year": 2016,
+    "doi": {
+      "link": "https://doi.org/10.1021/acs.est.6b03986",
+      "text": "10.1021/acs.est.6b03986"
+    }
+  },
+  {
+    "strain": "Acinetobacter guillouiae strain A2",
+    "enzyme": "",
+    "number": "73",
+    "citation": "[Yi2015]",
+    "authors": "Yang-Lei Yi, Xiao-Bo Yu, Chao Zhang, Gao-Xue Wang",
+    "title": "Growth inhibition and microcystin degradation effects of Acinetobacter guillouiae A2 on Microcystis aeruginosa",
+    "journal": "Research in Microbiology",
+    "year": 2015,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.resmic.2014.12.013",
+      "text": "10.1016/j.resmic.2014.12.013"
+    }
+  },
+  {
+    "strain": "Pseudomonas aeruginosa strain DMXS",
+    "enzyme": "",
+    "number": "74",
+    "citation": "[Lemes2015]",
+    "authors": "Gilmar AF Lemes, Luiza W Kist, Mauricio R Bogo, João S Yunes",
+    "title": "Biodegradation of [D-Leu1] microcystin-LR by a bacterium isolated from sediment of Patos Lagoon estuary, Brazil",
+    "journal": "Journal of Venomous Animals and Toxins including Tropical Diseases",
+    "year": 2015,
+    "doi": {
+      "link": "https://doi.org/10.1186/s40409-015-0001-3",
+      "text": "10.1186/s40409-015-0001-3"
+    }
+  },
+  {
+    "strain": "Bacillus flexus SSZ01",
+    "enzyme": "",
+    "number": "14",
+    "citation": "[Alamri2012]",
+    "authors": "Saad A. Alamri",
+    "title": "Biodegradation of microcystin-RR by Bacillus flexus isolated from a Saudi freshwater lake",
+    "journal": "Saudi Journal of Biological Sciences",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.sjbs.2012.06.006",
+      "text": "10.1016/j.sjbs.2012.06.006"
+    }
+  },
+  {
+      "strain": "Bacillus sp. AMRI-03",
+      "enzyme": "mlrA",
+      "number": "75",
+      "citation": "[Alamri2010]",
+      "authors": "Saad A. Alamri",
+      "title": "Biodegradation of microcystin by a new Bacillus sp. isolated from a Saudi freshwater lake",
+      "journal": "African Journal of Biotechnology",
+      "year": 2010,
+      "doi": {
+        "link": "N/A",
+        "text": "N/A"
+      }
+  },
+  {
+    "strain": "Bacillus sp. EMB",
+    "enzyme": "",
+    "number": "76",
+    "citation": "[Hu2012]",
+    "authors": "Liangbin Hu, Fengmei Zhang, Changzhong Liu, Miaoyan Wang",
+    "title": "Biodegradation of Microcystins by Bacillus sp. strain EMB",
+    "journal": "Energy Procedia",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.egypro.2012.01.312",
+      "text": "10.1016/j.egypro.2012.01.312"
+    }
+  },
+  {
+    "strain": "Bacillus nanhaiencis JZ-2013",
+    "enzyme": "",
+    "number": "77",
+    "citation": "[Zhang2015]",
+    "authors": "Jian Zhang, Hui Shi, Aimin Liu, Zhengyu Cao, Jiasheng Hao, Renmin Gong",
+    "title": "Identification of a New Microcystin-Degrading Bacterium Isolated from Lake Chaohu, China",
+    "journal": "Bulletin of Environmental Contamination and Toxicology",
+    "year": 2015,
+    "doi": {
+      "link": "https://doi.org/10.1007/s00128-015-1531-7",
+      "text": "10.1007/s00128-015-1531-7"
+    }
+  },
+  {
+    "strain": "Stenotrophomonas acidaminiphila MC-LTH2",
+    "enzyme": "",
+    "number": "10",
+    "citation": "[Yang2014]",
+    "authors": "Fei Yang, Yuanlong Zhou, Lihong Yin, Guangcan Zhu, Geyu Liang, Yuepu Pu",
+    "title": "Microcystin-Degrading Activity of an Indigenous Bacterial Strain Stenotrophomonas acidaminiphila MC-LTH2 Isolated from Lake Taihu",
+    "journal": "PLoS ONE",
+    "year": 2014,
+    "doi": {
+      "link": "https://doi.org/10.1371/journal.pone.0086216",
+      "text": "10.1371/journal.pone.0086216"
+    }
+  },
+  {
+    "strain": "Methylobacillus sp. J10",
+    "enzyme": "",
+    "number": "15",
+    "citation": "[Hu2009]",
+    "authors": "Liang Bin Hu, Jing Dong Yang, Wei Zhou, Yu Fen Yin, Jian Chen, Zhi Qi Shi",
+    "title": "Isolation of a Methylobacillus sp. that degrades microcystin toxins associated with cyanobacteria",
+    "journal": "New Biotechnology",
+    "year": 2009,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.nbt.2009.09.001",
+      "text": "10.1016/j.nbt.2009.09.001"
+    }
+  },
+  {
+    "strain": "Lactobacillus rhamnosus GG, Lactobacillus rhamnosus LC-705, Bifidobacterium lactis Bb12, Bifidobacterium longum 46, Biﬁdobacterium lactis 420",
+    "enzyme": "",
+    "number": "17",
+    "citation": "[Nybom2007]",
+    "authors": "Sonja M.K. Nybom, Seppo J. Salminen, Jussi A.O. Meriluoto",
+    "title": "Removal of microcystin-LR by strains of metabolically active probiotic bacteria",
+    "journal": "FEMS Microbiology Letters",
+    "year": 2007,
+    "doi": {
+      "link": "https://doi.org/10.1111/j.1574-6968.2007.00644.x",
+      "text": "10.1111/j.1574-6968.2007.00644.x"
+    }
+  },
+  {
+    "strain": "Burkholderia sp.",
+    "enzyme": "",
+    "number": "18",
+    "citation": "[Lemes2007]",
+    "authors": "Gilmar A.F. Lemes, Ralf Kersanach, Luciano da S. Pinto, Odir A. Dellagostin, João S. Yunes, Alexandre Matthiensen",
+    "title": "Biodegradation of microcystins by aquatic Burkholderia sp. from a South Brazilian coastal lagoon",
+    "journal": "Ecotoxicology and Environmental Safety",
+    "year": 2007,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.ecoenv.2007.03.013",
+      "text": "10.1016/j.ecoenv.2007.03.013"
+    }
+  },
+  {
+    "strain": "Stenotrophomonas maltophilia 4B4",
+    "enzyme": "",
+    "number": "30",
+    "citation": "[Idroos2017]",
+    "authors": "F. Sumaiya Idroos, B.G.D.N.K. De Silva, Pathmalal M. Manage",
+    "title": "Biodegradation of microcystin analogues by Stenotrophomonas maltophilia isolated from Beira Lake Sri Lanka",
+    "journal": "Journal of the National Science Foundation of Sri Lanka",
+    "year": 2017,
+    "doi": {
+      "link": "https://jnsfsl.sljol.info/articles/10.4038/jnsfsr.v45i2.8175",
+      "text": "10.4038/jnsfsr.v45i2.8175"
+    }
+  },
+  {
+    "strain": "Bacillus sp. T4, Pseudomonas sp. R12, Pseudomonas sp. S42, Pantoea sp. S65",
+    "enzyme": "",
+    "number": "32",
+    "citation": "[Lee2018]",
+    "authors": "Changsu Lee, Min Seo Jeon, Thi-Thao Vo, Chulhwan Park, Jong-Soon Choi, Joseph Kwon, Seong Woon Roh, Yoon-E Choi",
+    "title": "Establishment of a new strategy against Microcystis bloom using newly isolated lytic and toxin-degrading bacteria",
+    "journal": "Journal of Applied Phycology",
+    "year": 2018,
+    "doi": {
+      "link": "https://doi.org/10.1007/s10811-018-1403-8",
+      "text": "10.1007/s10811-018-1403-8"
+    }
+  },
+  {
+    "strain": "Acidovorax facilis LEw-2, Pseudomonas putida LEw-1033, Stenotrophomonas maltophilia LEw-1278, Brevibacillus brevis LEw-1238, Bacillus thuringiensis LEw-2010, Pseudomonas putida LEw-2166",
+    "enzyme": "",
+    "number": "87",
+    "citation": "[Krishnan2018]",
+    "authors": "Anjali Krishnan, Yu-Qin Zhang, Xiaozhen Mou",
+    "title": "Isolation and Characterization of Microcystin-Degrading Bacteria from Lake Erie",
+    "journal": "Bulletin of Environmental Contamination and Toxicology",
+    "year": 2018,
+    "doi": {
+      "link": "https://doi.org/10.1007/s00128-018-2468-4",
+      "text": "10.1007/s00128-018-2468-4"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. ERW19",
+    "enzyme": "",
+    "number": "36",
+    "citation": "[Zeng2021]",
+    "authors": "Yan-Hua Zeng, Ke-Ke Cheng, Zhong-Hua Cai, Jian-Ming Zhu, Xiao-Peng Du, Yan Wang, Jin Zhou",
+    "title": "Transcriptome analysis expands the potential roles of quorum sensing in biodegradation and physiological responses to microcystin",
+    "journal": "Science of the Total Environment",
+    "year": 2021,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.scitotenv.2021.145437",
+      "text": "10.1016/j.scitotenv.2021.145437"
+    }
+  },
+  {
+    "strain": "Novosphingobium sp. ERW19",
+    "enzyme": "",
+    "number": "82",
+    "citation": "[Zeng2020]",
+    "authors": "Yan-Hua Zeng, Zhong-Hua Cai, Jian-Ming Zhu, Xiao-Peng Du, Jin Zhou",
+    "title": "Two hierarchical LuxR-LuxI type quorum sensing systems in Novosphingobium activate microcystin degradation through transcriptional regulation of the mlr pathway",
+    "journal": "Water Research",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.watres.2020.116092",
+      "text": "10.1016/j.watres.2020.116092"
+    }
+  },
+  {
+    "strain": "Rhizobium sp. AQ_MP",
+    "enzyme": "",
+    "number": "83",
+    "citation": "[Pal2021]",
+    "authors": "Mili Pal, Hemant J. Purohit, Asifa Qureshi",
+    "title": "Genomic insight for algicidal activity in Rhizobium strain AQ_MP",
+    "journal": "Archives of Microbiology",
+    "year": 2021,
+    "doi": {
+      "link": "https://doi.org/10.1007/s00203-021-02496-z",
+      "text": "10.1007/s00203-021-02496-z"
+    }
+  },
+  {
+    "strain": "Ralstonia solanacearum",
+    "enzyme": "",
+    "number": "85",
+    "citation": "[Zhang2011]",
+    "authors": "M. L. Zhang, H. Yan, G. Pan",
+    "title": "Microbial degradation of microcystin-LR by Ralstonia solanacearum",
+    "journal": "Environmental Technology",
+    "year": 2011,
+    "doi": {
+      "link": "https://doi.org/10.1080/09593330.2011.556148",
+      "text": "10.1080/09593330.2011.556148"
+    }
+  },
+  {
+    "strain": "Morganella morganii",
+    "enzyme": "",
+    "number": "89",
+    "citation": "[Eleuterio2010]",
+    "authors": "Lazaro Eleuterio, Jacimaria R. Batista",
+    "title": "Biodegradation studies and sequencing of microcystin-LR degrading bacteria isolated from a drinking water biofilter and a fresh water lake",
+    "journal": "Toxicon",
+    "year": 2010,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.toxicon.2010.02.020",
+      "text": "10.1016/j.toxicon.2010.02.020"
+    }
+  },
+  {
+    "strain": "Pseudomonas aeruginosa UCBPP-PA14",
+    "enzyme": "",
+    "number": "90",
+    "citation": "[Kang2012]",
+    "authors": "Yoon-Ho Kang, Chong-Sung Park, Myung-Soo Han",
+    "title": "Pseudomonas aeruginosa UCBPP-PA14: A useful bacterium capable of lysing Microcystis aeruginosa cells and degrading microcystins",
+    "journal": "Journal of Applied Phycology",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1007/s10811-012-9812-6",
+      "text": "10.1007/s10811-012-9812-6"
+    }
+  },
+  {
+    "strain": "Pseudomonas sp. LEw-2029",
+    "enzyme": "",
+    "number": "91",
+    "citation": "[Krishnan2020]",
+    "authors": "Anjali Krishnan, Yuqin Zhang, Meaghan Balaban, Youngwoo Seo, Xiaozhen Mou",
+    "title": "Taxonomic and Genotypical Heterogeneity of Microcystin Degrading Bacterioplankton in Western Lake Erie",
+    "journal": "Harmful Algae",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.hal.2020.101895",
+      "text": "10.1016/j.hal.2020.101895"
+    }
+  },
+  {
+    "strain": "Achromobacter spp. LG1",
+    "enzyme": "",
+    "number": "92",
+    "citation": "[CrettazMinaglia2020]",
+    "authors": "Melina Crettaz-Minaglia, Maximiliano Fallico, Oswaldo Aranda, Ivan Juarez, Magdalena Pezzoni, Cristina Costa, Dario Andrinolo, Leda Giannuzzi",
+    "title": "Effect of temperature on microcystin-LR removal and lysis activity on Microcystis aeruginosa (cyanobacteria) by an indigenous bacterium belonging to the genus Achromobacter",
+    "journal": "Environmental Science and Pollution Research",
+    "year": 2020,
+    "doi": {
+      "link": "https://doi.org/10.1007/s11356-020-09901-y",
+      "text": "10.1007/s11356-020-09901-y"
+    }
+  },
+  {
+    "strain": "Aeromonas veronii w-s-03",
+    "enzyme": "",
+    "number": "93",
+    "citation": "[Mankiewicz-Boczek2015]",
+    "authors": "Joanna Mankiewicz-Boczek, Iwona Gągała, Tomasz Jurczak, Agnieszka Jaskulska, Pawełczyk J., Dziadek J.",
+    "title": "Bacteria homologus to Aeromonas capable of microcystin degradation",
+    "journal": "Open Life Sciences",
+    "year": 2015,
+    "doi": {
+      "link": "https://doi.org/10.1515/biol-2015-0012",
+      "text": "10.1515/biol-2015-0012"
+    }
+  },
+  {
+    "strain": "Enterobacter sp. YF3",
+    "enzyme": "",
+    "number": "94",
+    "citation": "[Huang2019]",
+    "authors": "Feiyu Huang, Hai Feng, Xiaoyu Li, Xiping Yi, Jian Guo, Tezi Clara, Fei Yang",
+    "title": "Anaerobic degradation of microcystin-LR by an indigenous bacterial Enterobacter sp. YF3",
+    "journal": "Journal of Toxicology and Environmental Health, Part A",
+    "year": 2019,
+    "doi": {
+      "link": "https://doi.org/10.1080/15287394.2019.1699345",
+      "text": "10.1080/15287394.2019.1699345"
+    }
+  },
+  {
+    "strain": "Lysinibacillus boronitolerans CQ5",
+    "enzyme": "",
+    "number": "95",
+    "citation": "[Shen2019]",
+    "authors": "Rongyan Shen, Zehui Chen, Xiaona Dong, Hongchi Shen, Peng Su, Linqiang Mao, Wenyi Zhang",
+    "title": "Biodegradation kinetics of microcystins-LR crude extract by Lysinibacillus boronitolerans strain CQ5",
+    "journal": "Annals of Microbiology",
+    "year": 2019,
+    "doi": {
+      "link": "https://doi.org/10.1007/s13213-019-01510-6",
+      "text": "10.1007/s13213-019-01510-6"
+    }
+  },
+  {
+    "strain": "Arthrobacter sp. 443/423",
+    "enzyme": "",
+    "number": "96",
+    "citation": "[SosaBenegas2021]",
+    "authors": "Gabriela Rocío Sosa Benegas, Suzan Prado Fernandes Bernal, Valéria Maia de Oliveira, Michel Rodrigo Zambrano Passarini",
+    "title": "Antimicrobial activity against Microcystis aeruginosa and degradation of microcystin-LR by bacteria isolated from Antarctica",
+    "journal": "Environmental Science and Pollution Research",
+    "year": 2021,
+    "doi": {
+      "link": "https://doi.org/10.1007/s11356-021-14458-5",
+      "text": "10.1007/s11356-021-14458-5"
+    }
+  },
+  {
+    "strain": "Bacillus sp. AK3",
+    "enzyme": "",
+    "number": "101",
+    "citation": "[Alamri2010]",
+    "authors": "Danuphon Boonbangkeng, Worapong Thiemsorn, Khomsan Ruangrit, Jeeraporn Pekkoh",
+    "title": "Promoting the simultaneous removal of Microcystis bloom and microcystin‑RR by Bacillus sp. AK3 immobilized on floating porous glass pellets",
+    "journal": "Journal of Applied Phycology",
+    "year": 2022,
+    "doi": {
+      "link": "https://doi.org/10.1007/s10811-022-02701-6",
+      "text": "10.1007/s10811-022-02701-6"
+    }
+  },
+  {
+    "strain": "Trichaptum abietinum 1302BG",
+    "enzyme": "",
+    "number": "97",
+    "citation": "[Jia2012]",
+    "authors": "Yong Jia, Jingjing Du, Fuqiang Song, Guiying Zhao, Xingjun Tian",
+    "title": "A Fungus Capable of Degrading Microcystin-LR in the Algal Culture of Microcystis aeruginosa PCC7806",
+    "journal": "Applied Biochemistry and Biotechnology",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.1007/s12010-011-9486-6",
+      "text": "10.1007/s12010-011-9486-6"
+    }
+  },
+  {
+    "strain": "Schizophyllum commune",
+    "enzyme": "",
+    "number": "98",
+    "citation": "[Zhang2012]",
+    "authors": "张韫, 谢慧芳",
+    "title": "白腐菌 S. commune 降解微囊藻毒素-LR 的研究",
+    "journal": "环境污染与防治",
+    "year": 2012,
+    "doi": {
+      "link": "https://doi.org/10.15985/j.cnki.1001-3865.2012.10.002",
+      "text": "10.15985/j.cnki.1001-3865.2012.10.002"
+    }
+  },
+  {
+    "strain": "Trichoderma citrinoviride kkuf-0955",
+    "enzyme": "",
+    "number": "99",
+    "citation": "[Mohamed2014]",
+    "authors": "Zakaria A. Mohamed, Mohamed Hashem, Saad A. Alamri",
+    "title": "Growth inhibition of the cyanobacterium Microcystis aeruginosa and degradation of its microcystin toxins by the fungus Trichoderma citrinoviride",
+    "journal": "Toxicon",
+    "year": 2014,
+    "doi": {
+      "link": "https://doi.org/10.1016/j.toxicon.2014.05.008",
+      "text": "10.1016/j.toxicon.2014.05.008"
+    }
+  },
+  {
+    "strain": "Mucor hiemalis EH5",
+    "enzyme": "",
+    "number": "100",
+    "citation": "[Balsano2015]",
+    "authors": "Evelyn Balsano, Maranda Esterhuizen-Londt, Enamul Hoque, Stephan Pflugmacher",
+    "title": "Toxin Resistance in Aquatic Fungi Poses Environmentally Friendly Remediation Possibilities: A Study on the Growth Responses and Biosorption Potential of Mucor hiemalis EH5 against Cyanobacterial Toxins",
+    "journal": "International Journal of Water and Wastewater Treatment",
+    "year": 2015,
+    "doi": {
+      "link": "http://dx.doi.org/10.16966/2381-5299.101",
+      "text": "10.16966/2381-5299.101"
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+]
